@@ -10,6 +10,18 @@ namespace Function_1
     {
         static void Main(string[] args)
         {
+            String[,] personName;
+            String[] personPosition;
+            bool isWorking true;
+
+            while(isWorking)
+            {
+                Console.WriteLine("Добро пожаловать в электронную картотеку!\nВыберите пункт меню:\n");
+                Console.WriteLine("Добавить досье");
+                Console.WriteLine("Вывести все досье");
+                Console.WriteLine("Удалить досье");
+                Console.WriteLine("Поиск по фамилии");
+            }
         }
     }
 }
