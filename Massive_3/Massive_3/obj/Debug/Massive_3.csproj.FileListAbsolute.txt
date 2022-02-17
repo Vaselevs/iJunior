@@ -1,0 +1,8 @@
+C:\Users\Vaselevs\source\repos\Massive_3\Massive_3\bin\Debug\Massive_3.exe.config
+C:\Users\Vaselevs\source\repos\Massive_3\Massive_3\bin\Debug\Massive_3.exe
+C:\Users\Vaselevs\source\repos\Massive_3\Massive_3\bin\Debug\Massive_3.pdb
+C:\Users\Vaselevs\source\repos\Massive_3\Massive_3\obj\Debug\Massive_3.csproj.AssemblyReference.cache
+C:\Users\Vaselevs\source\repos\Massive_3\Massive_3\obj\Debug\Massive_3.csproj.SuggestedBindingRedirects.cache
+C:\Users\Vaselevs\source\repos\Massive_3\Massive_3\obj\Debug\Massive_3.csproj.CoreCompileInputs.cache
+C:\Users\Vaselevs\source\repos\Massive_3\Massive_3\obj\Debug\Massive_3.exe
+C:\Users\Vaselevs\source\repos\Massive_3\Massive_3\obj\Debug\Massive_3.pdb

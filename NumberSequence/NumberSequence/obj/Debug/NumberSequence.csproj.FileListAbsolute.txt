@@ -1,0 +1,7 @@
+C:\Users\Vaselevs\source\repos\NumberSequence\NumberSequence\obj\Debug\NumberSequence.csproj.SuggestedBindingRedirects.cache
+C:\Users\Vaselevs\source\repos\NumberSequence\NumberSequence\obj\Debug\NumberSequence.csproj.CoreCompileInputs.cache
+C:\Users\Vaselevs\source\repos\NumberSequence\NumberSequence\bin\Debug\NumberSequence.exe.config
+C:\Users\Vaselevs\source\repos\NumberSequence\NumberSequence\bin\Debug\NumberSequence.exe
+C:\Users\Vaselevs\source\repos\NumberSequence\NumberSequence\bin\Debug\NumberSequence.pdb
+C:\Users\Vaselevs\source\repos\NumberSequence\NumberSequence\obj\Debug\NumberSequence.exe
+C:\Users\Vaselevs\source\repos\NumberSequence\NumberSequence\obj\Debug\NumberSequence.pdb

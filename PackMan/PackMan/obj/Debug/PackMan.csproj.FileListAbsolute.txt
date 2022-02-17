@@ -1,0 +1,8 @@
+C:\Users\Vaselevs\source\repos\PackMan\PackMan\bin\Debug\PackMan.exe.config
+C:\Users\Vaselevs\source\repos\PackMan\PackMan\bin\Debug\PackMan.exe
+C:\Users\Vaselevs\source\repos\PackMan\PackMan\bin\Debug\PackMan.pdb
+C:\Users\Vaselevs\source\repos\PackMan\PackMan\obj\Debug\PackMan.csproj.AssemblyReference.cache
+C:\Users\Vaselevs\source\repos\PackMan\PackMan\obj\Debug\PackMan.csproj.SuggestedBindingRedirects.cache
+C:\Users\Vaselevs\source\repos\PackMan\PackMan\obj\Debug\PackMan.csproj.CoreCompileInputs.cache
+C:\Users\Vaselevs\source\repos\PackMan\PackMan\obj\Debug\PackMan.exe
+C:\Users\Vaselevs\source\repos\PackMan\PackMan\obj\Debug\PackMan.pdb

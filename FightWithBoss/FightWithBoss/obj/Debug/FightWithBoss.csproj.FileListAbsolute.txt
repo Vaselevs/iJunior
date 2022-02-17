@@ -1,0 +1,8 @@
+C:\Users\Vaselevs\source\repos\FightWithBoss\FightWithBoss\obj\Debug\FightWithBoss.csproj.AssemblyReference.cache
+C:\Users\Vaselevs\source\repos\FightWithBoss\FightWithBoss\obj\Debug\FightWithBoss.csproj.SuggestedBindingRedirects.cache
+C:\Users\Vaselevs\source\repos\FightWithBoss\FightWithBoss\obj\Debug\FightWithBoss.csproj.CoreCompileInputs.cache
+C:\Users\Vaselevs\source\repos\FightWithBoss\FightWithBoss\bin\Debug\FightWithBoss.exe.config
+C:\Users\Vaselevs\source\repos\FightWithBoss\FightWithBoss\bin\Debug\FightWithBoss.exe
+C:\Users\Vaselevs\source\repos\FightWithBoss\FightWithBoss\bin\Debug\FightWithBoss.pdb
+C:\Users\Vaselevs\source\repos\FightWithBoss\FightWithBoss\obj\Debug\FightWithBoss.exe
+C:\Users\Vaselevs\source\repos\FightWithBoss\FightWithBoss\obj\Debug\FightWithBoss.pdb
