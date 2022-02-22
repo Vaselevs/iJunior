@@ -10,7 +10,7 @@ namespace Function_1
     {
         static void Main(string[] args)
         {
-            String[,] personName = new String[0,1];
+            String[,] personName = new String[0,2];
             String[] personPosition = new string[0];
             bool isWorking = true;
             char userChoice;
