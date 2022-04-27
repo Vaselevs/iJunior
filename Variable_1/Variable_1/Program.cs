@@ -10,11 +10,12 @@ namespace Variable_1
     {
         static void Main(string[] args)
         {
-            String firstName = "Иван";
-            String lastName = "Абрамов";
+            String firstName = "Абрамов";
+            String lastName = "Иван";
             Console.WriteLine(firstName + " " + lastName);
-            firstName = "Антон";
-            lastName = "Огурцов";
+            String tempName = firstName;
+            firstName = lastName;
+            lastName = tempName;
             Console.WriteLine(firstName + " " + lastName);
 
         }
