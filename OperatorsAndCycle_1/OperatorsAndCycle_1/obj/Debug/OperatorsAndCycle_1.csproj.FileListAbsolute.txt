@@ -1,0 +1,8 @@
+E:\iJunior\OperatorsAndCycle_1\OperatorsAndCycle_1\bin\Debug\OperatorsAndCycle_1.exe.config
+E:\iJunior\OperatorsAndCycle_1\OperatorsAndCycle_1\bin\Debug\OperatorsAndCycle_1.exe
+E:\iJunior\OperatorsAndCycle_1\OperatorsAndCycle_1\bin\Debug\OperatorsAndCycle_1.pdb
+E:\iJunior\OperatorsAndCycle_1\OperatorsAndCycle_1\obj\Debug\OperatorsAndCycle_1.csproj.AssemblyReference.cache
+E:\iJunior\OperatorsAndCycle_1\OperatorsAndCycle_1\obj\Debug\OperatorsAndCycle_1.csproj.SuggestedBindingRedirects.cache
+E:\iJunior\OperatorsAndCycle_1\OperatorsAndCycle_1\obj\Debug\OperatorsAndCycle_1.csproj.CoreCompileInputs.cache
+E:\iJunior\OperatorsAndCycle_1\OperatorsAndCycle_1\obj\Debug\OperatorsAndCycle_1.exe
+E:\iJunior\OperatorsAndCycle_1\OperatorsAndCycle_1\obj\Debug\OperatorsAndCycle_1.pdb
