@@ -1,0 +1,8 @@
+E:\iJunior\Variable_1\Variable_1\bin\Debug\Variable_1.exe.config
+E:\iJunior\Variable_1\Variable_1\bin\Debug\Variable_1.exe
+E:\iJunior\Variable_1\Variable_1\bin\Debug\Variable_1.pdb
+E:\iJunior\Variable_1\Variable_1\obj\Debug\Variable_1.csproj.AssemblyReference.cache
+E:\iJunior\Variable_1\Variable_1\obj\Debug\Variable_1.csproj.SuggestedBindingRedirects.cache
+E:\iJunior\Variable_1\Variable_1\obj\Debug\Variable_1.csproj.CoreCompileInputs.cache
+E:\iJunior\Variable_1\Variable_1\obj\Debug\Variable_1.exe
+E:\iJunior\Variable_1\Variable_1\obj\Debug\Variable_1.pdb
