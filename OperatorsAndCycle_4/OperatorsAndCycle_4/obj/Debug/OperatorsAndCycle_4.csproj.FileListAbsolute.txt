@@ -1,0 +1,6 @@
+/Users/vaselevs/Documents/GitHub/OperatorsAndCycle_4/OperatorsAndCycle_4/bin/Debug/OperatorsAndCycle_4.exe
+/Users/vaselevs/Documents/GitHub/OperatorsAndCycle_4/OperatorsAndCycle_4/bin/Debug/OperatorsAndCycle_4.pdb
+/Users/vaselevs/Documents/GitHub/OperatorsAndCycle_4/OperatorsAndCycle_4/obj/Debug/OperatorsAndCycle_4.csproj.AssemblyReference.cache
+/Users/vaselevs/Documents/GitHub/OperatorsAndCycle_4/OperatorsAndCycle_4/obj/Debug/OperatorsAndCycle_4.csproj.CoreCompileInputs.cache
+/Users/vaselevs/Documents/GitHub/OperatorsAndCycle_4/OperatorsAndCycle_4/obj/Debug/OperatorsAndCycle_4.exe
+/Users/vaselevs/Documents/GitHub/OperatorsAndCycle_4/OperatorsAndCycle_4/obj/Debug/OperatorsAndCycle_4.pdb
