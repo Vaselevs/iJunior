@@ -13,14 +13,19 @@ namespace OperatorsAndCycle_2
             Random random = new Random();
             int randomNumberMin = 1;
             int randomNumberMax = 28;
+            int minThreeDigitNumber = 100;
+            int maxThreeDigitNumber = 999;
             int number = random.Next(randomNumberMin, randomNumberMax);
             int countOfNumber = 0;
 
             Console.WriteLine($"Число - {number}");
 
-            for (int i = 0; i < System.Int32.MaxValue; i += number)
+            for (int i = 0; i < maxThreeDigitNumber; i += number)
             {
-                countOfNumber++;
+                if(i > minThreeDigitNumber)
+                {
+                    countOfNumber++;
+                }
             }
 
             Console.WriteLine($"Количество кратных чисел: {countOfNumber}");
