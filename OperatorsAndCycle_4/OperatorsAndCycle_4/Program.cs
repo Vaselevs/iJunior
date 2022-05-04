@@ -6,7 +6,7 @@ namespace OperatorsAndCycle_4
     {
         public static void Main(string[] args)
         {
-            String targetString = "(((())))";
+            String targetString = "(((()()())))";
             int tempNestingDepth = 0;
             int maxNestingDepth = 0;
             bool isCorrect = true;
@@ -19,7 +19,7 @@ namespace OperatorsAndCycle_4
                     {
                         if (targetString[i] == targetString[i - 1])
                             tempNestingDepth++;
-                        else
+                        else if(tempNestingDepth > maxNestingDepth)
                         {
                             maxNestingDepth = tempNestingDepth + 1;
                             tempNestingDepth = 0;
