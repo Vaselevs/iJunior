@@ -31,7 +31,10 @@ namespace OperatorsAndCycle_4
                 }
             }
             else
+            {
                 isCorrect = false;
+            }    
+                
 
             if (notClosedBrackets > 0)
                 isCorrect = false;
@@ -44,7 +47,9 @@ namespace OperatorsAndCycle_4
                 Console.WriteLine($"Глубина вложенности: {maxNestingDepth}");
             }    
             else
+            {
                 Console.WriteLine("Исходная строка не корректна!");
+            }
         }
     }
 }
