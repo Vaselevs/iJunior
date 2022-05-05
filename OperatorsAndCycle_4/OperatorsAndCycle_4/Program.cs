@@ -6,52 +6,37 @@ namespace OperatorsAndCycle_4
     {
         public static void Main(string[] args)
         {
-            String targetString = "(((()()())))";
-            int tempNestingDepth = 0;
+            String targetString = "(((()((()(())()())))))";
             int maxNestingDepth = 0;
             int notClosedBrackets = 0;
             bool isCorrect = true;
 
             if (targetString.Length % 2 == 0)
             {
-                if (targetString.Length != 2 && targetString.Length != 4)
+                for (int i = 0; i < targetString.Length; i++)
                 {
-                    for (int i = 1; i < targetString.Length; i++)
+                    if (targetString[i] == '(')
+                        notClosedBrackets++;
+                    else
+                        notClosedBrackets--;
+
+                    if (notClosedBrackets < 0)
                     {
-                        if (targetString[i] == '(')
-                            notClosedBrackets++;
-                        else
-                            notClosedBrackets--;
-
-
-                        if (targetString[i] == targetString[i - 1])
-                            tempNestingDepth++;
-                        else if(tempNestingDepth > maxNestingDepth)
-                        {
-                            maxNestingDepth = tempNestingDepth + 1;
-                            tempNestingDepth = 0;
-                        }
+                        isCorrect = false;
+                        break;
                     }
-                }
-                else if (targetString == "()")
-                    maxNestingDepth = 1;
-                else if (targetString == "(())")
-                    maxNestingDepth = 2;
-                else
-                    isCorrect = false;
 
-                
+                    if (notClosedBrackets > maxNestingDepth)
+                        maxNestingDepth = notClosedBrackets;
+                }
             }
             else
                 isCorrect = false;
 
             if (notClosedBrackets > 0)
                 isCorrect = false;
-            
-
 
             Console.WriteLine($"Исходная строка: {targetString}");
-
 
             if (isCorrect)
             {
