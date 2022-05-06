@@ -1,0 +1,12 @@
+/Users/vaselevs/Documents/GitHub/Massive_1/Massive_1/bin/Debug/Massive_1.exe
+/Users/vaselevs/Documents/GitHub/Massive_1/Massive_1/bin/Debug/Massive_1.pdb
+/Users/vaselevs/Documents/GitHub/Massive_1/Massive_1/obj/Debug/Massive_1.csproj.AssemblyReference.cache
+/Users/vaselevs/Documents/GitHub/Massive_1/Massive_1/obj/Debug/Massive_1.csproj.CoreCompileInputs.cache
+/Users/vaselevs/Documents/GitHub/Massive_1/Massive_1/obj/Debug/Massive_1.exe
+/Users/vaselevs/Documents/GitHub/Massive_1/Massive_1/obj/Debug/Massive_1.pdb
+/Users/vaselevs/Documents/GitHub/iJunior/Massive_5/Massive_1/bin/Debug/Massive_1.exe
+/Users/vaselevs/Documents/GitHub/iJunior/Massive_5/Massive_1/bin/Debug/Massive_1.pdb
+/Users/vaselevs/Documents/GitHub/iJunior/Massive_5/Massive_1/obj/Debug/Massive_1.csproj.AssemblyReference.cache
+/Users/vaselevs/Documents/GitHub/iJunior/Massive_5/Massive_1/obj/Debug/Massive_1.csproj.CoreCompileInputs.cache
+/Users/vaselevs/Documents/GitHub/iJunior/Massive_5/Massive_1/obj/Debug/Massive_1.exe
+/Users/vaselevs/Documents/GitHub/iJunior/Massive_5/Massive_1/obj/Debug/Massive_1.pdb
