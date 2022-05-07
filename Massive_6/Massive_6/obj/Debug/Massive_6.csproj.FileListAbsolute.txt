@@ -1,0 +1,6 @@
+/Users/vaselevs/Documents/GitHub/iJunior/Massive_6/Massive_6/obj/Debug/Massive_6.csproj.AssemblyReference.cache
+/Users/vaselevs/Documents/GitHub/iJunior/Massive_6/Massive_6/obj/Debug/Massive_6.csproj.CoreCompileInputs.cache
+/Users/vaselevs/Documents/GitHub/iJunior/Massive_6/Massive_6/bin/Debug/Massive_6.exe
+/Users/vaselevs/Documents/GitHub/iJunior/Massive_6/Massive_6/bin/Debug/Massive_6.pdb
+/Users/vaselevs/Documents/GitHub/iJunior/Massive_6/Massive_6/obj/Debug/Massive_6.exe
+/Users/vaselevs/Documents/GitHub/iJunior/Massive_6/Massive_6/obj/Debug/Massive_6.pdb
