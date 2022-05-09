@@ -33,7 +33,7 @@ namespace Function_1
                         ViewAllDossier(fullNameOfPerson, personFunction);
                         break;
                     case "3":
-                        Console.WriteLine("Вы выбрали пункт 3.");
+                        DeleteDossier(ref fullNameOfPerson, ref personFunction);
                         break;
                     case "4":
                         Console.WriteLine("Вы выбрали пункт 4.");
@@ -103,7 +103,17 @@ namespace Function_1
 
             Console.Clear();
             Console.Write("Введите номер удаляемого досье: ");
+
             numberOfDelitingDossier = Convert.ToInt32(Console.ReadLine());
+
+            if(numberOfDelitingDossier > position.Length)
+            {
+                Console.WriteLine("Вы привысили допустимый диапазон номеров!");
+                Console.ReadLine();
+                return;
+            }
+
+
         }
 
 
