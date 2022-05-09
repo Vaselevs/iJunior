@@ -1,103 +1,115 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Function_1
 {
-    internal class Program
+    class MainClass
     {
-        static void Main(string[] args)
+        public static void Main(string[] args)
         {
-            String[,] personName = new String[0,2];
-            String[] personPosition = new string[0];
+            string[,] fullNameOfPerson = new string[0,3];
+            string[] personFunction = new string[0];
             bool isWorking = true;
-            char userChoice;
+            string playerChoiсe;
 
             while (isWorking)
             {
                 Console.Clear();
-                Console.WriteLine("Добро пожаловать в электронную картотеку!\n");
-                Console.WriteLine("1. Добавить досье");
-                Console.WriteLine("2. Вывести все досье");
-                Console.WriteLine("3. Удалить досье");
-                Console.WriteLine("4. Поиск по фамилии");
-                Console.WriteLine("5. Выход\n");
-                Console.Write("Выберите пункт меню: ");
-                userChoice = Console.ReadKey().KeyChar;
+                Console.WriteLine("Приветствую в электронной картотеке!");
+                Console.WriteLine("1. Добавить досье.");
+                Console.WriteLine("2. Вывести все досье.");
+                Console.WriteLine("3. Удалить досье по порядковому номеру.");
+                Console.WriteLine("4. Поиск по фамилии.");
+                Console.WriteLine("5. Выход из картотеки.");
                 Console.WriteLine();
+                Console.Write("Выберите пункт меню: ");
+                playerChoiсe = Console.ReadLine();
 
-                switch (userChoice)
+                switch (playerChoiсe)
                 {
-                    case '1':
-                        AddProfile(personName, personPosition);
+                    case "1":
+                        AddDossier(ref fullNameOfPerson, ref personFunction);
                         break;
-                    case '2':
-                        AllProfileView(personName, personPosition);
+                    case "2":
+                        ViewAllDossier(fullNameOfPerson, personFunction);
                         break;
-                    case '3':
-                        Console.WriteLine("Вы выбрали пункт 3");
+                    case "3":
+                        Console.WriteLine("Вы выбрали пункт 3.");
                         break;
-                    case '4':
-                        Console.WriteLine("Вы выбрали пункт 4");
+                    case "4":
+                        Console.WriteLine("Вы выбрали пункт 4.");
                         break;
-                    case '5':
-                        Console.WriteLine("Спасибо за использование нашей картотеки, до свидания!");
-                        isWorking = false;
+                    case "5":
+                        Exit(ref isWorking);
                         break;
                     default:
-                        Console.WriteLine("Нет такого пункта меню!");
+                        Console.WriteLine("нет такого пункта меню.");
                         break;
                 }
-
-
-                Console.ReadLine();
             }
+            Console.WriteLine();
+            Console.WriteLine("До свидания, приходите ещё!");
+            Console.ReadKey();
         }
 
-        static void AddProfile(String[,] personNameinFunction, String[] personPositioninFunction)
+        static void AddDossier(ref string [,] name, ref string[] position)
         {
-            String personFirstName;
-            String personLastName;
-            String personPosition;
+            int tempLength = position.Length;
+            string[,] tempName = new string[tempLength + 1, name.GetLength(1)];
+            string[] tempPosition = new string[tempLength + 1];
 
-            Console.Clear ();
-            Console.WriteLine("Создаём новую запись в картотеке.");
-            Console.Write("Введите фамилию: ");
-            personLastName = Console.ReadLine();
-            Console.Write("Введите имя и очество: ");
-            personFirstName = Console.ReadLine();
-            Console.Write("Введите должность:");
-            personPosition = Console.ReadLine();
-
-            String[,] personNameinFunctionTemp = new String[personNameinFunction.GetLength(0) + 1, personNameinFunction.GetLength(1)];
-            String[] personPositioninFunctionTemp = new String[personPositioninFunction.Length + 1];
-
-            for (int i = 0; i < personNameinFunction.GetLength(0); i++)
+            for(int i = 0; i< tempLength; i++)
             {
-                for (int j = 0; j < personNameinFunction.GetLength(1); j++)
+                for(int j = 0; j < name.GetLength(1); j++)
                 {
-                    personNameinFunctionTemp[i, j] = personNameinFunction[i, j];
+                    tempName[i, j] = name[i, j];
                 }
-                personPositioninFunctionTemp[i] = personPositioninFunction[i];
+                tempPosition[i] = position[i];
             }
+            Console.Clear();
+            Console.Write("Введите ФАМИЛИЮ: ");
+            tempName[tempLength, 0] = Console.ReadLine();
+            Console.Write("Введите ИМЯ: ");
+            tempName[tempLength, 1] = Console.ReadLine();
+            Console.Write("Введите ОТЧЕСТВО: ");
+            tempName[tempLength, 2] = Console.ReadLine();
+            Console.Write("Введите ДОЛЖНОСТЬ: ");
+            tempPosition[tempLength] = Console.ReadLine();
 
-            personNameinFunctionTemp[personNameinFunctionTemp.GetLength(0), personNameinFunctionTemp.GetLength(1)-1] = personLastName;
-            personNameinFunctionTemp[personNameinFunctionTemp.GetLength(0), personNameinFunctionTemp.GetLength(1)] = personFirstName;
-            personPositioninFunctionTemp[personPositioninFunctionTemp.Length - 1] = personPosition;
-
-            personPositioninFunction = personPositioninFunctionTemp;
-            personNameinFunction = personNameinFunctionTemp;
+            name = tempName;
+            position = tempPosition;
         }
-        static void AllProfileView(String[,] personNameinFunction, String[] personPositioninFunction)
+
+        static void ViewAllDossier(string[,] name, string[] position)
         {
             Console.Clear();
-            Console.WriteLine("Вывожу список всех досье:");
-            for (int i = 0; i < personNameinFunction.GetLength(0); i++)
+            Console.WriteLine("Все досье:");
+
+            for(int i = 0; i < name.GetLength(0); i++)
             {
-                Console.WriteLine($"{i}. {personNameinFunction[i, 0]} {personNameinFunction[i, 1]}. Должность: {personPositioninFunction[i]}");
+                Console.Write(i + 1 + ".");
+                for(int j = 0; j < name.GetLength(1); j++)
+                {
+                    Console.Write(name[i, j] + " ");
+                }
+                Console.WriteLine("- " + position[i] + ".");
             }
+
+            Console.ReadLine();
+        }
+
+        static void DeleteDossier(ref string[,] name, ref string[] position)
+        {
+            int numberOfDelitingDossier;
+
+            Console.Clear();
+            Console.Write("Введите номер удаляемого досье: ");
+            numberOfDelitingDossier = Convert.ToInt32(Console.ReadLine());
+        }
+
+
+        static void Exit(ref bool isWorking)
+        {
+            isWorking = false;
         }
     }
 }
