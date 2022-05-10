@@ -36,7 +36,7 @@ namespace Function_1
                         DeleteDossier(ref fullNameOfPerson, ref personFunction);
                         break;
                     case "4":
-                        Console.WriteLine("Вы выбрали пункт 4.");
+                        FindBySurname(fullNameOfPerson, personFunction);
                         break;
                     case "5":
                         Exit(ref isWorking);
@@ -46,6 +46,7 @@ namespace Function_1
                         break;
                 }
             }
+
             Console.WriteLine();
             Console.WriteLine("До свидания, приходите ещё!");
             Console.ReadKey();
@@ -65,6 +66,7 @@ namespace Function_1
                 }
                 tempPosition[i] = position[i];
             }
+
             Console.Clear();
             Console.Write("Введите ФАМИЛИЮ: ");
             tempName[tempLength, 0] = Console.ReadLine();
@@ -87,10 +89,12 @@ namespace Function_1
             for(int i = 0; i < name.GetLength(0); i++)
             {
                 Console.Write(i + 1 + ".");
+
                 for(int j = 0; j < name.GetLength(1); j++)
                 {
                     Console.Write(name[i, j] + " ");
                 }
+
                 Console.WriteLine("- " + position[i] + ".");
             }
 
@@ -104,18 +108,82 @@ namespace Function_1
             Console.Clear();
             Console.Write("Введите номер удаляемого досье: ");
 
-            numberOfDelitingDossier = Convert.ToInt32(Console.ReadLine());
+            numberOfDelitingDossier = Convert.ToInt32(Console.ReadLine()) - 1;
 
             if(numberOfDelitingDossier > position.Length)
             {
                 Console.WriteLine("Вы привысили допустимый диапазон номеров!");
                 Console.ReadLine();
-                return;
             }
+            else
+            {
+                string[,] tempName = new string[name.GetLength(0) - 1, 3];
+                string[] tempPosition = new string[position.Length - 1];
 
+                for(int i = 0; i<tempName.GetLength(0); i++)
+                {
+                    for(int j = 0; j<tempName.GetLength(1); j++)
+                    {
+                        if (i >= numberOfDelitingDossier)
+                        {
+                            tempName[i, j] = name[i + 1, j];
+                        }
+                        else
+                        {
+                            tempName[i, j] = name[i, j];
+                        }
+                    }
+                    if (i >= numberOfDelitingDossier)
+                    {
+                        tempPosition[i] = position[i + 1];
+                    }
+                    else
+                    {
+                        tempPosition[i] = position[i];
+                    }
+                }
 
+                name = tempName;
+                position = tempPosition;
+            }
         }
 
+        static void FindBySurname(string[,] name, string[] position)
+        {
+            string surname;
+            int surnameIndex = -1;
+
+            Console.Clear();
+            Console.Write("Введите фамилию для поиска в картотеке: ");
+            surname = Console.ReadLine();
+
+            for (int i = 0; i < name.GetLength(0); i++)
+            {
+                if(name[i,0] == surname)
+                {
+                    surnameIndex = i;
+                }
+            }
+
+            if(surnameIndex != -1)
+            {
+                Console.WriteLine("Запись найдена в картотеке!");
+                Console.Write(surnameIndex + 1 + ". ");
+
+                for(int i = 0; i < name.GetLength(1); i++)
+                {
+                    Console.Write(name[surnameIndex, i] + " ");
+                }
+
+                Console.WriteLine("- " + position[surnameIndex]);
+            }
+            else
+            {
+                Console.WriteLine("Запись в картотеке не найдена!");
+            }
+
+            Console.ReadLine();
+        }
 
         static void Exit(ref bool isWorking)
         {
