@@ -1,0 +1,8 @@
+E:\iJunior\Function_2\Function_2\bin\Debug\Function_2.exe.config
+E:\iJunior\Function_2\Function_2\bin\Debug\Function_2.exe
+E:\iJunior\Function_2\Function_2\bin\Debug\Function_2.pdb
+E:\iJunior\Function_2\Function_2\obj\Debug\Function_2.csproj.AssemblyReference.cache
+E:\iJunior\Function_2\Function_2\obj\Debug\Function_2.csproj.SuggestedBindingRedirects.cache
+E:\iJunior\Function_2\Function_2\obj\Debug\Function_2.csproj.CoreCompileInputs.cache
+E:\iJunior\Function_2\Function_2\obj\Debug\Function_2.exe
+E:\iJunior\Function_2\Function_2\obj\Debug\Function_2.pdb
