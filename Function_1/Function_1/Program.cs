@@ -31,6 +31,7 @@ namespace Function_1
                         break;
                     case "2":
                         ViewAllDossier(fullNameOfPerson, personFunction);
+                        
                         break;
                     case "3":
                         DeleteDossier(ref fullNameOfPerson, ref personFunction);
@@ -55,31 +56,50 @@ namespace Function_1
         static void AddDossier(ref string [,] name, ref string[] position)
         {
             int tempLength = position.Length;
-            string[,] tempName = new string[tempLength + 1, name.GetLength(1)];
-            string[] tempPosition = new string[tempLength + 1];
-
-            for(int i = 0; i< tempLength; i++)
-            {
-                for(int j = 0; j < name.GetLength(1); j++)
-                {
-                    tempName[i, j] = name[i, j];
-                }
-                tempPosition[i] = position[i];
-            }
+            ExpansionArray(ref name);
+            ExpansionArray(ref position);
 
             Console.Clear();
             Console.Write("Введите ФАМИЛИЮ: ");
-            tempName[tempLength, 0] = Console.ReadLine();
+            name[tempLength, 0] = Console.ReadLine();
             Console.Write("Введите ИМЯ: ");
-            tempName[tempLength, 1] = Console.ReadLine();
+            name[tempLength, 1] = Console.ReadLine();
             Console.Write("Введите ОТЧЕСТВО: ");
-            tempName[tempLength, 2] = Console.ReadLine();
+            name[tempLength, 2] = Console.ReadLine();
             Console.Write("Введите ДОЛЖНОСТЬ: ");
-            tempPosition[tempLength] = Console.ReadLine();
-
-            name = tempName;
-            position = tempPosition;
+            position[tempLength] = Console.ReadLine();
         }
+
+        static void ExpansionArray(ref string[] array)
+        {
+            int tempLength = array.Length;
+            string[] tempArray = new string[tempLength + 1];
+
+            for (int i = 0; i < tempLength; i++)
+            {
+                tempArray[i] = array[i];
+            }
+
+            array = tempArray;
+        }
+
+        static void ExpansionArray(ref string[,] array)
+        {
+            int tempLength = array.GetLength(0);
+            string[,] tempArray = new string[tempLength + 1, array.GetLength(1)];
+
+            for (int i = 0; i < tempLength; i++)
+            {
+                for (int j = 0; j < array.GetLength(1); j++)
+                {
+                    tempArray[i, j] = array[i, j];
+                }
+            }
+
+            array = tempArray;
+        }
+
+        
 
         static void ViewAllDossier(string[,] name, string[] position)
         {
@@ -117,35 +137,50 @@ namespace Function_1
             }
             else
             {
-                string[,] tempName = new string[name.GetLength(0) - 1, 3];
-                string[] tempPosition = new string[position.Length - 1];
+                DecreaseArray(ref name, numberOfDelitingDossier);
+                DecreaseArray(ref position, numberOfDelitingDossier);
+            }
+        }
 
-                for(int i = 0; i<tempName.GetLength(0); i++)
+        static void DecreaseArray(ref string[] array, int position)
+        {
+            string[] tempArray = new string[array.Length - 1];
+
+            for (int i = 0; i < tempArray.Length; i++)
+            {
+                if (i >= position)
                 {
-                    for(int j = 0; j<tempName.GetLength(1); j++)
+                    tempArray[i] = array[i + 1];
+                }
+                else
+                {
+                    tempArray[i] = array[i];
+                }
+            }
+
+            array = tempArray;
+        }
+
+        static void DecreaseArray(ref string[,] array, int position)
+        {
+            string[,] tempArray = new string[array.GetLength(0) - 1, array.GetLength(1)];
+
+            for (int i = 0; i < tempArray.GetLength(0); i++)
+            {
+                for (int j = 0; j < tempArray.GetLength(1); j++)
+                {
+                    if (i >= position)
                     {
-                        if (i >= numberOfDelitingDossier)
-                        {
-                            tempName[i, j] = name[i + 1, j];
-                        }
-                        else
-                        {
-                            tempName[i, j] = name[i, j];
-                        }
-                    }
-                    if (i >= numberOfDelitingDossier)
-                    {
-                        tempPosition[i] = position[i + 1];
+                        tempArray[i, j] = array[i + 1, j];
                     }
                     else
                     {
-                        tempPosition[i] = position[i];
+                        tempArray[i, j] = array[i, j];
                     }
                 }
-
-                name = tempName;
-                position = tempPosition;
             }
+
+            array = tempArray;
         }
 
         static void FindBySurname(string[,] name, string[] position)

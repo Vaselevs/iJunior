@@ -4,3 +4,11 @@
 /Users/vaselevs/Documents/GitHub/iJunior/Function_1/Function_1/obj/Debug/Function_1.csproj.CoreCompileInputs.cache
 /Users/vaselevs/Documents/GitHub/iJunior/Function_1/Function_1/obj/Debug/Function_1.exe
 /Users/vaselevs/Documents/GitHub/iJunior/Function_1/Function_1/obj/Debug/Function_1.pdb
+E:\iJunior\Function_1\Function_1\obj\Debug\Function_1.csproj.AssemblyReference.cache
+E:\iJunior\Function_1\Function_1\obj\Debug\Function_1.csproj.SuggestedBindingRedirects.cache
+E:\iJunior\Function_1\Function_1\obj\Debug\Function_1.csproj.CoreCompileInputs.cache
+E:\iJunior\Function_1\Function_1\obj\Debug\Function_1.exe
+E:\iJunior\Function_1\Function_1\bin\Debug\Function_1.exe.config
+E:\iJunior\Function_1\Function_1\bin\Debug\Function_1.exe
+E:\iJunior\Function_1\Function_1\bin\Debug\Function_1.pdb
+E:\iJunior\Function_1\Function_1\obj\Debug\Function_1.pdb
