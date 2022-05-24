@@ -21,14 +21,14 @@ namespace Function_2
 
         }
 
-        static void DrawBar(ConsoleColor color, int paintProcent, int barX, int barY)
+        static void DrawBar(ConsoleColor color, int paintProcent, int consoleCoordinateX, int consoleCoordinateY)
         {
             int barLength = 10;
             int percentageDivisor = 10;
             Console.BackgroundColor = color;
             paintProcent = paintProcent/percentageDivisor;
 
-            Console.SetCursorPosition(barX, barY);
+            Console.SetCursorPosition(consoleCoordinateX, consoleCoordinateY);
             Console.Write("[");
 
             for(int i = 1; i < barLength+1; i++)

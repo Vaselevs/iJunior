@@ -1,3 +1,8 @@
 E:\iJunior\Function_3\Function_3\obj\Debug\Function_3.csproj.AssemblyReference.cache
 E:\iJunior\Function_3\Function_3\obj\Debug\Function_3.csproj.SuggestedBindingRedirects.cache
 E:\iJunior\Function_3\Function_3\obj\Debug\Function_3.csproj.CoreCompileInputs.cache
+E:\iJunior\Function_3\Function_3\bin\Debug\Function_3.exe.config
+E:\iJunior\Function_3\Function_3\bin\Debug\Function_3.exe
+E:\iJunior\Function_3\Function_3\bin\Debug\Function_3.pdb
+E:\iJunior\Function_3\Function_3\obj\Debug\Function_3.exe
+E:\iJunior\Function_3\Function_3\obj\Debug\Function_3.pdb
