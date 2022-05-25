@@ -10,18 +10,18 @@ namespace Function_3
     {
         static void Main(string[] args)
         {
-            int number = ConvertInt();
+            int number = GetUserNumber();
 
             Console.WriteLine(number);
         }
 
-        static int ConvertInt()
+        static int GetUserNumber()
         {
             int number;
             bool isConvert = false;
             string userInput = "nothing";
 
-            while (!isConvert)
+            while (isConvert == false)
             {
                 Console.Write("Введите число: ");
                 userInput = Console.ReadLine();
