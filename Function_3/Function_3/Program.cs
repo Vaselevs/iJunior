@@ -19,7 +19,7 @@ namespace Function_3
 
         static int GetNumber()
         {
-            int number;
+            int number = 0;
             bool isConvert = false;
             string userInput;
 
