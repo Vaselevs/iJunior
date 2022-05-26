@@ -10,16 +10,18 @@ namespace Function_3
     {
         static void Main(string[] args)
         {
-            int number = GetUserNumber();
+            int number;
+
+            number = GetNumber();
 
             Console.WriteLine(number);
         }
 
-        static int GetUserNumber()
+        static int GetNumber()
         {
             int number;
             bool isConvert = false;
-            string userInput = "nothing";
+            string userInput;
 
             while (isConvert == false)
             {
@@ -27,8 +29,6 @@ namespace Function_3
                 userInput = Console.ReadLine();
                 isConvert = int.TryParse(userInput, out number);
             }
-            
-            number = Convert.ToInt32(userInput);
 
             return number;
         }
