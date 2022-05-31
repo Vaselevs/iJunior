@@ -1,8 +1,0 @@
-E:\iJunior\Function_4\Function_4\bin\Debug\Function_4.exe.config
-E:\iJunior\Function_4\Function_4\bin\Debug\Function_4.exe
-E:\iJunior\Function_4\Function_4\bin\Debug\Function_4.pdb
-E:\iJunior\Function_4\Function_4\obj\Debug\Function_4.csproj.AssemblyReference.cache
-E:\iJunior\Function_4\Function_4\obj\Debug\Function_4.csproj.SuggestedBindingRedirects.cache
-E:\iJunior\Function_4\Function_4\obj\Debug\Function_4.csproj.CoreCompileInputs.cache
-E:\iJunior\Function_4\Function_4\obj\Debug\Function_4.exe
-E:\iJunior\Function_4\Function_4\obj\Debug\Function_4.pdb
