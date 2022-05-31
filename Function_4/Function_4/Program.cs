@@ -13,14 +13,55 @@ namespace Function_4
         {
 
 
-            Directory.CreateDirectory("Maps");
+            
 
 
 
         }
 
-        static void WriteMap()
+        static void PaintMap()
         {
+            bool isPainting = true;
+            string newMapName;
+            string[] map;
+            int mapHeight, mapWidth;
+
+            Directory.CreateDirectory("Maps");
+            Console.Write("Введите название новой карты: ");
+            newMapName = Console.ReadLine();
+            Console.Write("Введите высоту карты: ");
+            mapHeight = Convert.ToInt32(Console.ReadLine());
+            Console.Write("Введите ширину карты: ");
+            mapWidth = Convert.ToInt32(Console.ReadLine());
+            
+            map = new string[mapHeight];
+            
+
+            for(int i = 0; i < mapHeight; i++)
+            {
+                if (i == 0 || i == mapHeight - 1)
+                {
+                    for (int j = 0; j < mapWidth; j++)
+                        map[i][j] = '#';
+                } else
+                {
+                    map[i, 0] = '#';
+                    map[i, mapWidth - 1] = '#';
+                }
+            }
+
+            /*
+            Console.Clear();
+
+            while (isPainting)
+            {
+                Console.WriteLine("Вы вошли в режим рисования карты.\nНе выходите из этого режима пока не закончите рисовать.");
+
+            }
+
+            */
+
+            File.CreateText($"Maps/{newMapName}");
 
 
         }
