@@ -13,8 +13,9 @@ namespace Function_4
         {
             bool isWorking = true;
             string currentMap = "НЕ ВЫБРАНА НИ ОДНА КАРТА";
-            string[] mapsInDirectory;
+            string[] mapsInDirectory, choisedMap;
             string pathToMaps = "Maps/";
+            char[,] choisedMap;
             int userChoise;
             int userMapChoise;
             int cursorPositionForUserInputInMainMenu_Y = 2;
@@ -46,10 +47,10 @@ namespace Function_4
                         
                         for(int i = 0; i < mapsInDirectory.Length; i++)
                         {
-                            Console.WriteLine($"{i+1}.{mapsInDirectory[i]}");
+                            Console.WriteLine($"{i+1}. {mapsInDirectory[i]}");
                         }
 
-                        Console.ReadLine();
+                        userMapChoise = Convert.ToInt32(Console.ReadLine());
                         break;
                     case 2:
 
@@ -57,7 +58,7 @@ namespace Function_4
 
                         break;
                     case 3:
-
+                        WriteMap();
                         break;
                     case 4:
                         isWorking = false;
@@ -132,16 +133,21 @@ namespace Function_4
             return map;
         }
 
-        static void PlayerGameplay(char[,] map)
+        static void WriteMap(char[,] map)
         {
-            for(int i = 0; i < map.GetLength(0); i++)
+            for (int i = 0; i < map.GetLength(0); i++)
             {
-                for(int j = 0; j < map.GetLength(1); j++)
+                for (int j = 0; j < map.GetLength(1); j++)
                 {
                     Console.Write(map[i, j]);
                 }
                 Console.WriteLine();
             }
+        }
+
+        static void PlayerGameplay(char[,] map)
+        {
+            
         }
     }
 }
