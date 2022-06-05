@@ -13,7 +13,7 @@ namespace Function_4
         {
             bool isWorking = true;
             string currentMap = "НЕ ВЫБРАНА НИ ОДНА КАРТА";
-            string[] mapsInDirectory, choisedMap;
+            string[] mapsInDirectory;
             string pathToMaps = "Maps/";
             char[,] choisedMap;
             int userChoise;
@@ -35,7 +35,7 @@ namespace Function_4
                 Console.WriteLine("4.Выход из программы");
 
                 Console.SetCursorPosition(cursorPositionForUserInputInMainMenu_X, cursorPositionForUserInputInMainMenu_Y);
-                userChoise = System.Convert.ToInt32(Console.ReadLine());
+                userChoise = Convert.ToInt32(Console.ReadLine());
 
 
                 switch (userChoise)
@@ -51,6 +51,12 @@ namespace Function_4
                         }
 
                         userMapChoise = Convert.ToInt32(Console.ReadLine());
+                        currentMap = mapsInDirectory[userMapChoise - 1];
+                        choisedMap = ReadMap(mapsInDirectory[userMapChoise - 1]);
+
+                        WriteMap(choisedMap);
+
+                        Console.ReadLine();
                         break;
                     case 2:
 
@@ -58,7 +64,7 @@ namespace Function_4
 
                         break;
                     case 3:
-                        WriteMap();
+                        //WriteMap(choisedMap);
                         break;
                     case 4:
                         isWorking = false;
@@ -68,6 +74,9 @@ namespace Function_4
                         break;
                 }
             }
+
+            Console.Clear();
+            Console.WriteLine("До-свидания!");
         }
 
         static void PaintMap()
@@ -75,6 +84,7 @@ namespace Function_4
             bool isPainting = true;
             string newMapName;
             char[,] map;
+            string[] mapInString;
             int mapHeight, mapWidth;
 
             Console.Clear();
@@ -87,14 +97,21 @@ namespace Function_4
             mapWidth = Convert.ToInt32(Console.ReadLine());
             
             map = new char[mapHeight,mapWidth];
-            
+            mapInString = new string[mapHeight];
 
-            for(int i = 0; i < mapHeight; i++)
+
+
+            for (int i = 0; i < mapHeight; i++)
             {
                 if (i == 0 || i == mapHeight - 1)
                 {
                     for (int j = 0; j < mapWidth; j++)
-                        map[i,j] = '#';
+                    {
+                        map[i, j] = '#';
+                        mapInString[i][j] = "#";
+                    }
+                        
+
                 } else
                 {
                     map[i, 0] = '#';
@@ -113,14 +130,15 @@ namespace Function_4
 
             */
 
-            File.WriteAllText($"Maps/{newMapName}",Convert.ToString(map), Encoding.UTF8);
+
+            File.WriteAllLines($"Maps/{newMapName}",Convert.ToString(map), Encoding.UTF8);
 
 
         }
 
         static char[,] ReadMap(string mapName)
         {
-            string[] newFile = File.ReadAllLines($"Maps/{mapName}");
+            string[] newFile = File.ReadAllLines($"{mapName}");
             char[,] map = new char[newFile.Length, newFile[0].Length];
 
             for(int i = 0; i < newFile.Length; i++)
