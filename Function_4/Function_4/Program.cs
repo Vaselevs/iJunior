@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.IO;
 
 namespace Function_4
 {
@@ -11,161 +10,177 @@ namespace Function_4
     {
         static void Main(string[] args)
         {
-            bool isWorking = true;
-            string currentMap = "НЕ ВЫБРАНА НИ ОДНА КАРТА";
-            string[] mapsInDirectory;
-            string pathToMaps = "Maps/";
-            char[,] choisedMap;
-            int userChoise;
-            int userMapChoise;
-            int cursorPositionForUserInputInMainMenu_Y = 2;
-            int cursorPositionForUserInputInMainMenu_X = 20;
+            char[,] map;
 
-            while (isWorking)
-            {
+            map = PaintMap();
+            ShowMap(map);
 
-                Console.Clear();
-                Console.WriteLine("Приветствую вас в редакторе карт");
-                Console.WriteLine($"Ваша текущая карта: {currentMap}");
-                Console.WriteLine("Выберите пункт меню: ");
-                Console.WriteLine();
-                Console.WriteLine("1.Выбрать уже существующую карту");
-                Console.WriteLine("2.Нарисовать новую карту");
-                Console.WriteLine("3.Играть в выбранную карту");
-                Console.WriteLine("4.Выход из программы");
-
-                Console.SetCursorPosition(cursorPositionForUserInputInMainMenu_X, cursorPositionForUserInputInMainMenu_Y);
-                userChoise = Convert.ToInt32(Console.ReadLine());
-
-
-                switch (userChoise)
-                {
-                    case 1:
-                        Console.Clear();
-                        Console.WriteLine("Выберите номер карты из списка: ");
-                        mapsInDirectory = Directory.GetFiles(pathToMaps);
-                        
-                        for(int i = 0; i < mapsInDirectory.Length; i++)
-                        {
-                            Console.WriteLine($"{i+1}. {mapsInDirectory[i]}");
-                        }
-
-                        userMapChoise = Convert.ToInt32(Console.ReadLine());
-                        currentMap = mapsInDirectory[userMapChoise - 1];
-                        choisedMap = ReadMap(mapsInDirectory[userMapChoise - 1]);
-
-                        WriteMap(choisedMap);
-
-                        Console.ReadLine();
-                        break;
-                    case 2:
-
-                        PaintMap();
-
-                        break;
-                    case 3:
-                        //WriteMap(choisedMap);
-                        break;
-                    case 4:
-                        isWorking = false;
-                        break;
-                    default:
-
-                        break;
-                }
-            }
-
-            Console.Clear();
-            Console.WriteLine("До-свидания!");
+            Console.ReadLine();
         }
 
-        static void PaintMap()
+
+        static char[,] PaintMap()
         {
-            bool isPainting = true;
-            string newMapName;
             char[,] map;
-            string[] mapInString;
-            int mapHeight, mapWidth;
+            int mapSize;
+            int playerPositionX = 1;
+            int playerPositionY = 6;
+            int mapTopBorder = 5;
+            int mapBottomBorder;
+            int mapLeftBorder = 0;
+            int mapRightBorder;
+            bool isPlaying = true;
+            bool painting = false;
 
             Console.Clear();
-            Directory.CreateDirectory("Maps");
-            Console.Write("Введите название новой карты: ");
-            newMapName = Console.ReadLine();
-            Console.Write("Введите высоту карты: ");
-            mapHeight = Convert.ToInt32(Console.ReadLine());
-            Console.Write("Введите ширину карты: ");
-            mapWidth = Convert.ToInt32(Console.ReadLine());
-            
-            map = new char[mapHeight,mapWidth];
-            mapInString = new string[mapHeight];
+            Console.Write("Введите размер карты: ");
 
+            mapSize = Convert.ToInt32(Console.ReadLine());
+            mapBottomBorder = mapTopBorder + mapSize;
+            mapRightBorder = mapLeftBorder + mapSize;
+            mapSize += 2;
 
+            map = new char[mapSize,mapSize];
 
-            for (int i = 0; i < mapHeight; i++)
+            for(int i = 0; i < mapSize; i++)
             {
-                if (i == 0 || i == mapHeight - 1)
+                if(i == 0 || i == mapSize - 1)
                 {
-                    for (int j = 0; j < mapWidth; j++)
-                    {
+                    for (int j = 0; j < mapSize; j++)
                         map[i, j] = '#';
-                        mapInString[i][j] = "#";
-                    }
-                        
-
-                } else
+                }
+                else
                 {
                     map[i, 0] = '#';
-                    map[i, mapWidth - 1] = '#';
+                    map[i, mapSize - 1] = '#';
                 }
             }
 
-            /*
-            Console.Clear();
+            Console.CursorVisible = false;
 
-            while (isPainting)
+            while (isPlaying)
             {
-                Console.WriteLine("Вы вошли в режим рисования карты.\nНе выходите из этого режима пока не закончите рисовать.");
-
-            }
-
-            */
-
-
-            File.WriteAllLines($"Maps/{newMapName}",Convert.ToString(map), Encoding.UTF8);
-
-
-        }
-
-        static char[,] ReadMap(string mapName)
-        {
-            string[] newFile = File.ReadAllLines($"{mapName}");
-            char[,] map = new char[newFile.Length, newFile[0].Length];
-
-            for(int i = 0; i < newFile.Length; i++)
-            {
-                for(int j = 0; j < newFile[i].Length; j++)
+                if (Console.KeyAvailable)
                 {
-                    map[i, j] = newFile[i][j];
+                    Console.Clear();
+                    Console.WriteLine($"Размер карты: {mapSize - 2}");
+                    Console.WriteLine("Чтобы начать или закончить рисовать карту, нажмите пробел. \nПробел так же стирает уже существующие участки карты");
+                    if (painting)
+                        Console.WriteLine("РЕЖИМ РИСОВАНИЯ");
+                    else
+                        Console.WriteLine("РЕЖИМ ПЕРЕДВИЖЕНИЯ");
+                    Console.WriteLine("Чтобы выйти из режима рисования, нажмите Esc");
+
+                    ConsoleKeyInfo key = Console.ReadKey(true);
+
+                    ShowMap(map);
+
+                    Console.SetCursorPosition(playerPositionX,playerPositionY);
+                    Console.Write("@");
+
+
+
+
+
+                    switch (key.Key)
+                    {
+                        case ConsoleKey.UpArrow:
+                            if (painting)
+                            {
+                                if (playerPositionY - 1 > mapTopBorder)
+                                {
+                                    map[playerPositionX, playerPositionY - mapTopBorder] = '#';
+                                    playerPositionY -= 1;
+                                }
+                            } else
+                            {
+                                if (playerPositionY - 1 > mapTopBorder)
+                                {
+                                    map[playerPositionX, playerPositionY - mapTopBorder] = ' ';
+                                    playerPositionY -= 1;
+                                }
+                            }
+                            break;
+                        case ConsoleKey.DownArrow:
+
+                            if (painting)
+                            {
+                                if (playerPositionY + 1 < mapBottomBorder)
+                                {
+                                    map[playerPositionX, playerPositionY - mapTopBorder] = '#';
+                                    playerPositionY += 1;
+                                }
+                            } else
+                            {
+                                if (playerPositionY + 1 < mapBottomBorder)
+                                {
+                                    map[playerPositionX, playerPositionY - mapTopBorder] = ' ';
+                                    playerPositionY += 1;
+                                }
+                            }
+                            break;
+                        case ConsoleKey.LeftArrow:
+
+                            if (painting)
+                            {
+                                if (playerPositionX - 1 > mapLeftBorder)
+                                {
+                                    map[playerPositionX, playerPositionY] = '#';
+                                    playerPositionX -= 1;
+                                }
+                            } else
+                            {
+                                if (playerPositionX - 1 > mapLeftBorder)
+                                {
+                                    map[playerPositionX, playerPositionY] = ' ';
+                                    playerPositionX -= 1;
+                                }
+                            }
+                            break;
+                        case ConsoleKey.RightArrow:
+
+                            if (painting)
+                            {
+                                if (playerPositionX + 1 < mapRightBorder)
+                                {
+                                    map[playerPositionX, playerPositionY] = '#';
+                                    playerPositionX += 1;
+                                }
+                            } else
+                            {
+                                if (playerPositionX + 1 < mapRightBorder)
+                                {
+                                    map[playerPositionX, playerPositionY] = ' ';
+                                    playerPositionX += 1;
+                                }
+                            }
+                            break;
+                        case ConsoleKey.Spacebar:
+                            if (painting == false)
+                                painting = true;
+                            else
+                                painting = false;
+                            break;
+                        case ConsoleKey.Escape:
+                            isPlaying = false;
+                            break;
+                    }
                 }
             }
+
             return map;
         }
 
-        static void WriteMap(char[,] map)
+        static void ShowMap(char[,] map)
         {
-            for (int i = 0; i < map.GetLength(0); i++)
+            for(int i = 0; i < map.GetLength(0); i++)
             {
-                for (int j = 0; j < map.GetLength(1); j++)
+                for(int j = 0; j < map.GetLength(1); j++)
                 {
                     Console.Write(map[i, j]);
                 }
                 Console.WriteLine();
             }
-        }
-
-        static void PlayerGameplay(char[,] map)
-        {
-            
         }
     }
 }
