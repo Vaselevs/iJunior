@@ -1,0 +1,8 @@
+E:\iJunior\Collection_5\Collection_5\bin\Debug\Collection_5.exe.config
+E:\iJunior\Collection_5\Collection_5\bin\Debug\Collection_5.exe
+E:\iJunior\Collection_5\Collection_5\bin\Debug\Collection_5.pdb
+E:\iJunior\Collection_5\Collection_5\obj\Debug\Collection_5.csproj.AssemblyReference.cache
+E:\iJunior\Collection_5\Collection_5\obj\Debug\Collection_5.csproj.SuggestedBindingRedirects.cache
+E:\iJunior\Collection_5\Collection_5\obj\Debug\Collection_5.csproj.CoreCompileInputs.cache
+E:\iJunior\Collection_5\Collection_5\obj\Debug\Collection_5.exe
+E:\iJunior\Collection_5\Collection_5\obj\Debug\Collection_5.pdb
