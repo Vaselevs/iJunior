@@ -1,0 +1,5 @@
+/Users/vaselevs/Documents/GitHub/iJunior/Collections_4/Collections_4/obj/Debug/net6.0/Collections_4.csproj.AssemblyReference.cache
+/Users/vaselevs/Documents/GitHub/iJunior/Collections_4/Collections_4/obj/Debug/net6.0/Collections_4.GeneratedMSBuildEditorConfig.editorconfig
+/Users/vaselevs/Documents/GitHub/iJunior/Collections_4/Collections_4/obj/Debug/net6.0/Collections_4.AssemblyInfoInputs.cache
+/Users/vaselevs/Documents/GitHub/iJunior/Collections_4/Collections_4/obj/Debug/net6.0/Collections_4.AssemblyInfo.cs
+/Users/vaselevs/Documents/GitHub/iJunior/Collections_4/Collections_4/obj/Debug/net6.0/Collections_4.csproj.CoreCompileInputs.cache
