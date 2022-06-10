@@ -1,0 +1,8 @@
+E:\iJunior\Function_5\Function_5\bin\Debug\Function_5.exe.config
+E:\iJunior\Function_5\Function_5\bin\Debug\Function_5.exe
+E:\iJunior\Function_5\Function_5\bin\Debug\Function_5.pdb
+E:\iJunior\Function_5\Function_5\obj\Debug\Function_5.csproj.AssemblyReference.cache
+E:\iJunior\Function_5\Function_5\obj\Debug\Function_5.csproj.SuggestedBindingRedirects.cache
+E:\iJunior\Function_5\Function_5\obj\Debug\Function_5.csproj.CoreCompileInputs.cache
+E:\iJunior\Function_5\Function_5\obj\Debug\Function_5.exe
+E:\iJunior\Function_5\Function_5\obj\Debug\Function_5.pdb

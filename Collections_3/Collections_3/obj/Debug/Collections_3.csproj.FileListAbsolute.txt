@@ -1,0 +1,8 @@
+E:\iJunior\Collections_3\Collections_3\bin\Debug\Collections_3.exe.config
+E:\iJunior\Collections_3\Collections_3\bin\Debug\Collections_3.exe
+E:\iJunior\Collections_3\Collections_3\bin\Debug\Collections_3.pdb
+E:\iJunior\Collections_3\Collections_3\obj\Debug\Collections_3.csproj.AssemblyReference.cache
+E:\iJunior\Collections_3\Collections_3\obj\Debug\Collections_3.csproj.SuggestedBindingRedirects.cache
+E:\iJunior\Collections_3\Collections_3\obj\Debug\Collections_3.csproj.CoreCompileInputs.cache
+E:\iJunior\Collections_3\Collections_3\obj\Debug\Collections_3.exe
+E:\iJunior\Collections_3\Collections_3\obj\Debug\Collections_3.pdb

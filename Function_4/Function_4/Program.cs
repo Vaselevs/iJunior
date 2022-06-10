@@ -18,8 +18,7 @@ namespace Function_4
             char[,] map;
             int mapSize;
             int playerPositionX = 1;
-            int playerPositionY = 6;
-            int mapTopBorder = 5;
+            int playerPositionY = 1;
             bool isPlaying = true;
             bool painting = false;
 
@@ -31,32 +30,16 @@ namespace Function_4
 
             map = new char[mapSize, mapSize];
 
-            for (int i = 0; i < mapSize; i++)
-            {
-                for(int j = 0; j < mapSize; j++)
-                {
-                    if (i == 0 || i == mapSize - 1)
-                    {
-                        map[i, j] = '#';
-                    }
-                    else
-                    {
-                        if(j == 0 || j == mapSize - 1)
-                        {
-                            map[i, j] = '#';
-                        }
-                        else
-                        {
-                            map[i, j] = ' ';
-                        }
-                    }    
-                }
-            }
+            MapInitialization(map);
+            map[playerPositionX, playerPositionY] = '@';
 
             Console.CursorVisible = false;
 
             while (isPlaying)
             {
+                int playerDirectionX = 0;
+                int playerDirectionY = 0;
+
                 Console.Clear();
                 Console.WriteLine($"Размер карты: {mapSize - 2}");
                 Console.WriteLine("Чтобы начать или закончить рисовать карту, нажмите пробел. \nПробел так же стирает уже существующие участки карты");
@@ -70,102 +53,18 @@ namespace Function_4
 
                 ShowMap(map);
 
-                Console.SetCursorPosition(playerPositionX, playerPositionY);
-                Console.Write("@");
-
                 ConsoleKeyInfo key;
 
                 key = Console.ReadKey(true);
 
                 switch (key.Key)
                 {
-                    case ConsoleKey.UpArrow:
-
-                        if(playerPositionY - 1 > mapTopBorder)
-                        {
-                            if (painting)
-                            {
-                                ChangeSimbol(map, playerPositionY - mapTopBorder - 1, playerPositionX);
-                                playerPositionY -= 1;
-                            }
-                            else
-                            {
-                                if (map[playerPositionY - mapTopBorder - 1, playerPositionX] == ' ')
-                                {
-                                    playerPositionY -= 1;
-                                }
-                            }
-                        }
-
-                        break;
-                    case ConsoleKey.DownArrow:
-
-                        if (playerPositionY + 1 < mapTopBorder + mapSize)
-                        {
-                            if (painting)
-                            {
-                                ChangeSimbol(map, playerPositionY - mapTopBorder + 1, playerPositionX);
-                                playerPositionY += 1;
-                            }
-                            else
-                            {
-                                if (map[playerPositionY - mapTopBorder + 1, playerPositionX] == ' ')
-                                {
-                                    playerPositionY += 1;
-                                }
-                            }
-                        }
-
-                        break;
-                    case ConsoleKey.LeftArrow:
-
-                        if(playerPositionX - 1 > 0)
-                        {
-                            if (painting)
-                            {
-                                ChangeSimbol(map, playerPositionY - mapTopBorder, playerPositionX - 1);
-                                playerPositionX -= 1;
-                            }
-                            else
-                            {
-                                if (map[playerPositionY - mapTopBorder, playerPositionX - 1] == ' ')
-                                {
-                                    playerPositionX -= 1;
-                                }
-                            }
-                        }
-
-                        break;
-                    case ConsoleKey.RightArrow:
-
-                        if (playerPositionX + 1 < mapSize - 1)
-                        {
-                            if (painting)
-                            {
-                                ChangeSimbol(map, playerPositionY - mapTopBorder, playerPositionX + 1);
-                                playerPositionX += 1;
-                            }
-                            else
-                            {
-                                if (map[playerPositionY - mapTopBorder, playerPositionX + 1] == ' ')
-                                {
-                                    playerPositionX += 1;
-                                }
-                            }
-                        }
-
-                        break;
                     case ConsoleKey.Spacebar:
 
                         if (painting == false)
-                        {
                             painting = true;
-                            ChangeSimbol(map, playerPositionY - mapTopBorder, playerPositionX);
-                        }
                         else
-                        {
                             painting = false;
-                        }
 
                         break;
                     case ConsoleKey.Escape:
@@ -174,6 +73,14 @@ namespace Function_4
 
                         break;
                 }
+
+                PLayerChoiseDirection(map, key, playerPositionX, playerPositionY, ref playerDirectionX, ref playerDirectionY);
+
+                if (painting)
+                    PlayerMoveWithPainting(map, ref playerPositionX, ref playerPositionY, playerDirectionX, playerDirectionY);
+                else
+                    PlayerMove(map, ref playerPositionX, ref playerPositionY, playerDirectionX, playerDirectionY);
+                
             }
         }
 
@@ -189,15 +96,96 @@ namespace Function_4
             }
         }
 
-        static void ChangeSimbol(char[,] map, int X, int Y)
+        static void MapInitialization(char[,] map)
         {
-            if (map[X, Y] == ' ')
+            for (int i = 0; i < map.GetLength(0); i++)
             {
-                map[X, Y] = '#';
+                for (int j = 0; j < map.GetLength(0); j++)
+                {
+                    if (i == 0 || i == map.GetLength(0) - 1)
+                    {
+                        map[i, j] = '#';
+                    }
+                    else
+                    {
+                        if (j == 0 || j == map.GetLength(0) - 1)
+                        {
+                            map[i, j] = '#';
+                        }
+                        else
+                        {
+                            map[i, j] = ' ';
+                        }
+                    }
+                }
             }
-            else
+        }
+
+        static void PLayerChoiseDirection(char[,] map, ConsoleKeyInfo key, int playerPositionX, int playerPositionY, ref int playerDirectionX, ref int playerDirectionY)
+        {
+            switch (key.Key)
             {
-                map[X, Y] = ' ';
+                case ConsoleKey.UpArrow:
+
+                    if (playerPositionX - 1 > 0)
+                    {
+                        playerDirectionX = -1;
+                    }
+
+                    break;
+                case ConsoleKey.DownArrow:
+
+                    if (playerPositionX + 1 < map.GetLength(0)-1)
+                    {
+                        playerDirectionX = 1;
+                    }
+
+                    break;
+                case ConsoleKey.LeftArrow:
+
+                    if (playerPositionY - 1 > 0)
+                    {
+                        playerDirectionY = -1;
+                    }
+
+                    break;
+                case ConsoleKey.RightArrow:
+
+                    if (playerPositionY + 1 < map.GetLength(0)-1)
+                    {
+                        playerDirectionY = 1;
+                    }
+
+                    break;
+            }
+        }
+
+        static void PlayerMove(char[,] map, ref int playerPositionX, ref int playerPositionY, int playerDirectionX, int playerDirectionY)
+        {
+            if (map[playerPositionX+playerDirectionX,playerPositionY+playerDirectionY] == ' ')
+            {
+                map[playerPositionX, playerPositionY] = ' ';
+                playerPositionX += playerDirectionX;
+                playerPositionY += playerDirectionY;
+                map[playerPositionX, playerPositionY] = '@';
+            }
+                
+        }
+
+        static void PlayerMoveWithPainting(char[,] map, ref int playerPositionX, ref int playerPositionY, int playerDirectionX, int playerDirectionY)
+        {
+            if (map[playerPositionX + playerDirectionX, playerPositionY + playerDirectionY] == ' ')
+            {
+                map[playerPositionX, playerPositionY] = '#';
+                playerPositionX += playerDirectionX;
+                playerPositionY += playerDirectionY;
+                map[playerPositionX, playerPositionY] = '@';
+            } else
+            {
+                map[playerPositionX, playerPositionY] = ' ';
+                playerPositionX += playerDirectionX;
+                playerPositionY += playerDirectionY;
+                map[playerPositionX, playerPositionY] = '@';
             }
         }
     }
