@@ -15,34 +15,34 @@ namespace Collection_5
             List<int> list1 = new List<int>(numberOfElementsInList);
             List<int> list2 = new List<int>(numberOfElementsInList);
 
-            FillingList(ref list1);
-            FillingList(ref list2);
+            FillingList(list1);
+            FillingList(list2);
 
             ShowList(list1);
+
             ShowList(list2);
 
             Console.ReadLine();
         }
 
-        static void FillingList(ref List<int> list)
+        static void FillingList(List<int> list)
         {
             Random random = new Random();
             int randomMinValue = 0;
             int randomMaxValue = 1000;
 
-            foreach (int item in list)
+            for(int i = 0; i < list.Count; i++)
             {
                 int randomNumber = random.Next(randomMinValue, randomMaxValue);
-                list.Add(item);
+                list.Add(randomNumber);
             }
-            Console.ReadLine();
         }
 
         static void ShowList(List<int> list)
         {
-            foreach(int item in list)
+            for (int i = 0; i < list.Count; i++)
             {
-                Console.Write(list[item] + " ");
+                Console.Write(list[i] + " ");
             }
         }
     }

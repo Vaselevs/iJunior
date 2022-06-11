@@ -59,18 +59,26 @@ namespace Collections_4
             Console.Clear();
             Console.Write("Введите ФИО сотрудника: ");
             nameOfEmploye = Console.ReadLine();
-            Console.Write("Введите должность сотрудника: ");
-            positionOfEmploye = Console.ReadLine();
-            companyEmployees.Add(nameOfEmploye, positionOfEmploye);
+
+            if (companyEmployees.ContainsKey(nameOfEmploye))
+            {
+                Console.WriteLine("Досье этого сотрудника уже есть в базе!");
+            }
+            else
+            {
+                Console.Write("Введите должность сотрудника: ");
+                positionOfEmploye = Console.ReadLine();
+                companyEmployees.Add(nameOfEmploye, positionOfEmploye);
+            }
         }
 
         static void ShowAllDosiers(Dictionary<string, string> companyEmployees)
         {
-            int i = 1;
+            int numberOfDosier = 1;
             foreach(var employee in companyEmployees)
             {
-                Console.WriteLine($"{i}. {employee.Key} - {employee.Value}");
-                i++;
+                Console.WriteLine($"{numberOfDosier}. {employee.Key} - {employee.Value}");
+                numberOfDosier++;
             }
         }
 
