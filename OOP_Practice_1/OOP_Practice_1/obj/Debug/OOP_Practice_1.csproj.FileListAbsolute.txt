@@ -1,0 +1,8 @@
+E:\iJunior\OOP_Practice_1\OOP_Practice_1\bin\Debug\OOP_Practice_1.exe.config
+E:\iJunior\OOP_Practice_1\OOP_Practice_1\bin\Debug\OOP_Practice_1.exe
+E:\iJunior\OOP_Practice_1\OOP_Practice_1\bin\Debug\OOP_Practice_1.pdb
+E:\iJunior\OOP_Practice_1\OOP_Practice_1\obj\Debug\OOP_Practice_1.csproj.AssemblyReference.cache
+E:\iJunior\OOP_Practice_1\OOP_Practice_1\obj\Debug\OOP_Practice_1.csproj.SuggestedBindingRedirects.cache
+E:\iJunior\OOP_Practice_1\OOP_Practice_1\obj\Debug\OOP_Practice_1.csproj.CoreCompileInputs.cache
+E:\iJunior\OOP_Practice_1\OOP_Practice_1\obj\Debug\OOP_Practice_1.exe
+E:\iJunior\OOP_Practice_1\OOP_Practice_1\obj\Debug\OOP_Practice_1.pdb
