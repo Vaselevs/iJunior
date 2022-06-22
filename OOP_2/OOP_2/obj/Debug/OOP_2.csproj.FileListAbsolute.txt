@@ -1,0 +1,8 @@
+E:\iJunior\OOP_2\OOP_2\bin\Debug\OOP_2.exe.config
+E:\iJunior\OOP_2\OOP_2\bin\Debug\OOP_2.exe
+E:\iJunior\OOP_2\OOP_2\bin\Debug\OOP_2.pdb
+E:\iJunior\OOP_2\OOP_2\obj\Debug\OOP_2.csproj.AssemblyReference.cache
+E:\iJunior\OOP_2\OOP_2\obj\Debug\OOP_2.csproj.SuggestedBindingRedirects.cache
+E:\iJunior\OOP_2\OOP_2\obj\Debug\OOP_2.csproj.CoreCompileInputs.cache
+E:\iJunior\OOP_2\OOP_2\obj\Debug\OOP_2.exe
+E:\iJunior\OOP_2\OOP_2\obj\Debug\OOP_2.pdb
