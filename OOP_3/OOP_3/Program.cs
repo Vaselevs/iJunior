@@ -11,7 +11,6 @@ namespace OOP_3
         static void Main(string[] args)
         {
             bool isPLaying = true;
-            int playerChoise;
             BaseOfPLayers newBaseOfPLayers = new BaseOfPLayers();
 
             while (isPLaying)
@@ -22,11 +21,11 @@ namespace OOP_3
                 Console.WriteLine("1. Добавить нового игрока");
                 Console.WriteLine("2. Посмотреть список всех игроков");
                 Console.WriteLine("3. Забанить игрока по номеру");
-                Console.WriteLine("5. Разбанить игрока по номеру");
+                Console.WriteLine("4. Разбанить игрока по номеру");
                 Console.WriteLine("5. Удалить игрока по номеру");
                 Console.WriteLine("6. Выйти из программы");
 
-                if (int.TryParse(Console.ReadLine(), out playerChoise))
+                if (int.TryParse(Console.ReadLine(), out int playerChoise))
                 {
                     Console.Clear();
                     switch (playerChoise)
@@ -38,13 +37,13 @@ namespace OOP_3
                             newBaseOfPLayers.ShowAllPlayers();
                             break;
                         case 3:
-                            newBaseOfPLayers.BanPlayer();
+                            newBaseOfPLayers.BanTargetPlayer();
                             break;
                         case 4:
-
+                            newBaseOfPLayers.UnBanTargetPlayer();
                             break;
                         case 5:
-
+                            newBaseOfPLayers.DeletePlayer();
                             break;
                         case 6:
                             isPLaying = false;
@@ -107,26 +106,83 @@ namespace OOP_3
             }
         }
 
-        public void BanPlayer()
+        public void BanTargetPlayer()
         {
-            int playerNumber;
-
             Console.WriteLine("Введите номер игрока, которого решили забанить:\n");
 
             ShowAllPlayers();
 
             Console.SetCursorPosition(0, 1);
 
-            if(Int32.TryParse(Console.ReadLine(), out playerNumber))
+            if(Int32.TryParse(Console.ReadLine(), out int playerNumber))
             {
-                _dataBase.Find(x => x.Id == playerNumber).BanPlayer();
+                if (_dataBase.FindIndex(x => x.Id == playerNumber) != -1)
+                {
+                    _dataBase.Find(x => x.Id == playerNumber).Ban();
+                    Console.WriteLine($"Игрок {_dataBase.Find(x => x.Id == playerNumber).Name} успешно забанен!");
+                }
+                else
+                {
+                    Console.WriteLine("Нет игрока с таким номером!");
+                }
             }
-
+            else
+            {
+                Console.WriteLine("Не верно введён номер игрока, не удалось забанить игрока.");
+            }
         }
 
-        private bool FindPlayer(Player player, int playerNumber)
+        public void UnBanTargetPlayer()
         {
-            return player.Id == playerNumber;
+            Console.WriteLine("Введите номер игрока, которого решили разбанить:\n");
+
+            ShowAllPlayers();
+
+            Console.SetCursorPosition(0, 1);
+
+            if (Int32.TryParse(Console.ReadLine(), out int playerNumber))
+            {
+                if(_dataBase.FindIndex(x => x.Id == playerNumber) != -1)
+                {
+                    _dataBase.Find(x => x.Id == playerNumber).UnBan();
+                    Console.WriteLine($"Игрок {_dataBase.Find(x => x.Id == playerNumber).Name} успешно разбанен!");
+                }
+                else
+                {
+                    Console.WriteLine("Нет игрока с таким номером!");
+                }
+                    
+            }
+            else
+            {
+                Console.WriteLine("Не верно введён номер игрока, не удалось разбанить игрока.");
+            }
+        }
+
+        public void DeletePlayer()
+        {
+            Console.WriteLine("Введите номер игрока, которого решили удалить:\n");
+
+            ShowAllPlayers();
+
+            Console.SetCursorPosition(0, 1);
+
+            if (Int32.TryParse(Console.ReadLine(), out int playerNumber))
+            {
+                if(_dataBase.FindIndex(x => x.Id == playerNumber) != -1)
+                {
+                    _dataBase.RemoveAt(_dataBase.FindIndex(x => x.Id == playerNumber));
+                    Console.WriteLine("Игрок успешно удалён!");
+                }
+                else
+                {
+                    Console.WriteLine("Нет игрока с таким номером!");
+                }
+            }
+            else
+            {
+                Console.WriteLine("Не верно введён номер игрока, не получилось удалить игрока.");
+            }
         }
 
         public void ShowAllPlayers()
@@ -156,19 +212,34 @@ namespace OOP_3
 
         public void ShowInfo()
         {
-            Console.WriteLine($"{Id}. {Name} {Level} {IsBanned}");
+            Console.Write($"Уникальный номер - {Id}, Имя - {Name}, Уровень - {Level}, Статус бана - {IsBanned}");
         }
 
-        public void BanPlayer()
+        public bool Ban()
         {
             if (this.IsBanned == false)
             {
                 this.IsBanned = true;
-                Console.WriteLine("Игрок забанен");
+                return true;
             }
             else
             {
                 Console.WriteLine("Игрок уже находится в бане!");
+                return false;
+            }
+        }
+
+        public bool UnBan()
+        {
+            if (this.IsBanned == true)
+            {
+                this.IsBanned = false;
+                return true;
+            }
+            else
+            {
+                Console.WriteLine("Игрок не был в бане.");
+                return false;
             }
         }
     }
