@@ -116,10 +116,10 @@ namespace OOP_3
 
             if(Int32.TryParse(Console.ReadLine(), out int playerNumber))
             {
-                if (_dataBase.FindIndex(x => x.Id == playerNumber) != -1)
+                if (TryToFindPlayerByIndex(playerNumber))
                 {
-                    _dataBase.Find(x => x.Id == playerNumber).Ban();
-                    Console.WriteLine($"Игрок {_dataBase.Find(x => x.Id == playerNumber).Name} успешно забанен!");
+                    FindPlayerByIndex(playerNumber).Ban();
+                    Console.WriteLine($"Игрок {FindPlayerByIndex(playerNumber).Name} успешно забанен!");
                 }
                 else
                 {
@@ -142,10 +142,10 @@ namespace OOP_3
 
             if (Int32.TryParse(Console.ReadLine(), out int playerNumber))
             {
-                if(_dataBase.FindIndex(x => x.Id == playerNumber) != -1)
+                if(TryToFindPlayerByIndex(playerNumber))
                 {
-                    _dataBase.Find(x => x.Id == playerNumber).UnBan();
-                    Console.WriteLine($"Игрок {_dataBase.Find(x => x.Id == playerNumber).Name} успешно разбанен!");
+                    FindPlayerByIndex(playerNumber).UnBan();
+                    Console.WriteLine($"Игрок {FindPlayerByIndex(playerNumber).Name} успешно разбанен!");
                 }
                 else
                 {
@@ -169,9 +169,9 @@ namespace OOP_3
 
             if (Int32.TryParse(Console.ReadLine(), out int playerNumber))
             {
-                if(_dataBase.FindIndex(x => x.Id == playerNumber) != -1)
+                if(TryToFindPlayerByIndex(playerNumber))
                 {
-                    _dataBase.RemoveAt(_dataBase.FindIndex(x => x.Id == playerNumber));
+                    _dataBase.Remove(FindPlayerByIndex(playerNumber));
                     Console.WriteLine("Игрок успешно удалён!");
                 }
                 else
@@ -185,6 +185,23 @@ namespace OOP_3
             }
         }
 
+        public bool TryToFindPlayerByIndex(int playerId)
+        {
+            if(_dataBase.FindIndex(player => player.Id == playerId) != -1)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        public Player FindPlayerByIndex(int playerId)
+        {
+            return _dataBase.Find(player => player.Id == playerId);
+        }
+
         public void ShowAllPlayers()
         {
             foreach(Player player in _dataBase)
@@ -196,7 +213,7 @@ namespace OOP_3
 
     class Player
     {
-        public static int Ids = 0;
+        private static int _ids = 0;
         public int Id { get; private set; }
         public string Name { get; private set; }
         public int Level { get; private set; }
@@ -204,7 +221,7 @@ namespace OOP_3
 
         public Player(string name, int level, bool isBanned)
         {
-            Id = ++Ids;
+            Id = ++_ids;
             Name = name;
             Level = level;
             IsBanned = isBanned;
@@ -217,9 +234,9 @@ namespace OOP_3
 
         public bool Ban()
         {
-            if (this.IsBanned == false)
+            if (IsBanned == false)
             {
-                this.IsBanned = true;
+                IsBanned = true;
                 return true;
             }
             else
