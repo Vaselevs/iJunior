@@ -114,21 +114,12 @@ namespace OOP_3
 
             Console.SetCursorPosition(0, 1);
 
-            if(Int32.TryParse(Console.ReadLine(), out int playerNumber))
+            Player player = ConvertUserInputToPLayer();
+
+            if (player != null)
             {
-                if (TryToFindPlayerByIndex(playerNumber))
-                {
-                    FindPlayerByIndex(playerNumber).Ban();
-                    Console.WriteLine($"Игрок {FindPlayerByIndex(playerNumber).Name} успешно забанен!");
-                }
-                else
-                {
-                    Console.WriteLine("Нет игрока с таким номером!");
-                }
-            }
-            else
-            {
-                Console.WriteLine("Не верно введён номер игрока, не удалось забанить игрока.");
+                player.Ban();
+                Console.WriteLine($"Игрок {player.Name} успешно забанен!");
             }
         }
 
@@ -140,22 +131,12 @@ namespace OOP_3
 
             Console.SetCursorPosition(0, 1);
 
-            if (Int32.TryParse(Console.ReadLine(), out int playerNumber))
+            Player player = ConvertUserInputToPLayer();
+
+            if (player != null)
             {
-                if(TryToFindPlayerByIndex(playerNumber))
-                {
-                    FindPlayerByIndex(playerNumber).UnBan();
-                    Console.WriteLine($"Игрок {FindPlayerByIndex(playerNumber).Name} успешно разбанен!");
-                }
-                else
-                {
-                    Console.WriteLine("Нет игрока с таким номером!");
-                }
-                    
-            }
-            else
-            {
-                Console.WriteLine("Не верно введён номер игрока, не удалось разбанить игрока.");
+                player.UnBan();
+                Console.WriteLine($"Игрок {player.Name} успешно разбанен!");
             }
         }
 
@@ -167,12 +148,24 @@ namespace OOP_3
 
             Console.SetCursorPosition(0, 1);
 
-            if (Int32.TryParse(Console.ReadLine(), out int playerNumber))
+            Player player = ConvertUserInputToPLayer();
+
+            if (player != null)
             {
-                if(TryToFindPlayerByIndex(playerNumber))
+                _dataBase.Remove(player);
+                Console.WriteLine("Игрок успешно удалён!");
+            }
+        }
+
+        private Player ConvertUserInputToPLayer()
+        {
+            Player player = null;
+
+            if (int.TryParse(Console.ReadLine(), out int playerNumber))
+            {
+                if (TryToFindPlayerByIndex(playerNumber))
                 {
-                    _dataBase.Remove(FindPlayerByIndex(playerNumber));
-                    Console.WriteLine("Игрок успешно удалён!");
+                    player = FindPlayerByIndex(playerNumber);
                 }
                 else
                 {
@@ -181,11 +174,12 @@ namespace OOP_3
             }
             else
             {
-                Console.WriteLine("Не верно введён номер игрока, не получилось удалить игрока.");
+                Console.WriteLine("Не верно введён номер игрока.");
             }
+            return player;
         }
 
-        public bool TryToFindPlayerByIndex(int playerId)
+        private bool TryToFindPlayerByIndex(int playerId)
         {
             if(_dataBase.FindIndex(player => player.Id == playerId) != -1)
             {
@@ -197,7 +191,7 @@ namespace OOP_3
             }
         }
 
-        public Player FindPlayerByIndex(int playerId)
+        private Player FindPlayerByIndex(int playerId)
         {
             return _dataBase.Find(player => player.Id == playerId);
         }

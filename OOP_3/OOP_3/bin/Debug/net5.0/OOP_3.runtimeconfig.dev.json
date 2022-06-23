@@ -1,0 +1,8 @@
+{
+  "runtimeOptions": {
+    "additionalProbingPaths": [
+      "/Users/vaselevs/.dotnet/store/|arch|/|tfm|",
+      "/Users/vaselevs/.nuget/packages"
+    ]
+  }
+}
