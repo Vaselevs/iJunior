@@ -1,0 +1,17 @@
+/Users/vaselevs/Documents/GitHub/iJunior/OOP_4/OOP_4/obj/Debug/net5.0/OOP_4.csproj.AssemblyReference.cache
+/Users/vaselevs/Documents/GitHub/iJunior/OOP_4/OOP_4/obj/Debug/net5.0/OOP_4.GeneratedMSBuildEditorConfig.editorconfig
+/Users/vaselevs/Documents/GitHub/iJunior/OOP_4/OOP_4/obj/Debug/net5.0/OOP_4.AssemblyInfoInputs.cache
+/Users/vaselevs/Documents/GitHub/iJunior/OOP_4/OOP_4/obj/Debug/net5.0/OOP_4.AssemblyInfo.cs
+/Users/vaselevs/Documents/GitHub/iJunior/OOP_4/OOP_4/obj/Debug/net5.0/OOP_4.csproj.CoreCompileInputs.cache
+/Users/vaselevs/Documents/GitHub/iJunior/OOP_4/OOP_4/bin/Debug/net5.0/OOP_4
+/Users/vaselevs/Documents/GitHub/iJunior/OOP_4/OOP_4/bin/Debug/net5.0/OOP_4.dll.config
+/Users/vaselevs/Documents/GitHub/iJunior/OOP_4/OOP_4/bin/Debug/net5.0/OOP_4.deps.json
+/Users/vaselevs/Documents/GitHub/iJunior/OOP_4/OOP_4/bin/Debug/net5.0/OOP_4.runtimeconfig.json
+/Users/vaselevs/Documents/GitHub/iJunior/OOP_4/OOP_4/bin/Debug/net5.0/OOP_4.runtimeconfig.dev.json
+/Users/vaselevs/Documents/GitHub/iJunior/OOP_4/OOP_4/bin/Debug/net5.0/OOP_4.dll
+/Users/vaselevs/Documents/GitHub/iJunior/OOP_4/OOP_4/bin/Debug/net5.0/OOP_4.pdb
+/Users/vaselevs/Documents/GitHub/iJunior/OOP_4/OOP_4/obj/Debug/net5.0/OOP_4.dll
+/Users/vaselevs/Documents/GitHub/iJunior/OOP_4/OOP_4/obj/Debug/net5.0/refint/OOP_4.dll
+/Users/vaselevs/Documents/GitHub/iJunior/OOP_4/OOP_4/obj/Debug/net5.0/OOP_4.pdb
+/Users/vaselevs/Documents/GitHub/iJunior/OOP_4/OOP_4/obj/Debug/net5.0/OOP_4.genruntimeconfig.cache
+/Users/vaselevs/Documents/GitHub/iJunior/OOP_4/OOP_4/obj/Debug/net5.0/ref/OOP_4.dll
