@@ -12,74 +12,59 @@ namespace OOP_4
         {
             Player player = new Player();
 
-            player.GetCards();
+            player.CardGame();
             player.ShowPlayersHand();
         }
     }
 
     class Player
     {
-        private List<Card> _playerHand = new List<Card>();
+        private List<Card> _hand = new List<Card>();
 
-        public void GetCards()
+        public Player()
         {
-            Colode colode = new Colode();
-            Queue<Card> randomColode = colode.NewRandomColode();
 
-            bool gettingCard = true;
+        }
 
-            while (gettingCard)
+        public void CardGame()
+        {
+            Deck deck = new Deck();
+
+            bool needCard = true;
+
+            while (needCard)
             {
-                if(randomColode.Count > 0)
+                if(deck.GetCountOfCards() > 0)
                 {
                     Console.Clear();
                     Console.WriteLine("Что бы вытянуть карту, нажмите Space");
                     Console.WriteLine("Что бы вытянуть больше одной карты, нажмите Enter");
                     Console.WriteLine("Что бы выйти, нажмите Esc");
-                    Console.WriteLine($"На данный момент в руке игрока {_playerHand.Count} карт");
+                    Console.WriteLine($"На данный момент в руке игрока {_hand.Count} карт");
 
                     ConsoleKeyInfo userInputKey = Console.ReadKey();
 
                     if (userInputKey.Key == ConsoleKey.Spacebar)
                     {
-                        _playerHand.Add(randomColode.Dequeue());
+                        _hand.Add(deck.GetRandomCardFromDeck());
                     }
                     else if (userInputKey.Key == ConsoleKey.Escape)
                     {
-                        gettingCard = false;
+                        needCard = false;
                     }
                     else if (userInputKey.Key == ConsoleKey.Enter)
                     {
-                        string userInput;
-                        Console.Clear();
-                        Console.Write("Введите количество карт: ");
-                        userInput = Console.ReadLine();
-                        if (Int32.TryParse(userInput, out int countOfCards))
-                        {
-                            if(countOfCards < randomColode.Count)
-                            {
-                                for(int i = 0; i < countOfCards; i++)
-                                {
-                                    _playerHand.Add(randomColode.Dequeue());
-                                }
-                            } else
-                            {
-                                Console.WriteLine("В колоде нет столько карт!");
-                                Console.ReadLine();
-                            }
-                        } else
-                        {
-                            Console.WriteLine("Вы ввели не число!");
-                            Console.ReadLine();
-                        } 
-                    } else
+                        TakeOneCard(deck);
+                    } 
+                    else
                     {
                         Console.WriteLine("Не верная кнопка");
                         Console.ReadLine();
                     }
-                } else
+                } 
+                else
                 {
-                    gettingCard = false;
+                    needCard = false;
                     Console.WriteLine("В колоде закончились карты!");
                 }
             }
@@ -87,61 +72,91 @@ namespace OOP_4
 
         public void ShowPlayersHand()
         {
-            Console.WriteLine($"У вас в руках: {_playerHand.Count}");
+            Console.WriteLine($"У вас в руках: {_hand.Count}");
 
-            foreach (Card card in _playerHand)
+            foreach (Card card in _hand)
             {
                 card.ShowCard();
+            }
+        }
+
+        private void TakeOneCard(Deck deck)
+        {
+            string userInput;
+            Console.Clear();
+            Console.Write("Введите количество карт: ");
+            userInput = Console.ReadLine();
+            if (Int32.TryParse(userInput, out int countOfCards))
+            {
+                if (countOfCards < deck.GetCountOfCards())
+                {
+                    for (int i = 0; i < countOfCards; i++)
+                    {
+                        _hand.Add(deck.GetRandomCardFromDeck());
+                    }
+                }
+                else
+                {
+                    Console.WriteLine("В колоде нет столько карт!");
+                    Console.ReadLine();
+                }
+            }
+            else
+            {
+                Console.WriteLine("Вы ввели не число!");
+                Console.ReadLine();
             }
         }
     }
 
-    class Colode
+    class Deck
     {
-        private List<Card> _colode = new List<Card>();
-        private string[] suits = { "Diamonds", "Hearts", "Clubs", "Spades" };
-        private string[] nominals = { "Ace", "Jack", "Queen", "King", "10", "9", "8", "7", "6", "5", "4", "3", "2", "1" };
+        private List<Card> _deck;
 
-        public Colode()
+        private string[] _suits;
+        private string[] _nominals;
+
+        public Deck()
         {
-            _colode = NewStandartColode();
+            _suits = new string[] { "Diamonds", "Hearts", "Clubs", "Spades" };
+            _nominals = new string[] { "Ace", "Jack", "Queen", "King", "10", "9", "8", "7", "6", "5", "4", "3", "2", "1" };
+            _deck = new List<Card>();
+            _deck = CreateDeck();
         }
 
-        public void ShowColode()
+        public int GetCountOfCards()
         {
-            foreach (Card card in _colode)
+            return _deck.Count;
+        }
+
+        public void ShowDeck()
+        {
+            foreach (Card card in _deck)
             {
                 card.ShowCard();
             }
         }
 
-        public Queue<Card> NewRandomColode()
+        public Card GetRandomCardFromDeck()
         {
             Random random = new Random();
-            List<Card> colode = NewStandartColode();
-            Queue<Card> queue = new Queue<Card>();
-
-            for (int i = 0; i < colode.Count; i++)
-            {
-                int randomNumberOfCard = random.Next(0, colode.Count);
-                queue.Enqueue(colode[randomNumberOfCard]);
-                colode.RemoveAt(randomNumberOfCard);
-            }
-
-            return queue;
+            int randomCard = random.Next(0, _deck.Count);
+            Card removedCard = _deck[randomCard];
+            _deck.RemoveAt(randomCard);
+            return removedCard;
         }
 
-        private List<Card> NewStandartColode()
+        private List<Card> CreateDeck()
         {
-            foreach(string suit in suits)
+            foreach(string suit in _suits)
             {
-                foreach(string nominal in nominals)
+                foreach(string nominal in _nominals)
                 {
                     Card card = new Card(suit, nominal);
-                    _colode.Add(card);
+                    _deck.Add(card);
                 }
             }
-            return _colode;
+            return _deck;
         }
     }
 
@@ -149,8 +164,6 @@ namespace OOP_4
     {
         private string _suit;
         private string _nominal;
-        private string[] _suits = { "Diamonds", "Hearts", "Clubs", "Spades" };
-        private string[] _nominals = { "Ace", "Jack", "Queen", "King", "10", "9", "8", "7", "6", "5", "4", "3", "2", "1" };
 
         public Card(string suit, string nominal)
         {
@@ -165,18 +178,12 @@ namespace OOP_4
 
         private void SetSuit(string suit)
         {
-            if (_suits.Contains(suit))
-            {
-                _suit = suit;
-            }
+            _suit = suit;
         }
 
         private void SetNominal(string nominal)
         {
-            if (_nominals.Contains(nominal))
-            {
-                _nominal = nominal;
-            }
+            _nominal = nominal;
         }
     }
 }

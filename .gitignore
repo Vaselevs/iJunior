@@ -73,3 +73,9 @@ crashlytics-build.properties
 *.cache
 OOP_4/OOP_4/obj/Debug/OOP_4.exe
 OOP_4/OOP_4/bin/Debug/OOP_4.exe
+*.exe
+OOP_5/OOP_5/obj/Debug/.NETFramework,Version=v4.8.AssemblyAttributes.cs
+OOP_5/OOP_5/App.config
+OOP_5/OOP_5/Properties/AssemblyInfo.cs
+OOP_4/OOP_4/bin/Debug/OOP_4.exe
+OOP_4/OOP_4/obj/Debug/OOP_4.exe
