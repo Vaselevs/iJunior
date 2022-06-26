@@ -11,55 +11,84 @@ namespace OOP_4
         static void Main(string[] args)
         {
             Player player = new Player();
-            Colode colode = new Colode();
 
-            colode.ShowColode();
-
-            Console.WriteLine();
-
-            Queue<Card> queue = colode.NewRandomColode();
-            
-            colode.ShowColode(queue);
-            
+            player.GetCards();
+            player.ShowPlayersHand();
         }
     }
 
     class Player
-    { 
-        private List<Card> _playerHand;
+    {
+        private List<Card> _playerHand = new List<Card>();
 
-        public void GetCards(Queue<Card> colode)
+        public void GetCards()
         {
+            Colode colode = new Colode();
+            Queue<Card> randomColode = colode.NewRandomColode();
+
             bool gettingCard = true;
 
             while (gettingCard)
             {
-                string userInput;
-                Console.Clear();
-                Console.WriteLine("Что бы вытянуть карту, нажмите Enter или введите количество карт.");
-                Console.WriteLine("Что бы выйти, нажмите Esc");
-                Console.WriteLine($"На данный момент в руке игрока {_playerHand.Count} карт");
-
-                userInput = Console.ReadLine();
-
-                if (Int32.TryParse(userInput, out int userChoise) && userChoise <= colode.Count)
+                if(randomColode.Count > 0)
                 {
-                    for(int i = 0; i < userChoise; i++)
+                    Console.Clear();
+                    Console.WriteLine("Что бы вытянуть карту, нажмите Space");
+                    Console.WriteLine("Что бы вытянуть больше одной карты, нажмите Enter");
+                    Console.WriteLine("Что бы выйти, нажмите Esc");
+                    Console.WriteLine($"На данный момент в руке игрока {_playerHand.Count} карт");
+
+                    ConsoleKeyInfo userInputKey = Console.ReadKey();
+
+                    if (userInputKey.Key == ConsoleKey.Spacebar)
                     {
-                        _playerHand.Add(colode.Dequeue());
+                        _playerHand.Add(randomColode.Dequeue());
                     }
-                }
-                else
+                    else if (userInputKey.Key == ConsoleKey.Escape)
+                    {
+                        gettingCard = false;
+                    }
+                    else if (userInputKey.Key == ConsoleKey.Enter)
+                    {
+                        string userInput;
+                        Console.Clear();
+                        Console.Write("Введите количество карт: ");
+                        userInput = Console.ReadLine();
+                        if (Int32.TryParse(userInput, out int countOfCards))
+                        {
+                            if(countOfCards < randomColode.Count)
+                            {
+                                for(int i = 0; i < countOfCards; i++)
+                                {
+                                    _playerHand.Add(randomColode.Dequeue());
+                                }
+                            } else
+                            {
+                                Console.WriteLine("В колоде нет столько карт!");
+                                Console.ReadLine();
+                            }
+                        } else
+                        {
+                            Console.WriteLine("Вы ввели не число!");
+                            Console.ReadLine();
+                        } 
+                    } else
+                    {
+                        Console.WriteLine("Не верная кнопка");
+                        Console.ReadLine();
+                    }
+                } else
                 {
-                    
+                    gettingCard = false;
+                    Console.WriteLine("В колоде закончились карты!");
                 }
             }
-
-            
         }
 
         public void ShowPlayersHand()
         {
+            Console.WriteLine($"У вас в руках: {_playerHand.Count}");
+
             foreach (Card card in _playerHand)
             {
                 card.ShowCard();
@@ -70,8 +99,8 @@ namespace OOP_4
     class Colode
     {
         private List<Card> _colode = new List<Card>();
-        string[] suits = { "Diamonds", "Hearts", "Clubs", "Spades" };
-        string[] nominals = { "Ace", "Jack", "Queen", "King", "10", "9", "8", "7", "6", "5", "4", "3", "2", "1" };
+        private string[] suits = { "Diamonds", "Hearts", "Clubs", "Spades" };
+        private string[] nominals = { "Ace", "Jack", "Queen", "King", "10", "9", "8", "7", "6", "5", "4", "3", "2", "1" };
 
         public Colode()
         {
@@ -81,13 +110,6 @@ namespace OOP_4
         public void ShowColode()
         {
             foreach (Card card in _colode)
-            {
-                card.ShowCard();
-            }
-        }
-        public void ShowColode(Queue<Card> colode)
-        {
-            foreach (Card card in colode)
             {
                 card.ShowCard();
             }
@@ -127,6 +149,8 @@ namespace OOP_4
     {
         private string _suit;
         private string _nominal;
+        private string[] _suits = { "Diamonds", "Hearts", "Clubs", "Spades" };
+        private string[] _nominals = { "Ace", "Jack", "Queen", "King", "10", "9", "8", "7", "6", "5", "4", "3", "2", "1" };
 
         public Card(string suit, string nominal)
         {
@@ -141,8 +165,7 @@ namespace OOP_4
 
         private void SetSuit(string suit)
         {
-            string[] suits = { "Diamonds", "Hearts", "Clubs", "Spades", };
-            if (suits.Contains(suit))
+            if (_suits.Contains(suit))
             {
                 _suit = suit;
             }
@@ -150,8 +173,7 @@ namespace OOP_4
 
         private void SetNominal(string nominal)
         {
-            string[] nominals = { "Ace", "Jack", "Queen", "King", "10", "9", "8", "7", "6", "5", "4", "3", "2", "1"};
-            if (nominals.Contains(nominal))
+            if (_nominals.Contains(nominal))
             {
                 _nominal = nominal;
             }
