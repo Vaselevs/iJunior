@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.810.22
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Massive_8", "Massive_8\Massive_8.csproj", "{1738BB11-CF0B-4376-A12A-99E97FD1703F}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|anycpu = Debug|anycpu
+		Release|anycpu = Release|anycpu
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{1738BB11-CF0B-4376-A12A-99E97FD1703F}.Debug|anycpu.ActiveCfg = Debug|anycpu
+		{1738BB11-CF0B-4376-A12A-99E97FD1703F}.Debug|anycpu.Build.0 = Debug|anycpu
+		{1738BB11-CF0B-4376-A12A-99E97FD1703F}.Release|anycpu.ActiveCfg = Release|anycpu
+		{1738BB11-CF0B-4376-A12A-99E97FD1703F}.Release|anycpu.Build.0 = Release|anycpu
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {1417D927-D26B-433B-B621-136D3FE92AA0}
+	EndGlobalSection
+EndGlobal
