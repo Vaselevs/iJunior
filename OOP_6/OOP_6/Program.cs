@@ -74,7 +74,18 @@ namespace OOP_6
 
             public void AddItemToSeller(string name, string cost)
             {
-                Item userInputItem = new Item();
+                if (Int32.TryParse(cost, out int costInInt))
+                {
+                    Item userInputItem = new Item(name, costInInt);
+                    Inventory.Add(userInputItem);
+                    Console.WriteLine("Предмет успешно добавлен в инвентарь");
+                } 
+                else
+                {
+                    Console.WriteLine("Вы ввели неверную цену нового предмета");
+                }
+
+                
 
 
             }
