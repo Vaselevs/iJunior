@@ -10,7 +10,10 @@ namespace OOP_6
     {
         static void Main(string[] args)
         {
+            Player player = new Player("Вася", "Обычный путешественник", 1000);
+            Seller seller = new Seller("Тайный продавец", "Самый секретный продавец в мире", 0);
 
+            player.Game(seller);
         }
     }
 
@@ -18,7 +21,7 @@ namespace OOP_6
     {
         public string Name { get; private set; }
         public string Description { get; private set; }
-        public int Money { get; private set; }
+        public int Money { get; protected set; }
         public List<Item> Inventory { get; protected set; }
 
         public Human(string name, string description, int money)
@@ -31,9 +34,10 @@ namespace OOP_6
 
         public void ShowInventory()
         {
-            foreach (Item item in Inventory)
+            for(int i = 0; i < Inventory.Count; i++)
             {
-                item.Show();
+                Console.WriteLine($"#####\n {i+1}\n#####");
+                Inventory[i].Show();
             }
         }
     }
@@ -52,10 +56,11 @@ namespace OOP_6
 
             while (isPlaying)
             {
-                Console.WriteLine($"Имя игрока: {Name} | Кошелёк игрока: {Money}\n");
+                ShowStats();
                 Console.WriteLine($"Игрок {Name} повстречал на своём пути продавца {seller.Name}");
+                seller.ShowStats();
                 Console.WriteLine($"Выберите пункт меню, для дальнейшего взаимодействия\n");
-                Console.WriteLine("1. Показать список предметов продовца");
+                Console.WriteLine("1. Показать список предметов продавца");
                 Console.WriteLine("2. Показать ваш список предметов");
                 Console.WriteLine("3. Купить предмет у продовца");
                 Console.WriteLine("4. Добавить предмет продавцу");
@@ -65,7 +70,27 @@ namespace OOP_6
 
                 if(Int32.TryParse(userInput, out int userChoise))
                 {
+                    switch (userChoise)
+                    {
+                        case 1:
+                            seller.ShowInventory();
+                            break;
+                        case 2:
+                            ShowInventory();
+                            break;
+                        case 3:
+                            BuyItem(seller);
+                            break;
+                        case 4:
+                            seller.CreateSellingItems();
+                            break;
+                        case 5:
+                            isPlaying = false;
+                            break;
+                        default:
 
+                            break;
+                    }
                 }
                 else
                 {
@@ -74,15 +99,35 @@ namespace OOP_6
 
                 Console.ReadLine();
             }
-
-            
-
-
         }
 
-        public void BuyItem(List<Item> sellerInventory)
+        public void BuyItem(Seller seller)
         {
+            Console.Clear();
+            ShowStats();
+            seller.ShowInventory();
+            Console.Write("Выберите предмет который хотите купить: ");
+            if (Int32.TryParse(Console.ReadLine(), out int userChoise))
+            {
+                if (userChoise <= seller.Inventory.Count + 1)
+                {
+                    if (seller.Inventory[userChoise].Cost <= Money)
+                    {
+                        Money -= seller.Inventory[userChoise].Cost;
+                        seller.SellItem(userChoise);
+                    }
+                }
+                
+            }
+            else
+            {
+                Console.WriteLine("Не верный формат ввода!");
+            }
+        }
 
+        private void ShowStats()
+        {
+            Console.WriteLine($"Имя игрока: {Name} | Кошелёк игрока: {Money}\n");
         }
     }
 
@@ -91,14 +136,16 @@ namespace OOP_6
         public Seller(string name, string description, int money) : base(name, description, money)
         {
             Inventory = new List<Item>();
+            CreateSellingItems();
         }
 
         public void SellItem(int buyingItemID)
         {
-            if (buyingItemID < Inventory.Count && Inventory[buyingItemID].Cost < Money)
+            if (buyingItemID < Inventory.Count)
             {
                 Item sellingItem = Inventory[buyingItemID];
                 Inventory.RemoveAt(buyingItemID);
+                Money += sellingItem.Cost;
                 Console.WriteLine($"{Name} успешно продал товар {sellingItem.Name} за {sellingItem.Cost}");
             }
             else if (buyingItemID >= Inventory.Count)
@@ -163,12 +210,12 @@ namespace OOP_6
             {
                 Console.WriteLine("Вы ввели неверную цену нового предмета");
             }
-
-
-
-
         }
 
+        public void ShowStats()
+        {
+            Console.WriteLine($"Имя продавца: {Name} | Кошелёк продавца: {Money}\n");
+        }
     }
 
     class Item
