@@ -13,51 +13,27 @@ namespace OOP_6
             Player player = new Player("Вася", "Обычный путешественник", 1000);
             Seller seller = new Seller("Тайный продавец", "Самый секретный продавец в мире", 0);
 
-            player.Game(seller);
+
         }
     }
 
-    class Human
+    class Game
     {
-        public string Name { get; private set; }
-        public string Description { get; private set; }
-        public int Money { get; protected set; }
-        public List<Item> Inventory { get; protected set; }
-
-        public Human(string name, string description, int money)
+        public Game(Player player, Seller seller)
         {
-            Name = name;
-            Description = description;
-            Money = money;
-            Inventory = new List<Item>();
+
         }
 
-        public void ShowInventory()
-        {
-            for(int i = 0; i < Inventory.Count; i++)
-            {
-                Console.WriteLine($"#####\n {i+1}\n#####");
-                Inventory[i].Show();
-            }
-        }
-    }
-
-    class Player : Human
-    {
-        public Player(string name, string description, int money) : base(name, description, money)
-        {
-            Inventory = new List<Item>();
-        }
-
-        public void Game(Seller seller)
+        public void MeetingPlayerAndSeller(Player player, Seller seller)
         {
             bool isPlaying = true;
             string userInput;
 
             while (isPlaying)
             {
-                ShowStats();
-                Console.WriteLine($"Игрок {Name} повстречал на своём пути продавца {seller.Name}");
+                Console.Clear();
+                player.ShowStats();
+                Console.WriteLine($"Игрок {player.Name} повстречал на своём пути продавца {seller.Name}\n");
                 seller.ShowStats();
                 Console.WriteLine($"Выберите пункт меню, для дальнейшего взаимодействия\n");
                 Console.WriteLine("1. Показать список предметов продавца");
@@ -68,7 +44,7 @@ namespace OOP_6
 
                 userInput = Console.ReadLine();
 
-                if(Int32.TryParse(userInput, out int userChoise))
+                if (Int32.TryParse(userInput, out int userChoise))
                 {
                     switch (userChoise)
                     {
@@ -76,10 +52,10 @@ namespace OOP_6
                             seller.ShowInventory();
                             break;
                         case 2:
-                            ShowInventory();
+                            player.ShowInventory();
                             break;
                         case 3:
-                            BuyItem(seller);
+                            player.BuyItem(seller);
                             break;
                         case 4:
                             seller.CreateSellingItems();
@@ -88,7 +64,7 @@ namespace OOP_6
                             isPlaying = false;
                             break;
                         default:
-
+                            Console.WriteLine("Нет такого пункта меню!");
                             break;
                     }
                 }
@@ -100,6 +76,40 @@ namespace OOP_6
                 Console.ReadLine();
             }
         }
+    }
+
+    class Human
+    {
+        public string Name { get; private set; }
+        public string Description { get; private set; }
+        public int Money { get; protected set; }
+        protected List<Item> Inventory { get; set; }
+
+        public Human(string name, string description, int money)
+        {
+            Name = name;
+            Description = description;
+            Money = money;
+        }
+
+        public void ShowInventory()
+        {
+            for(int i = 0; i < Inventory.Count; i++)
+            {
+                Console.WriteLine("Номер - Название - Цена\n");
+                Console.Write($"#####\n {i+1} - ");
+                Inventory[i].Show();
+                Console.WriteLine("#####");
+            }
+        }
+    }
+
+    class Player : Human
+    {
+        public Player(string name, string description, int money) : base(name, description, money)
+        {
+            Inventory = new List<Item>();
+        }
 
         public void BuyItem(Seller seller)
         {
@@ -109,15 +119,25 @@ namespace OOP_6
             Console.Write("Выберите предмет который хотите купить: ");
             if (Int32.TryParse(Console.ReadLine(), out int userChoise))
             {
-                if (userChoise <= seller.Inventory.Count + 1)
+                userChoise -= 1;
+
+                if (userChoise <= seller.Inventory.Count)
                 {
                     if (seller.Inventory[userChoise].Cost <= Money)
                     {
+                        Inventory.Add(seller.Inventory[userChoise]);
                         Money -= seller.Inventory[userChoise].Cost;
                         seller.SellItem(userChoise);
                     }
+                    else
+                    {
+                        Console.WriteLine("Вам не хватает денег!");
+                    }
                 }
-                
+                else
+                {
+                    Console.WriteLine("Нет предмета с таким номером!");
+                }
             }
             else
             {
@@ -125,9 +145,9 @@ namespace OOP_6
             }
         }
 
-        private void ShowStats()
+        public void ShowStats()
         {
-            Console.WriteLine($"Имя игрока: {Name} | Кошелёк игрока: {Money}\n");
+            Console.WriteLine($"Имя игрока: {Name} | Количество предметов в инвентаре: {Inventory.Count} | Кошелёк игрока: {Money}\n");
         }
     }
 
@@ -170,24 +190,25 @@ namespace OOP_6
                 Console.WriteLine("Нажмите пробел, что бы добавить новый предмет в инветарь");
                 Console.WriteLine("Нажмите Esc что бы выйти из режима добавления предметов продавцу\n");
 
-                userInput = Console.ReadKey();
+                userInput = Console.ReadKey(true);
 
                 switch (userInput.Key)
                 {
                     case ConsoleKey.Spacebar:
-                        AddItem();
+                        AddItemInInventory();
                         break;
                     case ConsoleKey.Escape:
                         isPlaying = false;
                         break;
                     default:
                         Console.WriteLine("Такой команды нет");
+                        Console.ReadLine();
                         break;
                 }
             }
         }
 
-        private void AddItem()
+        private void AddItemInInventory()
         {
             string name;
             string cost;
@@ -209,12 +230,14 @@ namespace OOP_6
             else
             {
                 Console.WriteLine("Вы ввели неверную цену нового предмета");
+                Console.ReadLine();
             }
+            
         }
 
         public void ShowStats()
         {
-            Console.WriteLine($"Имя продавца: {Name} | Кошелёк продавца: {Money}\n");
+            Console.WriteLine($"Имя продавца: {Name} | Количество предметов в инвентаре: {Inventory.Count} | Кошелёк продавца: {Money}\n");
         }
     }
 
