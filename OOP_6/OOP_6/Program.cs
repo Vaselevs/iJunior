@@ -12,19 +12,16 @@ namespace OOP_6
         {
             Player player = new Player("Вася", "Обычный путешественник", 1000);
             Seller seller = new Seller("Тайный продавец", "Самый секретный продавец в мире", 0);
+            Game game = new Game();
 
-            Game game = new Game(player, seller);
+            game.Work(player, seller);
+
         }
     }
 
     class Game
     {
-        public Game(Player player, Seller seller)
-        {
-            MeetingPlayerAndSeller(player, seller);
-        }
-
-        public void MeetingPlayerAndSeller(Player player, Seller seller)
+        public void Work(Player player, Seller seller)
         {
             bool isPlaying = true;
             string userInput;
@@ -44,33 +41,26 @@ namespace OOP_6
 
                 userInput = Console.ReadLine();
 
-                if (Int32.TryParse(userInput, out int userChoise))
+                switch (userInput)
                 {
-                    switch (userChoise)
-                    {
-                        case 1:
-                            seller.ShowInventory();
-                            break;
-                        case 2:
-                            player.ShowInventory();
-                            break;
-                        case 3:
-                            player.BuyItem(seller);
-                            break;
-                        case 4:
-                            seller.CreateSellingItems();
-                            break;
-                        case 5:
-                            isPlaying = false;
-                            break;
-                        default:
-                            Console.WriteLine("Нет такого пункта меню!");
-                            break;
-                    }
-                }
-                else
-                {
-                    Console.WriteLine("Не верный формат ввода!");
+                    case "1":
+                        seller.ShowInventory();
+                        break;
+                    case "2":
+                        player.ShowInventory();
+                        break;
+                    case "3":
+                        player.BuyItem(seller);
+                        break;
+                    case "4":
+                        seller.CreateSellingItems();
+                        break;
+                    case "5":
+                        isPlaying = false;
+                        break;
+                    default:
+                        Console.WriteLine("Нет такого пункта меню!");
+                        break;
                 }
 
                 Console.ReadLine();
@@ -83,7 +73,7 @@ namespace OOP_6
         public string Name { get; private set; }
         public string Description { get; private set; }
         public int Money { get; protected set; }
-        protected List<Item> Inventory { get; set; }
+        protected List<Item> Inventory;
 
         public Human(string name, string description, int money)
         {
@@ -103,7 +93,7 @@ namespace OOP_6
             }
         }
 
-        public int ShowInventoryCount()
+        public int GetInventoryCount()
         {
             return Inventory.Count;
         }
@@ -131,7 +121,7 @@ namespace OOP_6
             {
                 userChoise -= 1;
                 
-                if(userChoise < seller.ShowInventoryCount())
+                if(userChoise > 0 && userChoise < seller.GetInventoryCount())
                 {
                     if(seller.GetItemFromInventory(userChoise).Cost < Money)
                     {
@@ -146,7 +136,7 @@ namespace OOP_6
                 }
                 else
                 {
-                    Console.WriteLine("Вы вышли за диапазон инветоря!");
+                    Console.WriteLine("Вы вышли за диапазон инвентаря!");
                 }
             }
             else
