@@ -13,7 +13,7 @@ namespace OOP_6
             Player player = new Player("Вася", "Обычный путешественник", 1000);
             Seller seller = new Seller("Тайный продавец", "Самый секретный продавец в мире", 0);
 
-
+            Game game = new Game(player, seller);
         }
     }
 
@@ -21,7 +21,7 @@ namespace OOP_6
     {
         public Game(Player player, Seller seller)
         {
-
+            MeetingPlayerAndSeller(player, seller);
         }
 
         public void MeetingPlayerAndSeller(Player player, Seller seller)
@@ -102,6 +102,16 @@ namespace OOP_6
                 Console.WriteLine("#####");
             }
         }
+
+        public int ShowInventoryCount()
+        {
+            return Inventory.Count;
+        }
+
+        public Item GetItemFromInventory(int itemPosition)
+        {
+            return Inventory[itemPosition];
+        }
     }
 
     class Player : Human
@@ -120,23 +130,23 @@ namespace OOP_6
             if (Int32.TryParse(Console.ReadLine(), out int userChoise))
             {
                 userChoise -= 1;
-
-                if (userChoise <= seller.Inventory.Count)
+                
+                if(userChoise < seller.ShowInventoryCount())
                 {
-                    if (seller.Inventory[userChoise].Cost <= Money)
+                    if(seller.GetItemFromInventory(userChoise).Cost < Money)
                     {
-                        Inventory.Add(seller.Inventory[userChoise]);
-                        Money -= seller.Inventory[userChoise].Cost;
+                        Money -= seller.GetItemFromInventory(userChoise).Cost;
+                        Inventory.Add(seller.GetItemFromInventory(userChoise));
                         seller.SellItem(userChoise);
                     }
                     else
                     {
-                        Console.WriteLine("Вам не хватает денег!");
+                        Console.WriteLine("У вас не достаточно денег!");
                     }
                 }
                 else
                 {
-                    Console.WriteLine("Нет предмета с таким номером!");
+                    Console.WriteLine("Вы вышли за диапазон инветоря!");
                 }
             }
             else
@@ -161,21 +171,8 @@ namespace OOP_6
 
         public void SellItem(int buyingItemID)
         {
-            if (buyingItemID < Inventory.Count)
-            {
-                Item sellingItem = Inventory[buyingItemID];
-                Inventory.RemoveAt(buyingItemID);
-                Money += sellingItem.Cost;
-                Console.WriteLine($"{Name} успешно продал товар {sellingItem.Name} за {sellingItem.Cost}");
-            }
-            else if (buyingItemID >= Inventory.Count)
-            {
-                Console.WriteLine("Нет товара с таким номером!");
-            }
-            else
-            {
-                Console.WriteLine("Покупателю не хватает денег!");
-            }
+            Money += Inventory[buyingItemID].Cost;
+            Inventory.RemoveAt(buyingItemID);
         }
 
         public void CreateSellingItems()
@@ -232,7 +229,6 @@ namespace OOP_6
                 Console.WriteLine("Вы ввели неверную цену нового предмета");
                 Console.ReadLine();
             }
-            
         }
 
         public void ShowStats()
