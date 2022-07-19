@@ -68,6 +68,7 @@ namespace OOP_7
             void ShowAllVoyages()
             {
                 int voyageID = 1;
+
                 if(voyages.Count > 0)
                 {
                     foreach (Voyage voyage in voyages)
@@ -123,9 +124,6 @@ namespace OOP_7
 
     public class Voyage
     {
-        public string PointOfDeparture { get; private set; }
-        public string PointOfArrival { get; private set; }
-        public int Duration { get; private set; }
         private Train _train;
         private DateTime _finishTime;
         private int _minMinuteDurations = 0;
@@ -133,6 +131,9 @@ namespace OOP_7
         private int _NumberOfPassengers;
         private int _minNumberOfPassengers = 10;
         private int _maxNumberOfPassengers = 500;
+        public string PointOfDeparture { get; private set; }
+        public string PointOfArrival { get; private set; }
+        public int Duration { get; private set; }
 
         public Voyage(string pointOfDeparture, string pointOfArrival)
         {
@@ -213,6 +214,7 @@ namespace OOP_7
         public void AddNewCarriage()
         {
             Console.Write("Введите количество мест в пассажирском вагоне: ");
+
             if(Int32.TryParse(Console.ReadLine(), out int numberOfSeats))
             {
                 _carriages.Add(new PassengerCarriage(numberOfSeats));
@@ -226,10 +228,12 @@ namespace OOP_7
         public int GetNumberOfPassengersSeats()
         {
             int numberOfSeats = 0;
+
             foreach(PassengerCarriage Carriage in _carriages)
             {
                 numberOfSeats += Carriage.NumberOfSeats;
             }
+
             return numberOfSeats;
         }
     }
