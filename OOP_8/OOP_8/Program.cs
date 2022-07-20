@@ -60,7 +60,6 @@ namespace OOP_8
             _zombie = new Zombie(_zombieHealth, _zombieAttack, _zombieArmor, _zombiename);
         }
 
-
         public void Play()
         {
             bool isPlaying = true;
@@ -94,11 +93,7 @@ namespace OOP_8
 
                 Console.ReadLine();
             }
-
-            
-
         }
-
 
         private Human Fight(Human fighter, Human enemy)
         {
@@ -148,6 +143,45 @@ namespace OOP_8
                     return null;
             }
         }
+
+        private Human SameFighters(Human fighter)
+        {
+            return null;
+
+            Type warrior = typeof(Warrior);
+
+            switch (fighter.ToString())
+            {
+                case "Warrior":
+                    CrateAnotherWarrior();
+                    break;
+            }
+        }
+
+        private Warrior CrateAnotherWarrior()
+        {
+            return new Warrior(_warriorHealth, _warriorAttack, _warriorArmor, _warriorName);
+        }
+
+        private Wizard CreateAnotherWizard()
+        {
+            return new Wizard(_wizardHealth, _wizardAttack, _wizardArmor, _wizardMagicPower, _wizardName);
+        }
+
+        private Peasant CreateAnotherPeasant()
+        {
+            return new Peasant(_peasantHealth, _peasantAttack, _peasantArmor, _peasantCornfieldsWrath, _peasantName);
+        }
+
+        private Knight CreateAnotherKnight()
+        {
+            return new Knight(_knightHealth, _knightAttack, _knightArmor, _knightName);
+        }
+
+        private Zombie CreateAnotherZombie()
+        {
+            return new Zombie(_zombieHealth, _zombieAttack, _zombieArmor, _zombiename);
+        }
     }
 
 
@@ -174,7 +208,7 @@ namespace OOP_8
             if(damage > 0)
             {
                 int damageBlockedArmor = (int)(damage * Armor);
-                Console.WriteLine($"{GetType()} {Name} получил {damageBlockedArmor} урона!");
+                Console.WriteLine($"{ToString()} {Name} получил {damageBlockedArmor} урона!");
                 Health -= damageBlockedArmor;
             }
         }
