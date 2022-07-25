@@ -18,46 +18,11 @@ namespace OOP_8
 
     public class Game
     {
-        private Warrior _warrior;
-        private Wizard _wizard;
-        private Peasant _peasant;
-        private Knight _knight;
-        private Zombie _zombie;
-
-        private string _warriorName = "Андрей";
-        private int _warriorHealth = 4000;
-        private int _warriorAttack = 350;
-        private double _warriorArmor = 30;
-
-        private string _wizardName = "Анатолий";
-        private int _wizardHealth = 2500;
-        private int _wizardAttack = 300;
-        private double _wizardArmor = 20;
-        private int _wizardMagicPower = 200;
-
-        private string _peasantName = "Сашка";
-        private int _peasantHealth = 2000;
-        private int _peasantAttack = 100;
-        private double _peasantArmor = 15;
-        private int _peasantCornfieldsWrath = 70;
-
-        private string _knightName = "Коля";
-        private int _knightHealth = 5000;
-        private int _knightAttack = 250;
-        private double _knightArmor = 40;
-
-        private string _zombiename = "Шон";
-        private int _zombieHealth = 1000;
-        private int _zombieAttack = 50;
-        private int _zombieArmor = 5;
+        private FigtherFabric fighterFabric; 
 
         public Game()
         {
-            _warrior = new Warrior(_warriorHealth, _warriorAttack, _warriorArmor, _warriorName);
-            _wizard = new Wizard(_wizardHealth, _wizardAttack, _wizardArmor, _wizardMagicPower, _wizardName);
-            _peasant = new Peasant(_peasantHealth, _peasantAttack, _peasantArmor, _peasantCornfieldsWrath, _peasantName);
-            _knight = new Knight(_knightHealth, _knightAttack, _knightArmor, _knightName);
-            _zombie = new Zombie(_zombieHealth, _zombieAttack, _zombieArmor, _zombiename);
+            fighterFabric = new FigtherFabric();
         }
 
         public void Play()
@@ -95,7 +60,7 @@ namespace OOP_8
             }
         }
 
-        private Human Fight(Human fighter, Human enemy)
+        private void Fight(Human fighter, Human enemy)
         {
             while(fighter.Health > 0 && enemy.Health > 0)
             {
@@ -106,11 +71,11 @@ namespace OOP_8
             }
             if(fighter.Health > enemy.Health)
             {
-                return fighter;
+                PraiseTheWinner(fighter);
             }
             else
             {
-                return enemy;
+                PraiseTheWinner(enemy);
             }
         }
 
@@ -130,58 +95,85 @@ namespace OOP_8
             switch (userInput)
             {
                 case "1":
-                    return _warrior;
+                    return fighterFabric.CrateWarrior();
                 case "2":
-                    return _wizard;
+                    return fighterFabric.CreateWizard();
                 case "3":
-                    return _peasant;
+                    return fighterFabric.CreatePeasant();
                 case "4":
-                    return _knight;
+                    return fighterFabric.CreateKnight();
                 case "5":
-                    return _zombie;
+                    return fighterFabric.CreateZombie();
                 default:
                     return null;
             }
         }
 
-        private Human SameFighters(Human fighter)
+        private void PraiseTheWinner(Human winner)
         {
-            return null;
+            Console.WriteLine($"{winner.Name} выигрывает в битве, ура!");
+        }
+    }
 
-            Type warrior = typeof(Warrior);
+    public class FigtherFabric
+    {
+        private string _warriorName = "Андрей";
+        private int _warriorHealth = 4000;
+        private int _warriorAttack = 350;
+        private double _warriorArmor = 30;
 
-            switch (fighter.ToString())
-            {
-                case "Warrior":
-                    CrateAnotherWarrior();
-                    break;
-            }
+        private string _wizardName = "Анатолий";
+        private int _wizardHealth = 2500;
+        private int _wizardAttack = 300;
+        private double _wizardArmor = 20;
+        private int _wizardMagicPower = 200;
+
+        private string _peasantName = "Сашка";
+        private int _peasantHealth = 2000;
+        private int _peasantAttack = 100;
+        private double _peasantArmor = 15;
+        private int _peasantCornfieldsWrath = 70;
+
+        private string _knightName = "Коля";
+        private int _knightHealth = 5000;
+        private int _knightAttack = 250;
+        private double _knightArmor = 40;
+
+        private string _zombiename = "Шон";
+        private int _zombieHealth = 1000;
+        private int _zombieAttack = 50;
+        private int _zombieArmor = 5;
+
+        public FigtherFabric()
+        {
+
         }
 
-        private Warrior CrateAnotherWarrior()
+        public Warrior CrateWarrior()
         {
             return new Warrior(_warriorHealth, _warriorAttack, _warriorArmor, _warriorName);
         }
 
-        private Wizard CreateAnotherWizard()
+        public Wizard CreateWizard()
         {
             return new Wizard(_wizardHealth, _wizardAttack, _wizardArmor, _wizardMagicPower, _wizardName);
         }
 
-        private Peasant CreateAnotherPeasant()
+        public Peasant CreatePeasant()
         {
             return new Peasant(_peasantHealth, _peasantAttack, _peasantArmor, _peasantCornfieldsWrath, _peasantName);
         }
 
-        private Knight CreateAnotherKnight()
+        public Knight CreateKnight()
         {
             return new Knight(_knightHealth, _knightAttack, _knightArmor, _knightName);
         }
 
-        private Zombie CreateAnotherZombie()
+        public Zombie CreateZombie()
         {
             return new Zombie(_zombieHealth, _zombieAttack, _zombieArmor, _zombiename);
         }
+
     }
 
 
