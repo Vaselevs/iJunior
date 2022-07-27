@@ -89,7 +89,6 @@ namespace OOP_8
             Console.WriteLine();
             Console.WriteLine("6. Выход");
 
-
             string userInput = Console.ReadLine();
 
             switch (userInput)
@@ -173,9 +172,7 @@ namespace OOP_8
         {
             return new Zombie(_zombieHealth, _zombieAttack, _zombieArmor, _zombiename);
         }
-
     }
-
 
     public abstract class Human
     {
@@ -288,8 +285,6 @@ namespace OOP_8
         {
             return Attack + _cornfieldsWrath + GenerateRandomGain();
         }
-
-
     }
 
     public class Knight : Human
@@ -345,6 +340,5 @@ namespace OOP_8
 
             return Attack + GenerateRandomGain();
         }
-
     }
 }
