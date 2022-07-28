@@ -176,7 +176,7 @@ namespace OOP_8
 
     public abstract class Human
     {
-        private Random _rand = new Random();
+        private Random _random = new Random();
         private int _minRandom = 1;
         private int _maxRandom = 10;
         public string Name { get; private set; }
@@ -211,13 +211,14 @@ namespace OOP_8
 
         protected int GenerateRandomGain()
         {
-            return _rand.Next(_minRandom, _maxRandom);
+            return _random.Next(_minRandom, _maxRandom);
         }
     }
 
     public class Warrior : Human
     {
         private static int _attackNumber = 0;
+        private int _specialAttackFrequency = 2;
 
         public Warrior(int health, int attack, double armor, string name) : base(health, attack, armor, name)
         {
@@ -227,7 +228,7 @@ namespace OOP_8
         public override int MakeAttack()
         {
             _attackNumber++;
-            if (_attackNumber % 2 == 0)
+            if (_attackNumber % _specialAttackFrequency == 0)
             {
                 return ComboAttack();
             }
@@ -247,6 +248,7 @@ namespace OOP_8
     {
         private static int _attackNumber = 0;
         private int _magicPower;
+        private int _specialAttackFrequency = 3;
 
         public Wizard(int health, int attack, double armor, int magicPower, string name) : base(health, attack, armor, name)
         {
@@ -256,7 +258,7 @@ namespace OOP_8
         public override int MakeAttack()
         {
             _attackNumber++;
-            if (_attackNumber % 3 == 0)
+            if (_attackNumber % _specialAttackFrequency == 0)
             {
                 return MagicAtack();
             }
@@ -292,6 +294,7 @@ namespace OOP_8
         private static int _attackNumber = 0;
         private double _baseArmor;
         private double _maxArmor = 100;
+        private int _specialAttackFrequency = 5;
         public new double Armor { get; private set; }
 
         public Knight(int health, int attack, double armor, string name) : base(health, attack, armor, name)
@@ -302,7 +305,7 @@ namespace OOP_8
         public override int MakeAttack()
         {
             _attackNumber++;
-            if( _attackNumber % 5 == 0)
+            if( _attackNumber % _specialAttackFrequency == 0)
             {
                 Armor = _maxArmor;
             }
