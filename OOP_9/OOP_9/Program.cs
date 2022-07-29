@@ -83,25 +83,19 @@ namespace OOP_9
             }
         }
 
-        public Client GetNewClient()
-        {
-            return _clients.Dequeue();
-        }
+        public Client GetNewClient() => _clients.Dequeue();
 
-        public int GetNumberOfClients()
-        {
-            return _clients.Count;
-        }
+        public int GetNumberOfClients() => _clients.Count;
     }
 
     public class Client
     {
-        public int Money { get; private set; }
         private ShoppingCart _shoppinCart;
         private Random _random;
         private int _minRandom = 0;
         private int _minNumbersOfProductsInshoppingCart = 1;
         private int _maxMoneyRandom = 300;
+        public int Money { get; private set; }
 
         public Client()
         {
@@ -115,7 +109,7 @@ namespace OOP_9
 
         public int GetClientShoppingCartCost()
         {
-            return _shoppinCart.CartAllProductsCost();
+            return _shoppinCart.HowCartAllProductsCost();
         }
 
         public void ShowClientShoppingCartProducts()
@@ -136,19 +130,19 @@ namespace OOP_9
 
     public class ShoppingCart
     {
-        private List<Product> _cart;
+        private List<Product> _productsInCart;
         private Random _random;
         private int _minRandomForCart = 0;
 
         public ShoppingCart()
         {
-            _cart = new List<Product>();
+            _productsInCart = new List<Product>();
             _random = new Random();
         }
 
         public void AddNewProductInCart()
         {
-            _cart.Add(new Product());
+            _productsInCart.Add(new Product());
         }
 
         public void AddManyProducts(int numberOfProducts)
@@ -162,7 +156,7 @@ namespace OOP_9
 
         public void ShowAllProductsInfo()
         {
-            foreach (Product product in _cart)
+            foreach (Product product in _productsInCart)
             {
                 Console.WriteLine(product.ShowProductInfo());
             }
@@ -170,14 +164,14 @@ namespace OOP_9
 
         public string ShowLastProductInCart()
         {
-            return _cart[_cart.Count - 1].Name + " - " + _cart[_cart.Count - 1].Price;
+            return _productsInCart[_productsInCart.Count - 1].Name + " - " + _productsInCart[_productsInCart.Count - 1].Price;
         }
 
-        public int CartAllProductsCost()
+        public int HowCartAllProductsCost()
         {
             int allPrice = 0;
 
-            foreach (Product product in _cart)
+            foreach (Product product in _productsInCart)
             {
                 allPrice += product.Price;
             }
@@ -187,28 +181,29 @@ namespace OOP_9
 
         public Product GetRandomProductFromCart()
         {
-            int randomProductId = _random.Next(_minRandomForCart, _cart.Count);
-            Product randomProduct = _cart[randomProductId];
-            _cart.RemoveAt(randomProductId);
+            int randomProductId = _random.Next(_minRandomForCart, _productsInCart.Count);
+            Product randomProduct = _productsInCart[randomProductId];
+            _productsInCart.RemoveAt(randomProductId);
 
             return randomProduct;
         }
 
         public void DeleteProductFromCart(Product product)
         {
-            _cart.Remove(product);
+            _productsInCart.Remove(product);
         }
     }
 
     public class Product
     {
         public static int NumbersOfProductTypes = 10;
-        public string Name { get; private set; }
-        public int Price { get; private set; }
 
         private Dictionary<string, int> _allProducts;
         private Random _random;
         private int _minRandom = 0;
+
+        public string Name { get; private set; }
+        public int Price { get; private set; }
 
         public Product()
         {

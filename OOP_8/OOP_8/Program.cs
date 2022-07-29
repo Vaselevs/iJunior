@@ -18,11 +18,11 @@ namespace OOP_8
 
     public class Game
     {
-        private FigtherFabric fighterFabric; 
+        private FigtherFabric _fighterFabric; 
 
         public Game()
         {
-            fighterFabric = new FigtherFabric();
+            _fighterFabric = new FigtherFabric();
         }
 
         public void Play()
@@ -37,26 +37,32 @@ namespace OOP_8
                 Console.WriteLine();
 
                 figter = ChooseFighter();
-                if (figter == null)
+
+                if (figter != null)
                 {
-                    break;
-                }
+                    Console.WriteLine("Выберите второго бойца!");
+                    Console.WriteLine();
 
-                Console.WriteLine("Выберите второго бойца!");
-                Console.WriteLine();
+                    enemy = ChooseFighter();
+                    if (enemy != null)
+                    {
+                        if (figter != enemy)
+                        {
+                            Fight(figter, enemy);
+                            PraiseTheWinner(figter, enemy);
+                        }
 
-                enemy = ChooseFighter();
-                if (enemy == null)
+                        Console.ReadLine();
+                    }
+                    else
+                    {
+                        isPlaying = false;
+                    }
+                } 
+                else
                 {
-                    break;
+                    isPlaying = false;
                 }
-
-                if (figter != enemy)
-                {
-                    Fight(figter, enemy);
-                }
-
-                Console.ReadLine();
             }
         }
 
@@ -68,14 +74,6 @@ namespace OOP_8
                 Console.WriteLine($"У {enemy.Name} осталось {enemy.Health}");
                 fighter.TakeDamage(enemy.MakeAttack());
                 Console.WriteLine($"У {fighter.Name} осталось {fighter.Health}");
-            }
-            if(fighter.Health > enemy.Health)
-            {
-                PraiseTheWinner(fighter);
-            }
-            else
-            {
-                PraiseTheWinner(enemy);
             }
         }
 
@@ -94,83 +92,63 @@ namespace OOP_8
             switch (userInput)
             {
                 case "1":
-                    return fighterFabric.CrateWarrior();
+                    return _fighterFabric.CrateWarrior(4000, 350, 30, "Андрей");
                 case "2":
-                    return fighterFabric.CreateWizard();
+                    return _fighterFabric.CreateWizard(2500, 300, 20, 200, "Анатолий");
                 case "3":
-                    return fighterFabric.CreatePeasant();
+                    return _fighterFabric.CreatePeasant(2000, 100, 15, 70, "Сашка");
                 case "4":
-                    return fighterFabric.CreateKnight();
+                    return _fighterFabric.CreateKnight(5000, 250, 40, "Коля");
                 case "5":
-                    return fighterFabric.CreateZombie();
+                    return _fighterFabric.CreateZombie(1000, 50, 5, "Шон");
                 default:
                     return null;
             }
         }
 
-        private void PraiseTheWinner(Human winner)
+        private void PraiseTheWinner(Human fighter, Human enemy)
         {
-            Console.WriteLine($"{winner.Name} выигрывает в битве, ура!");
+            if (fighter.Health > enemy.Health)
+            {
+                Console.WriteLine($"{fighter.Name} выигрывает в битве, ура!");
+            }
+            else
+            {
+                Console.WriteLine($"{enemy.Name} выигрывает в битве, ура!");
+            }
         }
     }
 
     public class FigtherFabric
     {
-        private string _warriorName = "Андрей";
-        private int _warriorHealth = 4000;
-        private int _warriorAttack = 350;
-        private double _warriorArmor = 30;
-
-        private string _wizardName = "Анатолий";
-        private int _wizardHealth = 2500;
-        private int _wizardAttack = 300;
-        private double _wizardArmor = 20;
-        private int _wizardMagicPower = 200;
-
-        private string _peasantName = "Сашка";
-        private int _peasantHealth = 2000;
-        private int _peasantAttack = 100;
-        private double _peasantArmor = 15;
-        private int _peasantCornfieldsWrath = 70;
-
-        private string _knightName = "Коля";
-        private int _knightHealth = 5000;
-        private int _knightAttack = 250;
-        private double _knightArmor = 40;
-
-        private string _zombiename = "Шон";
-        private int _zombieHealth = 1000;
-        private int _zombieAttack = 50;
-        private int _zombieArmor = 5;
-
         public FigtherFabric()
         {
 
         }
 
-        public Warrior CrateWarrior()
+        public Warrior CrateWarrior(int health, int attack, double armor, string name)
         {
-            return new Warrior(_warriorHealth, _warriorAttack, _warriorArmor, _warriorName);
+            return new Warrior(health, attack, armor, name);
         }
 
-        public Wizard CreateWizard()
+        public Wizard CreateWizard(int health, int attack, double armor, int magicPower, string name)
         {
-            return new Wizard(_wizardHealth, _wizardAttack, _wizardArmor, _wizardMagicPower, _wizardName);
+            return new Wizard(health, attack, armor, magicPower, name);
         }
 
-        public Peasant CreatePeasant()
+        public Peasant CreatePeasant(int health, int attack, double armor, int peasantCornfieldsWrath, string name)
         {
-            return new Peasant(_peasantHealth, _peasantAttack, _peasantArmor, _peasantCornfieldsWrath, _peasantName);
+            return new Peasant(health, attack, armor, peasantCornfieldsWrath, name);
         }
 
-        public Knight CreateKnight()
+        public Knight CreateKnight(int health, int attack, double armor, string name)
         {
-            return new Knight(_knightHealth, _knightAttack, _knightArmor, _knightName);
+            return new Knight(health, attack, armor, name);
         }
 
-        public Zombie CreateZombie()
+        public Zombie CreateZombie(int health, int attack, double armor, string name)
         {
-            return new Zombie(_zombieHealth, _zombieAttack, _zombieArmor, _zombiename);
+            return new Zombie(health, attack, armor, name);
         }
     }
 
@@ -181,13 +159,13 @@ namespace OOP_8
         private int _maxRandom = 10;
         public string Name { get; private set; }
         public int Health { get; private set; }
-        public int Attack { get; private set; }
+        public int Damage { get; private set; }
         public double Armor { get; private set; }
 
         public Human(int health, int attack, double armor, string name)
         {
             Health = health + GenerateRandomGain();
-            Attack = attack + GenerateRandomGain();
+            Damage = attack + GenerateRandomGain();
             Armor = CalculateArmor(armor + GenerateRandomGain());
             Name = name;
         }
@@ -219,6 +197,7 @@ namespace OOP_8
     {
         private static int _attackNumber = 0;
         private int _specialAttackFrequency = 2;
+        private int _multiplierOfComboAttack = 2;
 
         public Warrior(int health, int attack, double armor, string name) : base(health, attack, armor, name)
         {
@@ -234,13 +213,13 @@ namespace OOP_8
             }
             else
             {
-                return Attack + GenerateRandomGain();
+                return Damage + GenerateRandomGain();
             }
         }
 
         private int ComboAttack()
         {
-            return Attack * 2 + GenerateRandomGain();
+            return Damage * _multiplierOfComboAttack + GenerateRandomGain();
         }
     }
 
@@ -264,7 +243,7 @@ namespace OOP_8
             }
             else
             {
-                return Attack + GenerateRandomGain();
+                return Damage + GenerateRandomGain();
             }
         }
 
@@ -285,7 +264,7 @@ namespace OOP_8
 
         public override int MakeAttack()
         {
-            return Attack + _cornfieldsWrath + GenerateRandomGain();
+            return Damage + _cornfieldsWrath + GenerateRandomGain();
         }
     }
 
@@ -314,7 +293,7 @@ namespace OOP_8
                 Armor = _baseArmor;
             }
 
-            return Attack + GenerateRandomGain();
+            return Damage + GenerateRandomGain();
         }
     }
 
@@ -341,7 +320,7 @@ namespace OOP_8
                 _maxHealthRestored = Health - currentHealth;
             }
 
-            return Attack + GenerateRandomGain();
+            return Damage + GenerateRandomGain();
         }
     }
 }
