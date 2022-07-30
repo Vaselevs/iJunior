@@ -28,28 +28,22 @@ namespace OOP_8
         public void Play()
         {
             bool isPlaying = true;
-            Human figter;
-            Human enemy;
+            Human fighterOne;
+            Human fighterTwo;
 
             while (isPlaying)
             {
-                Console.WriteLine("Выберите первого бойца!");
-                Console.WriteLine();
+                fighterOne = ChooseFighter(1);
 
-                figter = ChooseFighter();
-
-                if (figter != null)
+                if (fighterOne != null)
                 {
-                    Console.WriteLine("Выберите второго бойца!");
-                    Console.WriteLine();
-
-                    enemy = ChooseFighter();
-                    if (enemy != null)
+                    fighterTwo = ChooseFighter(2);
+                    if (fighterTwo != null)
                     {
-                        if (figter != enemy)
+                        if (fighterOne != fighterTwo)
                         {
-                            Fight(figter, enemy);
-                            PraiseTheWinner(figter, enemy);
+                            Fight(fighterOne, fighterTwo);
+                            PraiseWinner(fighterOne, fighterTwo);
                         }
 
                         Console.ReadLine();
@@ -70,51 +64,55 @@ namespace OOP_8
         {
             while(fighter.Health > 0 && enemy.Health > 0)
             {
-                enemy.TakeDamage(fighter.MakeAttack());
+                fighter.Attack(enemy);
                 Console.WriteLine($"У {enemy.Name} осталось {enemy.Health}");
-                fighter.TakeDamage(enemy.MakeAttack());
+                enemy.Attack(fighter);
                 Console.WriteLine($"У {fighter.Name} осталось {fighter.Health}");
             }
         }
 
-        private Human ChooseFighter()
+        private Human ChooseFighter(int fighterPosition)
         {
-            Console.WriteLine("1. Воин");
-            Console.WriteLine("2. Волшебник");
-            Console.WriteLine("3. Крестьянин");
-            Console.WriteLine("4. Рыцарь");
-            Console.WriteLine("5. Зомби");
+            Human[] _fighters = new Human[5] {_fighterFabric.CrateWarrior(4000, 350, 30, "Андрей"), _fighterFabric.CreateWizard(2500, 300, 20, 200, "Анатолий"), _fighterFabric.CreatePeasant(2000, 100, 15, 70, "Сашка"), _fighterFabric.CreateKnight(5000, 250, 40, "Коля"), _fighterFabric.CreateZombie(1000, 50, 5, "Шон")};
+
+            Console.WriteLine($"Выберите бойца номер {fighterPosition}!");
+            Console.WriteLine();
+
+            int positionInArray = 0;
+
+            foreach(Human fighter in _fighters)
+            {
+                positionInArray++;
+                Console.WriteLine($"{positionInArray}. {fighter.GetClassName()}");
+            }
+
             Console.WriteLine();
             Console.WriteLine("6. Выход");
 
-            string userInput = Console.ReadLine();
-
-            switch (userInput)
+            if(Int32.TryParse(Console.ReadLine(), out int userInput))
             {
-                case "1":
-                    return _fighterFabric.CrateWarrior(4000, 350, 30, "Андрей");
-                case "2":
-                    return _fighterFabric.CreateWizard(2500, 300, 20, 200, "Анатолий");
-                case "3":
-                    return _fighterFabric.CreatePeasant(2000, 100, 15, 70, "Сашка");
-                case "4":
-                    return _fighterFabric.CreateKnight(5000, 250, 40, "Коля");
-                case "5":
-                    return _fighterFabric.CreateZombie(1000, 50, 5, "Шон");
-                default:
-                    return null;
+                if (userInput >= 1 && userInput <= _fighters.Length)
+                {
+                    return _fighters[userInput-1];
+                }
             }
+
+            return null;
         }
 
-        private void PraiseTheWinner(Human fighter, Human enemy)
+        private void PraiseWinner(Human fighter, Human enemy)
         {
             if (fighter.Health > enemy.Health)
             {
                 Console.WriteLine($"{fighter.Name} выигрывает в битве, ура!");
             }
-            else
+            else if (fighter.Health < enemy.Health)
             {
                 Console.WriteLine($"{enemy.Name} выигрывает в битве, ура!");
+            } 
+            else
+            {
+                Console.WriteLine("Ничья!");
             }
         }
     }
@@ -157,30 +155,31 @@ namespace OOP_8
         private Random _random = new Random();
         private int _minRandom = 1;
         private int _maxRandom = 10;
+        protected string _className;
         public string Name { get; private set; }
         public int Health { get; private set; }
         public int Damage { get; private set; }
-        public double Armor { get; private set; }
+        public double ArmorPercent { get; private set; }
 
         public Human(int health, int attack, double armor, string name)
         {
             Health = health + GenerateRandomGain();
             Damage = attack + GenerateRandomGain();
-            Armor = CalculateArmor(armor + GenerateRandomGain());
+            ArmorPercent = CalculateArmor(armor + GenerateRandomGain());
             Name = name;
         }
 
-        public void TakeDamage(int damage)
+        public virtual void TakeDamage(int damage)
         {
             if(damage > 0)
             {
-                int damageBlockedArmor = (int)(damage * Armor);
+                int damageBlockedArmor = (int)(damage * ArmorPercent);
                 Console.WriteLine($"{ToString()} {Name} получил {damageBlockedArmor} урона!");
                 Health -= damageBlockedArmor;
             }
         }
 
-        public abstract int MakeAttack();
+        public abstract void Attack(Human enemy);
 
         private double CalculateArmor(double armor)
         {
@@ -190,6 +189,11 @@ namespace OOP_8
         protected int GenerateRandomGain()
         {
             return _random.Next(_minRandom, _maxRandom);
+        }
+
+        public string GetClassName()
+        {
+            return _className;
         }
     }
 
@@ -201,19 +205,19 @@ namespace OOP_8
 
         public Warrior(int health, int attack, double armor, string name) : base(health, attack, armor, name)
         {
-
+            _className = "Воин";
         }
 
-        public override int MakeAttack()
+        public override void Attack(Human enemy)
         {
             _attackNumber++;
             if (_attackNumber % _specialAttackFrequency == 0)
             {
-                return ComboAttack();
+                enemy.TakeDamage(ComboAttack());
             }
             else
             {
-                return Damage + GenerateRandomGain();
+                enemy.TakeDamage(Damage + GenerateRandomGain());
             }
         }
 
@@ -232,22 +236,23 @@ namespace OOP_8
         public Wizard(int health, int attack, double armor, int magicPower, string name) : base(health, attack, armor, name)
         {
             _magicPower = magicPower + GenerateRandomGain();
+            _className = "Маг";
         }
 
-        public override int MakeAttack()
+        public override void Attack(Human enemy)
         {
             _attackNumber++;
             if (_attackNumber % _specialAttackFrequency == 0)
             {
-                return MagicAtack();
+                enemy.TakeDamage(DoMagicAttack());
             }
             else
             {
-                return Damage + GenerateRandomGain();
+                enemy.TakeDamage(Damage + GenerateRandomGain());
             }
         }
 
-        private int MagicAtack()
+        private int DoMagicAttack()
         {
             return _magicPower + GenerateRandomGain();
         }
@@ -260,11 +265,12 @@ namespace OOP_8
         public Peasant(int health, int attack, double armor, int cornfieldsWrath, string name) : base(health, attack, armor, name)
         {
             _cornfieldsWrath = cornfieldsWrath;
+            _className = "Крестьянин";
         }
 
-        public override int MakeAttack()
+        public override void Attack(Human enemy)
         {
-            return Damage + _cornfieldsWrath + GenerateRandomGain();
+            enemy.TakeDamage(Damage + _cornfieldsWrath + GenerateRandomGain());
         }
     }
 
@@ -274,26 +280,27 @@ namespace OOP_8
         private double _baseArmor;
         private double _maxArmor = 100;
         private int _specialAttackFrequency = 5;
-        public new double Armor { get; private set; }
+        public new double ArmorPercent { get; private set; }
 
         public Knight(int health, int attack, double armor, string name) : base(health, attack, armor, name)
         {
             _baseArmor = armor;
+            _className = "Рыцарь";
         }
 
-        public override int MakeAttack()
+        public override void Attack(Human enemy)
         {
             _attackNumber++;
             if( _attackNumber % _specialAttackFrequency == 0)
             {
-                Armor = _maxArmor;
+                ArmorPercent = _maxArmor;
             }
             else
             {
-                Armor = _baseArmor;
+                ArmorPercent = _baseArmor;
             }
 
-            return Damage + GenerateRandomGain();
+            enemy.TakeDamage(Damage + GenerateRandomGain());
         }
     }
 
@@ -309,9 +316,10 @@ namespace OOP_8
         {
             Health = health;
             _maxHealth = health;
+            _className = "Зомби";
         }
 
-        public override int MakeAttack()
+        public override void Attack(Human enemy)
         {
             if (_maxHealth > Health && _maxHealthRestored < _maxHealth)
             {
@@ -320,7 +328,7 @@ namespace OOP_8
                 _maxHealthRestored = Health - currentHealth;
             }
 
-            return Damage + GenerateRandomGain();
+            enemy.TakeDamage(Damage + GenerateRandomGain());
         }
     }
 }

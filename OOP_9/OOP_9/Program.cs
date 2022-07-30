@@ -18,13 +18,16 @@ namespace OOP_9
 
     public class Game
     {
-        private static int _numberOfClients = 0;
+        private Queue<Client> _clients;
+        private Random _random;
+        private int _numberOfClients = 0;
 
         private ClientQueue _clientQueue;
 
         public Game()
         {
-            _clientQueue = new ClientQueue();
+            _clients = new Queue<Client>();
+            _random = new Random();
         }
 
         public void Play()
@@ -196,8 +199,7 @@ namespace OOP_9
 
     public class Product
     {
-        public static int NumbersOfProductTypes = 10;
-
+        public const int NumbersOfProductTypes = 10;
         private Dictionary<string, int> _allProducts;
         private Random _random;
         private int _minRandom = 0;
