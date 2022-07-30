@@ -20,46 +20,47 @@ namespace OOP_9
     {
         private Queue<Client> _clients;
         private Random _random;
+        private int _minNumberOfClients = 1;
+        private int _maxNumberOfClients = 10;
         private int _numberOfClients = 0;
-
-        private ClientQueue _clientQueue;
 
         public Game()
         {
             _clients = new Queue<Client>();
             _random = new Random();
+
+            for (int i = 0; i < _random.Next(_minNumberOfClients, _maxNumberOfClients); i++)
+            {
+                _clients.Enqueue(new Client());
+            }
         }
 
         public void Play()
         {
             Console.WriteLine("Вы администратор в магазине и следите, что бы все покупатели оплачивали товары");
             Console.WriteLine("Под вашим мнительным взором они не могут не оплатить. Либо же им придётся избавится от случайного товара");
-            Console.WriteLine($"В очереди {_clientQueue.GetNumberOfClients()}");
+            Console.WriteLine($"В очереди {_clients.Count}");
             Console.WriteLine();
 
-            while (_clientQueue.GetNumberOfClients() > 0)
+            while (_clients.Count > 0)
             {
-                Client client = _clientQueue.GetNewClient();
+                Client client = _clients.Dequeue();
 
                 _numberOfClients++;
 
                 Console.WriteLine($"К вам подошел {_numberOfClients} покупатель!");
                 Console.WriteLine($"У него {client.Money} денег в кошельке");
-                Console.WriteLine($"Он набрал товаров на сумму: {client.GetClientShoppingCartCost()}");
+                Console.WriteLine($"Он набрал товаров на сумму: {client.GetShoppingCartCost()}");
                 Console.WriteLine();
 
-                client.ShowClientShoppingCartProducts();
+                client.ShowShoppingCartProducts();
 
                 Console.WriteLine();
 
-                if (client.GetClientShoppingCartCost() >= client.Money)
+                while (client.GetShoppingCartCost() > client.Money)
                 {
-                    while (client.GetClientShoppingCartCost() > client.Money)
-                    {
-                        Product deletedProduct = client.GetRandomProductFromShoppingCart();
-                        Console.WriteLine($"Клиент убирате из корзины {deletedProduct.Name}");
-                        client.DeleteProductFromShoppingCart(deletedProduct);
-                    }
+                    Product deletedProduct = client.DeleteProductFromShoppingCart();
+                    Console.WriteLine($"Клиент убирате из корзины {deletedProduct.Name}");
                 }
 
                 Console.WriteLine("Клиент расплачивается и уходит!");
@@ -68,146 +69,59 @@ namespace OOP_9
         }
     }
 
-    public class ClientQueue
-    {
-        private Queue<Client> _clients;
-        private Random _random;
-        private int _minNumberOfClients = 1;
-        private int _maxNumberOfClients = 10;
-
-        public ClientQueue()
-        {
-            _clients = new Queue<Client>();
-            _random = new Random();
-
-            for(int i = 0; i < _random.Next(_minNumberOfClients,_maxNumberOfClients); i++)
-            {
-                _clients.Enqueue(new Client());
-            }
-        }
-
-        public Client GetNewClient() => _clients.Dequeue();
-
-        public int GetNumberOfClients() => _clients.Count;
-    }
-
     public class Client
     {
         private ShoppingCart _shoppinCart;
         private Random _random;
-        private int _minRandom = 0;
-        private int _minNumbersOfProductsInshoppingCart = 1;
-        private int _maxMoneyRandom = 300;
         public int Money { get; private set; }
 
         public Client()
         {
+            int _minRandom = 0;
+            int _minNumbersOfProductsInshoppingCart = 1;
+            int _maxMoneyRandom = 300;
+
             _random = new Random();
             _shoppinCart = new ShoppingCart();
 
-            _shoppinCart.AddManyProducts(_random.Next(_minNumbersOfProductsInshoppingCart, Product.NumbersOfProductTypes));
+            _shoppinCart.AddManyProducts(_random.Next(_minNumbersOfProductsInshoppingCart, ShoppingCart.NumbersOfProductTypes));
 
             Money = _random.Next(_minRandom, _maxMoneyRandom);
         }
 
-        public int GetClientShoppingCartCost()
+        public int GetShoppingCartCost()
         {
-            return _shoppinCart.HowCartAllProductsCost();
+            return _shoppinCart.HowAllProductsCost();
         }
 
-        public void ShowClientShoppingCartProducts()
+        public void ShowShoppingCartProducts()
         {
             _shoppinCart.ShowAllProductsInfo();
         }
 
-        public Product GetRandomProductFromShoppingCart()
+        public Product DeleteProductFromShoppingCart()
         {
-            return _shoppinCart.GetRandomProductFromCart();
+            Product product = GetRandomProductFromShoppingCart();
+            _shoppinCart.DeleteProduct(product);
+            return product;
         }
 
-        public void DeleteProductFromShoppingCart(Product product)
+        private Product GetRandomProductFromShoppingCart()
         {
-            _shoppinCart.DeleteProductFromCart(product);
+            return _shoppinCart.GetRandomProduct();
         }
     }
 
     public class ShoppingCart
     {
+        public const int NumbersOfProductTypes = 10;
+
         private List<Product> _productsInCart;
         private Random _random;
         private int _minRandomForCart = 0;
+        private Dictionary<string, int> _allProducts;
 
         public ShoppingCart()
-        {
-            _productsInCart = new List<Product>();
-            _random = new Random();
-        }
-
-        public void AddNewProductInCart()
-        {
-            _productsInCart.Add(new Product());
-        }
-
-        public void AddManyProducts(int numberOfProducts)
-        {
-            for(int i = 0; i < numberOfProducts; i++)
-            {
-                AddNewProductInCart();
-                System.Threading.Thread.Sleep(50);
-            }
-        }
-
-        public void ShowAllProductsInfo()
-        {
-            foreach (Product product in _productsInCart)
-            {
-                Console.WriteLine(product.ShowProductInfo());
-            }
-        }
-
-        public string ShowLastProductInCart()
-        {
-            return _productsInCart[_productsInCart.Count - 1].Name + " - " + _productsInCart[_productsInCart.Count - 1].Price;
-        }
-
-        public int HowCartAllProductsCost()
-        {
-            int allPrice = 0;
-
-            foreach (Product product in _productsInCart)
-            {
-                allPrice += product.Price;
-            }
-
-            return allPrice;
-        }
-
-        public Product GetRandomProductFromCart()
-        {
-            int randomProductId = _random.Next(_minRandomForCart, _productsInCart.Count);
-            Product randomProduct = _productsInCart[randomProductId];
-            _productsInCart.RemoveAt(randomProductId);
-
-            return randomProduct;
-        }
-
-        public void DeleteProductFromCart(Product product)
-        {
-            _productsInCart.Remove(product);
-        }
-    }
-
-    public class Product
-    {
-        public const int NumbersOfProductTypes = 10;
-        private Dictionary<string, int> _allProducts;
-        private Random _random;
-        private int _minRandom = 0;
-
-        public string Name { get; private set; }
-        public int Price { get; private set; }
-
-        public Product()
         {
             _allProducts = new Dictionary<string, int>();
 
@@ -222,15 +136,77 @@ namespace OOP_9
             _allProducts.Add("Греча", 33);
             _allProducts.Add("Рис", 22);
 
+            _productsInCart = new List<Product>();
             _random = new Random();
-
-            int randomProduct = _random.Next(_minRandom, _allProducts.Count);
-
-            Name = _allProducts.Keys.ElementAt(randomProduct);
-            Price = _allProducts.Values.ElementAt(randomProduct);
         }
 
-        public string ShowProductInfo()
+        public void AddNewProduct()
+        {
+            int randomProduct = _random.Next(_minRandomForCart, _allProducts.Count);
+            _productsInCart.Add(new Product(_allProducts.ElementAt(randomProduct).Key, _allProducts.ElementAt(randomProduct).Value));
+        }
+
+        public void AddManyProducts(int numberOfProducts)
+        {
+            for(int i = 0; i < numberOfProducts; i++)
+            {
+                AddNewProduct();
+                System.Threading.Thread.Sleep(50);
+            }
+        }
+
+        public void ShowAllProductsInfo()
+        {
+            foreach (Product product in _productsInCart)
+            {
+                Console.WriteLine(product.ShowInfo());
+            }
+        }
+
+        public string ShowLastProduct()
+        {
+            return _productsInCart[_productsInCart.Count - 1].Name + " - " + _productsInCart[_productsInCart.Count - 1].Price;
+        }
+
+        public int HowAllProductsCost()
+        {
+            int allPrice = 0;
+
+            foreach (Product product in _productsInCart)
+            {
+                allPrice += product.Price;
+            }
+
+            return allPrice;
+        }
+
+        public Product GetRandomProduct()
+        {
+            int randomProductId = _random.Next(_minRandomForCart, _productsInCart.Count);
+            Product randomProduct = _productsInCart[randomProductId];
+            _productsInCart.RemoveAt(randomProductId);
+
+            return randomProduct;
+        }
+
+        public void DeleteProduct(Product product)
+        {
+            _productsInCart.Remove(product);
+        }
+    }
+
+    public class Product
+    {
+        public string Name { get; private set; }
+        public int Price { get; private set; }
+
+        public Product(string name, int price)
+        {
+            Name = name;
+            Price = price;
+        }
+
+        public string ShowInfo()
         {
             return Name + " " + Price;
         }

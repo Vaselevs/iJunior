@@ -73,17 +73,17 @@ namespace OOP_8
 
         private Human ChooseFighter(int fighterPosition)
         {
-            Human[] _fighters = new Human[5] {_fighterFabric.CrateWarrior(4000, 350, 30, "Андрей"), _fighterFabric.CreateWizard(2500, 300, 20, 200, "Анатолий"), _fighterFabric.CreatePeasant(2000, 100, 15, 70, "Сашка"), _fighterFabric.CreateKnight(5000, 250, 40, "Коля"), _fighterFabric.CreateZombie(1000, 50, 5, "Шон")};
+            Human[] fighters = new Human[5] {_fighterFabric.CrateWarrior(4000, 350, 30, "Андрей"), _fighterFabric.CreateWizard(2500, 300, 20, 200, "Анатолий"), _fighterFabric.CreatePeasant(2000, 100, 15, 70, "Сашка"), _fighterFabric.CreateKnight(5000, 250, 40, "Коля"), _fighterFabric.CreateZombie(1000, 50, 5, "Шон")};
 
             Console.WriteLine($"Выберите бойца номер {fighterPosition}!");
             Console.WriteLine();
 
             int positionInArray = 0;
 
-            foreach(Human fighter in _fighters)
+            foreach(Human fighter in fighters)
             {
                 positionInArray++;
-                Console.WriteLine($"{positionInArray}. {fighter.GetClassName()}");
+                Console.WriteLine($"{positionInArray}. {fighter.СlassName}");
             }
 
             Console.WriteLine();
@@ -91,9 +91,9 @@ namespace OOP_8
 
             if(Int32.TryParse(Console.ReadLine(), out int userInput))
             {
-                if (userInput >= 1 && userInput <= _fighters.Length)
+                if (userInput >= 1 && userInput <= fighters.Length)
                 {
-                    return _fighters[userInput-1];
+                    return fighters[userInput-1];
                 }
             }
 
@@ -152,17 +152,20 @@ namespace OOP_8
 
     public abstract class Human
     {
-        private Random _random = new Random();
+        protected int _attackNumber = 0;
+        private Random _random;
         private int _minRandom = 1;
         private int _maxRandom = 10;
-        protected string _className;
+        
+        public string СlassName { get; protected set; }
         public string Name { get; private set; }
-        public int Health { get; private set; }
+        public int Health { get; protected set; }
         public int Damage { get; private set; }
-        public double ArmorPercent { get; private set; }
+        public double ArmorPercent { get; protected set; }
 
         public Human(int health, int attack, double armor, string name)
         {
+            _random = new Random();
             Health = health + GenerateRandomGain();
             Damage = attack + GenerateRandomGain();
             ArmorPercent = CalculateArmor(armor + GenerateRandomGain());
@@ -181,31 +184,25 @@ namespace OOP_8
 
         public abstract void Attack(Human enemy);
 
-        private double CalculateArmor(double armor)
-        {
-            return 1 - armor / 100;
-        }
-
         protected int GenerateRandomGain()
         {
             return _random.Next(_minRandom, _maxRandom);
         }
 
-        public string GetClassName()
+        private double CalculateArmor(double armor)
         {
-            return _className;
+            return 1 - armor / 100;
         }
     }
 
     public class Warrior : Human
     {
-        private static int _attackNumber = 0;
         private int _specialAttackFrequency = 2;
         private int _multiplierOfComboAttack = 2;
 
         public Warrior(int health, int attack, double armor, string name) : base(health, attack, armor, name)
         {
-            _className = "Воин";
+            СlassName = "Воин";
         }
 
         public override void Attack(Human enemy)
@@ -213,7 +210,7 @@ namespace OOP_8
             _attackNumber++;
             if (_attackNumber % _specialAttackFrequency == 0)
             {
-                enemy.TakeDamage(ComboAttack());
+                enemy.TakeDamage(DoComboAttack());
             }
             else
             {
@@ -221,7 +218,7 @@ namespace OOP_8
             }
         }
 
-        private int ComboAttack()
+        private int DoComboAttack()
         {
             return Damage * _multiplierOfComboAttack + GenerateRandomGain();
         }
@@ -229,14 +226,13 @@ namespace OOP_8
 
     public class Wizard : Human
     {
-        private static int _attackNumber = 0;
         private int _magicPower;
         private int _specialAttackFrequency = 3;
 
         public Wizard(int health, int attack, double armor, int magicPower, string name) : base(health, attack, armor, name)
         {
             _magicPower = magicPower + GenerateRandomGain();
-            _className = "Маг";
+            СlassName = "Маг";
         }
 
         public override void Attack(Human enemy)
@@ -265,7 +261,7 @@ namespace OOP_8
         public Peasant(int health, int attack, double armor, int cornfieldsWrath, string name) : base(health, attack, armor, name)
         {
             _cornfieldsWrath = cornfieldsWrath;
-            _className = "Крестьянин";
+            СlassName = "Крестьянин";
         }
 
         public override void Attack(Human enemy)
@@ -276,16 +272,14 @@ namespace OOP_8
 
     public class Knight : Human
     {
-        private static int _attackNumber = 0;
         private double _baseArmor;
         private double _maxArmor = 100;
         private int _specialAttackFrequency = 5;
-        public new double ArmorPercent { get; private set; }
 
         public Knight(int health, int attack, double armor, string name) : base(health, attack, armor, name)
         {
             _baseArmor = armor;
-            _className = "Рыцарь";
+            СlassName = "Рыцарь";
         }
 
         public override void Attack(Human enemy)
@@ -309,14 +303,12 @@ namespace OOP_8
         private static int _maxHealthRestored = 0;
         private double _healthRegenCoefficient = 0.05;
         private int _maxHealth;
-        
-        public new int Health { get; private set; }
 
         public Zombie(int health, int attack, double armor, string name) : base(health, attack, armor, name)
         {
             Health = health;
             _maxHealth = health;
-            _className = "Зомби";
+            СlassName = "Зомби";
         }
 
         public override void Attack(Human enemy)
