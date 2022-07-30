@@ -46,18 +46,7 @@ namespace OOP_10
 
             Battle(_greenArmy, _blueArmy);
 
-            if(_greenArmy.GetNumberOfSoldiers() > 0)
-            {
-                Console.WriteLine("Первая армия победила!");
-            }
-            else if(_blueArmy.GetNumberOfSoldiers() > 0)
-            {
-                Console.WriteLine("Вторая армия победила!");
-            } 
-            else
-            {
-                Console.WriteLine("Обе армии пали в равном бою!");
-            }
+            AnnounceTheWinner(_greenArmy, _blueArmy);
         }
 
         private void Battle(Platoon armyOne, Platoon armyTwo)
@@ -79,30 +68,43 @@ namespace OOP_10
                 {
                     if (i < armyOne.GetNumberOfSoldiers())
                     {
-                        int damage = armyOne.GetSoldierAttackPower(i);
-
-                        if (armyTwo.GetNumberOfSoldiers() > 0)
-                        {
-                            int randomEnemySoldier = _random.Next(armyTwo.GetNumberOfSoldiers());
-                            armyTwo.SetDamageToSoldier(randomEnemySoldier, damage);
-                            Console.WriteLine($"{armyOne.GetSoldierClassName(i)} из АРМИИ 1 нанёс {damage} урона {armyTwo.GetSoldierClassName(randomEnemySoldier)} из АРМИИ 2");
-                            armyTwo.TryToKillSoldier(randomEnemySoldier);
-                        }
+                        DoAttack(armyOne, armyTwo, i);
                     }
 
                     if (i < armyTwo.GetNumberOfSoldiers())
                     {
-                        int damage = armyTwo.GetSoldierAttackPower(i);
-
-                        if(armyOne.GetNumberOfSoldiers() > 0)
-                        {
-                            int randomEnemySoldier = _random.Next(armyOne.GetNumberOfSoldiers());
-                            armyOne.SetDamageToSoldier(randomEnemySoldier, damage);
-                            Console.WriteLine($"{armyTwo.GetSoldierClassName(i)} из АРМИИ 2 нанёс {damage} урона {armyOne.GetSoldierClassName(randomEnemySoldier)} из АРМИИ 1");
-                            armyOne.TryToKillSoldier(randomEnemySoldier);
-                        }
+                        DoAttack(armyTwo, armyOne, i);
                     }
                 }
+            }
+
+            void DoAttack(Platoon attackingArmy, Platoon defendingArmy, int attackingSoldierId)
+            {
+                int damage = attackingArmy.GetSoldierAttackPower(attackingSoldierId);
+
+                if (defendingArmy.GetNumberOfSoldiers() > 0)
+                {
+                    int randomEnemySoldier = _random.Next(defendingArmy.GetNumberOfSoldiers());
+                    defendingArmy.SetDamageToSoldier(randomEnemySoldier, damage);
+                    Console.WriteLine($"{attackingArmy.GetSoldierClassName(attackingSoldierId)} из АРМИИ 1 нанёс {damage} урона {defendingArmy.GetSoldierClassName(randomEnemySoldier)} из АРМИИ 2");
+                    defendingArmy.TryToKillSoldier(randomEnemySoldier);
+                }
+            }
+        }
+
+        private void AnnounceTheWinner(Platoon armyOne, Platoon armyTwo)
+        {
+            if (armyOne.GetNumberOfSoldiers() > 0)
+            {
+                Console.WriteLine("Первая армия победила!");
+            }
+            else if (armyTwo.GetNumberOfSoldiers() > 0)
+            {
+                Console.WriteLine("Вторая армия победила!");
+            }
+            else
+            {
+                Console.WriteLine("Обе армии пали в равном бою!");
             }
         }
     }
