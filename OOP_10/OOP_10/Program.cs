@@ -18,17 +18,16 @@ namespace OOP_10
 
     class Game
     {
-        private int _greenArmyCount = 10;
-        private int _blueArmyCount = 10;
         private Platoon _greenArmy;
         private Platoon _blueArmy;
-        private Random _random;
 
         public Game()
         {
-            _greenArmy = new Platoon(_greenArmyCount);
-            _blueArmy = new Platoon(_blueArmyCount);
-            _random = new Random();
+            int greenArmyCount = 10;
+            int blueArmyCount = 10;
+
+            _greenArmy = new Platoon(greenArmyCount, "РИМ");
+            _blueArmy = new Platoon(blueArmyCount, "ЭФИОПИЯ");
         }
 
         public void Play()
@@ -37,16 +36,16 @@ namespace OOP_10
             Console.WriteLine("Состав армий:");
             Console.WriteLine("Армия зелёных:");
 
-            _greenArmy.ShowPlatoonInfo();
+            _greenArmy.ShowInfo();
 
             Console.WriteLine();
             Console.WriteLine("Армия синих:");
 
-            _blueArmy.ShowPlatoonInfo();
+            _blueArmy.ShowInfo();
 
             Battle(_greenArmy, _blueArmy);
 
-            AnnounceTheWinner(_greenArmy, _blueArmy);
+            AnnounceWinner(_greenArmy, _blueArmy);
         }
 
         private void Battle(Platoon armyOne, Platoon armyTwo)
@@ -84,23 +83,21 @@ namespace OOP_10
 
                 if (defendingArmy.GetNumberOfSoldiers() > 0)
                 {
-                    int randomEnemySoldier = _random.Next(defendingArmy.GetNumberOfSoldiers());
-                    defendingArmy.SetDamageToSoldier(randomEnemySoldier, damage);
-                    Console.WriteLine($"{attackingArmy.GetSoldierClassName(attackingSoldierId)} из АРМИИ 1 нанёс {damage} урона {defendingArmy.GetSoldierClassName(randomEnemySoldier)} из АРМИИ 2");
-                    defendingArmy.TryToKillSoldier(randomEnemySoldier);
+                    defendingArmy.TakeDamage(attackingArmy.GetSoldierAttackPower(attackingSoldierId));
+                    Console.WriteLine($"{attackingArmy.GetSoldierClassName(attackingSoldierId)} из {attackingArmy.ArmyName} нанёс {damage} урона");
                 }
             }
         }
 
-        private void AnnounceTheWinner(Platoon armyOne, Platoon armyTwo)
+        private void AnnounceWinner(Platoon armyOne, Platoon armyTwo)
         {
             if (armyOne.GetNumberOfSoldiers() > 0)
             {
-                Console.WriteLine("Первая армия победила!");
+                Console.WriteLine($"{armyOne.ArmyName} победил!");
             }
             else if (armyTwo.GetNumberOfSoldiers() > 0)
             {
-                Console.WriteLine("Вторая армия победила!");
+                Console.WriteLine($"{armyTwo.ArmyName} победила!");
             }
             else
             {
@@ -113,96 +110,85 @@ namespace OOP_10
     {
         private List<Soldier> _soldiers;
         private Random _random;
-        private int _minRandomNumber;
-        private int _countOfSoldierClasses;
+        public string ArmyName { get; private set; }
 
-        public Platoon(int numberOfSoldiers)
+        public Platoon(int numberOfSoldiers, string armyName)
         {
             _soldiers = new List<Soldier>();
-            _minRandomNumber = 0;
-            _countOfSoldierClasses = 3;
             _random = new Random();
             CreatePlatoon(numberOfSoldiers);
-        }
-
-        private void CreatePlatoon(int numberOfSoldiers)
-        {
-            for(int i = 0; i < numberOfSoldiers; i++)
-            {
-                switch(_random.Next(_minRandomNumber, _countOfSoldierClasses))
-                {
-                    case 0:
-                        _soldiers.Add(new SoldierWithRevolver(200, 15));
-                        break;
-                    case 1:
-                        _soldiers.Add(new SoldierWithAssaultRifle(300, 40));
-                        break;
-                    case 2:
-                        _soldiers.Add(new SoldierWithMinigun(100, 5));
-                        break;
-                }
-
-                System.Threading.Thread.Sleep(50);
-            }
+            ArmyName = armyName;
         }
 
         public int GetNumberOfSoldiers() => _soldiers.Count;
 
-        public string GetSoldierClassName(int soldierId) => _soldiers[soldierId].GetSoldierClassName();
+        public int GetSoldierAttackPower(int soldierId) => _soldiers[soldierId].GetAttackPower();
 
-        public int GetSoldierAttackPower(int soldierId) => _soldiers[soldierId].Attack();
+        public string GetSoldierClassName(int soldierId) => _soldiers[soldierId].GetSoldierClassName();
 
         public void SetDamageToSoldier(int soldierId, int damage) => _soldiers[soldierId].GetDamage(damage);
 
-        public void ShowPlatoonInfo()
+        public void ShowInfo()
         {
             foreach(Soldier soldier in _soldiers)
             {
-                soldier.ShowSoldierInfo();
+                soldier.ShowInfo();
             }
         }
 
-        public void TryToKillSoldier(int soldierId)
+        public void TakeDamage(int damage)
+        {
+            int randomSoldier = _random.Next(_soldiers.Count);
+            _soldiers[randomSoldier].GetDamage(damage);
+            TryToKillSoldier(randomSoldier);
+        }
+
+        private void TryToKillSoldier(int soldierId)
         {
             if (_soldiers[soldierId].IsDead())
             {
                 _soldiers.RemoveAt(soldierId);
             }
         }
+
+        private void CreatePlatoon(int numberOfSoldiers)
+        {
+            Soldier[] soldiers = new Soldier[] {new SoldierWithRevolver(200, 15), new SoldierWithAssaultRifle(300, 40), new SoldierWithMinigun(100, 5)};
+
+            for (int i = 0; i < numberOfSoldiers; i++)
+            {
+                _soldiers.Add(soldiers[_random.Next(soldiers.Length)]);
+                System.Threading.Thread.Sleep(50);
+            }
+        }
     }
 
     abstract class Soldier
     {
-        protected int _numberOfAttack;
-        protected int _health;
-        protected int _attack;
-        protected int _ammoInMagazin;
-        protected string _className;
+        protected int NumberOfAttack;
+        protected int Health;
+        protected int AttackPower;
+        protected int AmmoInMagazin;
+        protected string ClassName;
 
         public Soldier(int health, int attack)
         {
-            _health = health;
-            _attack = attack;
-            _numberOfAttack = 0;
+            Health = health;
+            AttackPower = attack;
+            NumberOfAttack = 0;
         }
 
-        abstract public int Attack();
+        public abstract int GetAttackPower();
 
-        public void GetDamage(int damage) => _health -= damage;
+        public void GetDamage(int damage) => Health -= damage;
 
-        public string GetSoldierClassName() => _className;
+        public string GetSoldierClassName() => ClassName;
 
-        public bool IsDead()
+        public bool IsDead() => Health <= 0;
+
+        public void ShowInfo()
         {
-            if(_health <= 0)
-                return true;
-            else
-                return false;
-        }
-
-        public void ShowSoldierInfo()
-        {
-            Console.WriteLine($"{_className} - {_health} HP - {_attack} ATK");
+            Console.WriteLine($"{ClassName} - {Health} HP - {AttackPower} ATK");
         }
     }
 
@@ -210,21 +196,21 @@ namespace OOP_10
     {
         public SoldierWithRevolver(int health, int attack) : base(health, attack)
         {
-            _ammoInMagazin = 6;
-            _className = "Солдат с Револьвером";
+            AmmoInMagazin = 6;
+            ClassName = "Солдат с Револьвером";
         }
-        
-        override public int Attack()
+
+        public override int GetAttackPower()
         {
-            if(_numberOfAttack < _ammoInMagazin)
+            if(NumberOfAttack < AmmoInMagazin)
             {
-                _numberOfAttack++;
-                return _attack;
+                NumberOfAttack++;
+                return AttackPower;
             }
             else
             {
-                _numberOfAttack = 0;
-                return _attack - _attack;
+                NumberOfAttack = 0;
+                return AttackPower - AttackPower;
             }
         }
     }
@@ -233,21 +219,21 @@ namespace OOP_10
     {
         public SoldierWithAssaultRifle(int health, int attack) : base(health, attack)
         {
-            _ammoInMagazin = 1;
-            _className = "Солдат с Винтовкой";
+            AmmoInMagazin = 1;
+            ClassName = "Солдат с Винтовкой";
         }
 
-        override public int Attack()
+        public override int GetAttackPower()
         {
-            if (_numberOfAttack < _ammoInMagazin)
+            if (NumberOfAttack < AmmoInMagazin)
             {
-                _numberOfAttack++;
-                return _attack;
+                NumberOfAttack++;
+                return AttackPower;
             }
             else
             {
-                _numberOfAttack = 0;
-                return _attack - _attack;
+                NumberOfAttack = 0;
+                return AttackPower - AttackPower;
             }
         }
     }
@@ -258,28 +244,28 @@ namespace OOP_10
 
         public SoldierWithMinigun(int health, int attack) : base(health, attack)
         {
-            _ammoInMagazin = 100;
-            _className = "Солдат с Миниганом";
+            AmmoInMagazin = 100;
+            ClassName = "Солдат с Миниганом";
         }
 
-        override public int Attack()
+        public override int GetAttackPower()
         {
-            if (_numberOfAttack < _ammoInMagazin)
+            if (NumberOfAttack < AmmoInMagazin)
             {
                 int totalAttack = 0;
 
                 for(int i = 0; i < _numberOfBulletByAttack; i++)
                 {
-                    _numberOfAttack++;
-                    totalAttack += _attack;
+                    NumberOfAttack++;
+                    totalAttack += AttackPower;
                 }
                 
                 return totalAttack;
             }
             else
             {
-                _numberOfAttack = 0;
-                return _attack - _attack;
+                NumberOfAttack = 0;
+                return AttackPower - AttackPower;
             }
         }
     }
