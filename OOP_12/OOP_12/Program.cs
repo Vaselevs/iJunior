@@ -18,11 +18,19 @@ namespace OOP_12
 
     public class Game
     {
-        private Aviary[] _aviary;
+        private Aviary[] _aviaries;
+        private int _aviarysCount;
 
         public Game()
         {
-            _aviary = new Aviary[5] { new Aviary(), new Aviary(), new Aviary(), new Aviary(), new Aviary() };
+            _aviarysCount = 5;
+
+            _aviaries = new Aviary[_aviarysCount];
+
+            for (int i = 0; i < _aviarysCount; i++)
+            {
+                _aviaries[i] = new Aviary();
+            }
         }
 
         public void Play()
@@ -33,12 +41,12 @@ namespace OOP_12
             {
                 Console.Clear();
                 Console.WriteLine("Что бы выйти из программы нажмите Enter");
-                Console.Write($"Вы стоите перед {_aviary.Length} вольерами, выберите к какому подойти: ");
+                Console.Write($"Вы стоите перед {_aviaries.Length} вольерами, выберите к какому подойти: ");
                 
-                if(Int32.TryParse(Console.ReadLine(), out int userChoise) && userChoise <= _aviary.Length && userChoise > 0)
+                if(Int32.TryParse(Console.ReadLine(), out int userChoise) && userChoise <= _aviaries.Length && userChoise > 0)
                 {
                     Console.Clear();
-                    _aviary[userChoise-1].ShowInfo();
+                    _aviaries[userChoise-1].ShowInfo();
                     Console.WriteLine("Что бы вернуться в меню, нажмите любую клаваишу");
                     Console.ReadLine();
                 } 
@@ -51,35 +59,36 @@ namespace OOP_12
     }
 
     public class Aviary
-    {
-        private Animal[] _animalsToChoise;
-        private Animal[] _animalsInAviary;
+    { 
+        private Animal[] _animals;
         private Random _random;
         private int _minCountOfAnimals;
 
         public Aviary()
         {
+            Animal[] _animalsToChoise;
+
             _minCountOfAnimals = 1;
             _random = new Random();
             _animalsToChoise = new Animal[5] { new Dog("male", "Гав"), new Cat("female", "Мяу"), new Horse("male", "Игого"), new Donkey("female", "Иа-Иа"), new Bear("male", "Гррррр") };
-            _animalsInAviary = new Animal[_random.Next(_minCountOfAnimals, _animalsToChoise.Length)];
+            _animals = new Animal[_random.Next(_minCountOfAnimals, _animalsToChoise.Length)];
 
-            CreateAnimals();
+            CreateAnimals(_animalsToChoise);
         }
 
         public void ShowInfo()
         {
-            foreach (Animal animal in _animalsInAviary)
+            foreach (Animal animal in _animals)
             {
                 animal.ShowInfo();
             }
         }
 
-        private void CreateAnimals()
+        private void CreateAnimals(Animal[] _animalsToChoise)
         {
-            for (int i = 0; i < _animalsInAviary.Length; i++)
+            for (int i = 0; i < _animals.Length; i++)
             {
-                _animalsInAviary[i] = _animalsToChoise[_random.Next(_animalsToChoise.Length)];
+                _animals[i] = _animalsToChoise[_random.Next(_animalsToChoise.Length)];
             }
 
             System.Threading.Thread.Sleep(100);
