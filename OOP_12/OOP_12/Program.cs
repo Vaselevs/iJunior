@@ -32,17 +32,17 @@ namespace OOP_12
             while (isPlaying)
             {
                 Console.Clear();
-                Console.WriteLine("Что бы выйти из программы нажмите цифру 0");
+                Console.WriteLine("Что бы выйти из программы нажмите Enter");
                 Console.Write($"Вы стоите перед {_aviary.Length} вольерами, выберите к какому подойти: ");
                 
                 if(Int32.TryParse(Console.ReadLine(), out int userChoise) && userChoise <= _aviary.Length && userChoise > 0)
                 {
                     Console.Clear();
-                    _aviary[userChoise-1].ShowInfoAbout();
+                    _aviary[userChoise-1].ShowInfo();
                     Console.WriteLine("Что бы вернуться в меню, нажмите любую клаваишу");
                     Console.ReadLine();
                 } 
-                else if(userChoise == 0)
+                else
                 {
                     isPlaying = false;
                 }
@@ -52,8 +52,8 @@ namespace OOP_12
 
     public class Aviary
     {
-        private Animal[] _listOfAllAnimals;
-        private Animal[] _animals;
+        private Animal[] _animalsToChoise;
+        private Animal[] _animalsInAviary;
         private Random _random;
         private int _minCountOfAnimals;
 
@@ -61,30 +61,25 @@ namespace OOP_12
         {
             _minCountOfAnimals = 1;
             _random = new Random();
-            _listOfAllAnimals = new Animal[5] { new Dog("male", "Гав"), new Cat("female", "Мяу"), new Horse("male", "Игого"), new Donkey("female", "Иа-Иа"), new Bear("male", "Гррррр") };
-            _animals = new Animal[_random.Next(_minCountOfAnimals, _listOfAllAnimals.Length)];
+            _animalsToChoise = new Animal[5] { new Dog("male", "Гав"), new Cat("female", "Мяу"), new Horse("male", "Игого"), new Donkey("female", "Иа-Иа"), new Bear("male", "Гррррр") };
+            _animalsInAviary = new Animal[_random.Next(_minCountOfAnimals, _animalsToChoise.Length)];
 
             CreateAnimals();
         }
 
-        public void ShowInfoAbout()
+        public void ShowInfo()
         {
-            foreach (Animal animal in _animals)
+            foreach (Animal animal in _animalsInAviary)
             {
                 animal.ShowInfo();
             }
         }
 
-        public int GetCountOfAnimals()
-        {
-            return _animals.Length;
-        }
-
         private void CreateAnimals()
         {
-            for (int i = 0; i < _animals.Length; i++)
+            for (int i = 0; i < _animalsInAviary.Length; i++)
             {
-                _animals[i] = _listOfAllAnimals[_random.Next(_listOfAllAnimals.Length)];
+                _animalsInAviary[i] = _animalsToChoise[_random.Next(_animalsToChoise.Length)];
             }
 
             System.Threading.Thread.Sleep(100);
@@ -102,49 +97,31 @@ namespace OOP_12
             _voice = voice;
         }
 
-        public void ShowInfo()
-        {
-            Console.WriteLine($"Животное {_sex} пола. Издаёт звук {_voice}");
-        }
+        public void ShowInfo() => Console.WriteLine($"Животное {_sex} пола. Издаёт звук {_voice}");
     }
 
     public class Dog : Animal
     {
-        public Dog(string sex, string voice) : base(sex, voice)
-        {
-
-        }
+        public Dog(string sex, string voice) : base(sex, voice) { }
     }
 
     public class Cat : Animal
     {
-        public Cat(string sex, string voice) : base(sex, voice)
-        {
-
-        }
+        public Cat(string sex, string voice) : base(sex, voice) { }
     }
 
     public class Horse : Animal
     {
-        public Horse(string sex, string voice) : base(sex, voice)
-        {
-
-        }
+        public Horse(string sex, string voice) : base(sex, voice) { }
     }
 
     public class Donkey : Animal
     {
-        public Donkey(string sex, string voice) : base(sex, voice)
-        {
-
-        }
+        public Donkey(string sex, string voice) : base(sex, voice) { }
     }
 
     public class Bear : Animal
     {
-        public Bear(string sex, string voice) : base(sex, voice)
-        {
-
-        }
+        public Bear(string sex, string voice) : base(sex, voice) { }
     }
 }
