@@ -75,7 +75,7 @@ namespace OOP_13
 
         public void GetInfo()
         {
-            
+            Console.WriteLine($"{_name} - {_price}");
         }
     }
 }
