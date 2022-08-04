@@ -10,14 +10,28 @@ namespace OOP_13
     {
         static void Main(string[] args)
         {
+            Game game = new Game();
 
+            game.Play();
         }
     }
 
     public class Game
     {
-        private Detail[] _details = new Detail[10] {new Detail("Карбюратор", 30), new Detail("Бампер", 20), new Detail("Корбка передач", 75), new Detail("Крыша", 35), new Detail("Колесо", 5), new Detail("Двигатель", 110),
+        private CarService _carService;
+        private Detail[] _details;
+
+        public Game()
+        {
+            _details = new Detail[10] {new Detail("Карбюратор", 30), new Detail("Бампер", 20), new Detail("Корбка передач", 75), new Detail("Крыша", 35), new Detail("Колесо", 5), new Detail("Двигатель", 110),
         new Detail("Шасси", 90), new Detail("Руль", 7), new Detail("Тормоза", 45), new Detail("Выхлоп", 12)};
+            _carService = new CarService(_details, 1000);
+        }
+
+        public void Play()
+        {
+            _carService.ShowStorage();
+        }
 
     }
 
@@ -29,8 +43,9 @@ namespace OOP_13
 
         public CarService(Detail[] _details, int money)
         {
-            int maxDetailsCount = 10;
+            int maxDetailsCount = _details.Length;
             _random = new Random();
+            _detailsStorage = new Dictionary<Detail, int>();
 
             for (int i = 0; i < _details.Length; i++)
             {
@@ -41,6 +56,14 @@ namespace OOP_13
                 }
             }
             Money = money;
+        }
+
+        public void ShowStorage()
+        {
+            for(int i = 0; i < _detailsStorage.Count; i++)
+            {
+                Console.WriteLine($"Наименование и цена: {_detailsStorage.ElementAt(i).Key.GetInfo()} | количество - {_detailsStorage.ElementAt(i).Value}");
+            }
         }
     }
 
@@ -73,9 +96,9 @@ namespace OOP_13
             _price = price;
         }
 
-        public void GetInfo()
+        public string GetInfo()
         {
-            Console.WriteLine($"{_name} - {_price}");
+            return _name + " - " + _price;
         }
     }
 }
