@@ -51,23 +51,51 @@ namespace OOP_13
 
         public void Play()
         {
-            Console.WriteLine("Добро пожаловать в мастерскую!");
-            Console.WriteLine($"У вас {_playerMoney} денег");
-            Console.WriteLine("На вашем складе есть следующие детали: ");
-            Console.WriteLine();
+            bool isPlaying = true;
 
-            _carService.ShowStorage();
-
-            Console.WriteLine();
-            Console.WriteLine("А так же у вас следующие сломаные машины в очереди:");
-
-            for(int i = 0; i < _cars.Count; i++)
+            while (isPlaying)
             {
+                Console.Clear();
+                Console.WriteLine("Добро пожаловать в мастерскую!");
+                Console.WriteLine($"У вас {_playerMoney} денег");
+
+                Console.WriteLine("На вашем складе есть следующие детали: ");
+                Console.WriteLine();
+
+                _carService.ShowStorage();
+
+                Console.WriteLine("К вам приехал клиент!");
+
                 Car car = _cars.Dequeue();
-                Console.WriteLine($"{i + 1}. У машины {i + 1} сломан - {car.GetBrokenDetailName()}");
+
+                Console.WriteLine($"У машины клиента сломан - {car.GetBrokenDetailName()}, цена починки: {car.GetBrokenDetailPrice() + _carService.ServiceTax}");
+                Console.WriteLine("Выберите что сделать с клиентом: ");
+                Console.WriteLine($"1. Отказать клиенту. Это будет вам стоить {_carService.ServicePenalty}");
+                Console.WriteLine($"2. Попытаться починить машину из деталей на складе. Вы получите награду в виде стоимости детали + {_carService.ServiceTax}");
+
+                if(Int32.TryParse(Console.ReadLine(), out int userChoise))
+                {
+                    switch (userChoise)
+                    {
+                        case 1:
+                            RefuseClient();
+                            break;
+                        case 2:
+
+                            break;
+                        default:
+
+                            break;
+                    }
+                }
+            }
+
+            void RefuseClient()
+            {
+                _carService.TakePenalty();
+                Console.WriteLine($"Вы отказали клиенту в обслуживании! Вы получаете штраф {_carService.ServiceTax}");
             }
         }
-
     }
 
     public class CarService
@@ -75,9 +103,13 @@ namespace OOP_13
         private Dictionary<Detail, int> _detailsStorage;
         private Random _random;
         public int Money { get; private set; }
+        public int ServiceTax { get; private set; }
+        public int ServicePenalty { get; private set; }
 
         public CarService(Detail[] _details, int money)
         {
+            ServiceTax = 20;
+            ServicePenalty = 50;
             int maxDetailsCount = _details.Length;
 
             _random = new Random();
@@ -102,6 +134,12 @@ namespace OOP_13
             {
                 Console.WriteLine($"Наименование: {_detailsStorage.ElementAt(i).Key.Name} | Цена: {_detailsStorage.ElementAt(i).Key.Price} | Количество: {_detailsStorage.ElementAt(i).Value}");
             }
+        }
+
+        public void TakePenalty()
+        {
+            Money -= ServicePenalty;
+            
         }
     }
 
