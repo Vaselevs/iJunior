@@ -40,7 +40,7 @@ namespace OOP_13
                 new Detail("Выхлоп", 12)
             };
 
-            _carService = new CarService(_details, 1000);
+            _carService = new CarService(_details, 100);
 
             for (int i = 0; i < brokenCarCount; i++)
             {
@@ -80,10 +80,10 @@ namespace OOP_13
                     switch (userChoise)
                     {
                         case 2:
-                            RepairCar(car);
+                            _carService.RepairCar(car);
                             break;
                         default:
-                            RefuseClient();
+                            _carService.RefuseClient();
                             break;
                     }
                 }
@@ -93,33 +93,7 @@ namespace OOP_13
                 }
             }
 
-            void RefuseClient()
-            {
-                _carService.TakePenalty();
-                Console.WriteLine($"Вы не обслужили клиента! Вы получаете штраф {_carService.ServicePenalty}");
-            }
-
-            void RepairCar(Car car)
-            {
-                Console.Write("Выберите номер детали из склада выше: ");
-
-                if(Int32.TryParse(Console.ReadLine(), out int userChoise))
-                {
-
-                    if (_carService.GetDetailByIndex(userChoise-1).Name == car.BrokenDetail.Name && _carService.GetDetailCountByIndex(userChoise-1) > 0)
-                    {
-                        Console.WriteLine($"Вы успешно починили деталь и заработали {car.BrokenDetail.Price + _carService.ServiceTax}");
-
-                        _carService.AddReward(car.BrokenDetail.Price);
-                        _carService.DecreaseDetailCount(car.BrokenDetail.Name);
-                    }
-                    else
-                    {
-                        _carService.DecreaseDetailCount(_carService.GetDetailByIndex(userChoise - 1).Name);
-                        RefuseClient();
-                    }
-                }
-            }
+            
         }
     }
 
@@ -156,9 +130,26 @@ namespace OOP_13
             }
         }
 
-        public void TakePenalty()
+        public void RepairCar(Car car)
         {
-            Money -= ServicePenalty;
+            Console.Write("Выберите номер детали из склада выше: ");
+
+            if (Int32.TryParse(Console.ReadLine(), out int userChoise))
+            {
+
+                if (GetDetailByIndex(userChoise - 1).Name == car.BrokenDetail.Name && GetDetailCountByIndex(userChoise - 1) > 0)
+                {
+                    Console.WriteLine($"Вы успешно починили деталь и заработали {car.BrokenDetail.Price + ServiceTax}");
+
+                    AddReward(car.BrokenDetail.Price);
+                    DecreaseDetailCount(car.BrokenDetail.Name);
+                }
+                else
+                {
+                    DecreaseDetailCount(GetDetailByIndex(userChoise - 1).Name);
+                    RefuseClient();
+                }
+            }
         }
 
         public Detail GetDetailByIndex(int userChoise)
@@ -186,6 +177,14 @@ namespace OOP_13
                     break;
                 }
             }
+        }
+
+        public void RefuseClient()
+        {
+            Money -= ServicePenalty;
+            if (Money < 0)
+                Money = 0;
+            Console.WriteLine($"Вы не обслужили клиента! Вы получаете штраф {ServicePenalty}");
         }
     }
 
