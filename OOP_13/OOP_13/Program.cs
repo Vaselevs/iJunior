@@ -66,11 +66,12 @@ namespace OOP_13
                 Console.WriteLine();
 
                 Car car = _cars.Dequeue();
+                int payment = car.BrokenDetail.Price + _carService.ServiceTax;
 
-                Console.WriteLine($"У машины клиента сломан - {car.BrokenDetail.Name}, цена починки: {car.BrokenDetail.Price + _carService.ServiceTax}");
+                Console.WriteLine($"У машины клиента сломан - {car.BrokenDetail.Name}, цена починки: {payment}");
                 Console.WriteLine("Выберите что сделать с клиентом: ");
                 Console.WriteLine($"1. Отказать клиенту. Это будет вам стоить {_carService.ServicePenalty}");
-                Console.WriteLine($"2. Попытаться починить машину из деталей на складе. Вы получите награду {car.BrokenDetail.Price + _carService.ServiceTax}");
+                Console.WriteLine($"2. Попытаться починить машину из деталей на складе. Вы получите награду {payment}");
                 Console.WriteLine($"В случае установки не правильной детали, вам так же надо будет заплатить штраф: {_carService.ServicePenalty}");
                 Console.WriteLine($"Что бы выйти из прогрммы нажмите ENTER");
 
@@ -91,14 +92,12 @@ namespace OOP_13
                     isPlaying = false;
                 }
             }
-
-            
         }
     }
 
     public class CarService
     {
-        private List<Product> _detailsStorage;
+        private List<Cell> _detailsStorage;
         public int Money { get; private set; }
         public int ServiceTax { get; private set; }
         public int ServicePenalty { get; private set; }
@@ -110,14 +109,12 @@ namespace OOP_13
             ServiceTax = 20;
             ServicePenalty = 50;
             
-
-            
-            _detailsStorage = new List<Product>();
+            _detailsStorage = new List<Cell>();
 
             for (int i = 0; i < _details.Length; i++)
             {
                 int detailsCount = random.Next(maxDetailsCount);
-                Product product = new Product(_details[i], detailsCount);
+                Cell product = new Cell(_details[i], detailsCount);
                 _detailsStorage.Add(product);
             }
 
@@ -190,12 +187,12 @@ namespace OOP_13
         }
     }
 
-    public class Product
+    public class Cell
     {
         public Detail Detail { get; private set; }
         public int Count { get; private set; }
 
-        public Product(Detail detail, int count)
+        public Cell(Detail detail, int count)
         {
             Detail = detail;
             Count = count;
