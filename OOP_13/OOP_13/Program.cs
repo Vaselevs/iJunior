@@ -57,7 +57,6 @@ namespace OOP_13
                 Console.Clear();
                 Console.WriteLine("Добро пожаловать в мастерскую!");
                 Console.WriteLine($"У вас {_carService.Money} денег");
-
                 Console.WriteLine("На вашем складе есть следующие детали: ");
                 Console.WriteLine();
 
@@ -99,24 +98,27 @@ namespace OOP_13
 
     public class CarService
     {
-        private Dictionary<Detail, int> _detailsStorage;
+        private List<Product> _detailsStorage;
         public int Money { get; private set; }
         public int ServiceTax { get; private set; }
         public int ServicePenalty { get; private set; }
 
         public CarService(Detail[] _details, int money)
         {
+            int maxDetailsCount = _details.Length;
+            Random random = new Random();
             ServiceTax = 20;
             ServicePenalty = 50;
-            int maxDetailsCount = _details.Length;
+            
 
-            Random random = new Random();
-            _detailsStorage = new Dictionary<Detail, int>();
+            
+            _detailsStorage = new List<Product>();
 
             for (int i = 0; i < _details.Length; i++)
             {
                 int detailsCount = random.Next(maxDetailsCount);
-                _detailsStorage.Add(_details[i], detailsCount);
+                Product product = new Product(_details[i], detailsCount);
+                _detailsStorage.Add(product);
             }
 
             Money = money;
@@ -126,7 +128,7 @@ namespace OOP_13
         {
             for(int i = 0; i < _detailsStorage.Count; i++)
             {
-                Console.WriteLine($"{i+1}. {_detailsStorage.ElementAt(i).Key.Name} | Цена: {_detailsStorage.ElementAt(i).Key.Price} | Количество: {_detailsStorage.ElementAt(i).Value}");
+                Console.WriteLine($"{i+1}. {_detailsStorage.ElementAt(i).Detail.Name} | Цена: {_detailsStorage.ElementAt(i).Detail.Name} | Количество: {_detailsStorage.ElementAt(i).Count}");
             }
         }
 
@@ -141,7 +143,7 @@ namespace OOP_13
                 {
                     Console.WriteLine($"Вы успешно починили деталь и заработали {car.BrokenDetail.Price + ServiceTax}");
 
-                    AddReward(car.BrokenDetail.Price);
+                    AddPayment(car.BrokenDetail.Price);
                     DecreaseDetailCount(car.BrokenDetail.Name);
                 }
                 else
@@ -154,15 +156,15 @@ namespace OOP_13
 
         public Detail GetDetailByIndex(int userChoise)
         {
-            return _detailsStorage.ElementAt(userChoise).Key;
+            return _detailsStorage.ElementAt(userChoise).Detail;
         }
 
         public int GetDetailCountByIndex(int userChoise)
         {
-            return _detailsStorage.ElementAt(userChoise).Value;
+            return _detailsStorage.ElementAt(userChoise).Count;
         }
 
-        public void AddReward(int tax)
+        public void AddPayment(int tax)
         {
             Money += tax + ServiceTax;
         }
@@ -171,9 +173,9 @@ namespace OOP_13
         {
             for(int i = 0; i < _detailsStorage.Count; i++)
             {
-                if (detailName == _detailsStorage.ElementAt(i).Key.Name && _detailsStorage.ElementAt(i).Value > 0)
+                if (detailName == _detailsStorage.ElementAt(i).Detail.Name)
                 {
-                    _detailsStorage[_detailsStorage.ElementAt(i).Key]--;
+                    _detailsStorage.ElementAt(i).DecrementCount();
                     break;
                 }
             }
@@ -185,6 +187,26 @@ namespace OOP_13
             if (Money < 0)
                 Money = 0;
             Console.WriteLine($"Вы не обслужили клиента! Вы получаете штраф {ServicePenalty}");
+        }
+    }
+
+    public class Product
+    {
+        public Detail Detail { get; private set; }
+        public int Count { get; private set; }
+
+        public Product(Detail detail, int count)
+        {
+            Detail = detail;
+            Count = count;
+        }
+
+        public void DecrementCount()
+        {
+            if(Count > 0)
+            {
+                Count--;
+            }
         }
     }
 
