@@ -46,6 +46,11 @@ namespace Linq_2
                 criminal.ShowInfo();
             }
         }
+
+        private void Decriminalization()
+        {
+            
+        }
     }
 
     public class Criminal
