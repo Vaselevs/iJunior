@@ -10,7 +10,9 @@ namespace Linq_2
     {
         static void Main(string[] args)
         {
+            Game game = new Game();
 
+            game.Play();
         }
     }
 
@@ -32,7 +34,17 @@ namespace Linq_2
 
         public void Play()
         {
+            ShowCriminalsInfo(_criminals);
 
+
+        }
+
+        private void ShowCriminalsInfo(Criminal[] _criminals)
+        {
+            foreach (Criminal criminal in _criminals)
+            {
+                criminal.ShowInfo();
+            }
         }
     }
 
@@ -45,6 +57,11 @@ namespace Linq_2
         {
             Name = name;
             Crime = crime;
+        }
+
+        public void ShowInfo()
+        {
+            Console.WriteLine(Name + " - " + Crime);
         }
     }
 }
