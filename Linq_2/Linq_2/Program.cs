@@ -35,8 +35,16 @@ namespace Linq_2
         public void Play()
         {
             ShowCriminalsInfo(_criminals);
+            Console.WriteLine();
 
+            var criminalsAfterAmnesty = from Criminal criminal in _criminals
+                                        where criminal.Crime != "Антиправительственное"
+                                        select criminal;
 
+            foreach (var criminal in criminalsAfterAmnesty)
+            {
+                Console.WriteLine(criminal.Name);
+            }
         }
 
         private void ShowCriminalsInfo(Criminal[] _criminals)
@@ -45,11 +53,6 @@ namespace Linq_2
             {
                 criminal.ShowInfo();
             }
-        }
-
-        private void Decriminalization()
-        {
-            
         }
     }
 
