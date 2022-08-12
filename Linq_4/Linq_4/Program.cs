@@ -29,9 +29,9 @@ namespace Linq_4
         {
             ShowInfo(_squad.Players);
             Console.WriteLine("Топ-3 по силе:");
-            ShowInfo(_squad.GetTopThreeByPower());
+            ShowInfo(_squad.GetTopByPower());
             Console.WriteLine("Топ-3 по Lvl:");
-            ShowInfo(_squad.GetTopThreeByLvl());
+            ShowInfo(_squad.GetTopByLevel());
             Console.ReadLine();
         }
 
@@ -64,12 +64,12 @@ namespace Linq_4
                 new Player("Вова", 325, 23451),
             };
         }
-        public List<Player> GetTopThreeByLvl()
+        public List<Player> GetTopByLevel()
         {
             return Players.OrderByDescending(_players => _players.Lvl).Take(3).ToList();
         }
 
-        public List<Player> GetTopThreeByPower()
+        public List<Player> GetTopByPower()
         {
             return Players.OrderByDescending(_players => _players.Power).Take(3).ToList();
         }
