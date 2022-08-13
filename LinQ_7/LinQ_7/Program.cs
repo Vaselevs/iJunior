@@ -18,35 +18,30 @@ namespace LinQ_7
 
     public class Game
     {
-        private Squad _squadOne;
-        private Squad _squadTwo;
+        private List<Soldier> _soldiersSquadOne;
+        private List<Soldier> _soldiersSquadTwo;
+        private char _filterChar;
 
         public Game()
         {
-            _squadOne = new Squad();
-            _squadTwo = new Squad();
+            _filterChar = 'Б';
 
-        }
+            _soldiersSquadOne = new List<Soldier>()
+            {
+                new Soldier("Иван"),
+                new Soldier("Борис"),
+                new Soldier("Антон"),
+                new Soldier("Гриша"),
+                new Soldier("Витя"),
+                new Soldier("Дима"),
+                new Soldier("Боря"),
+                new Soldier("Батя"),
+                new Soldier("Вова"),
+                new Soldier("Братан"),
+                new Soldier("Гиря")
+            };
 
-        public void Play()
-        {
-            _squadOne.Concat(_squadTwo.GetSoldiers());
-
-            _squadOne.ShowInfo();
-            Console.WriteLine();
-            _squadTwo.ShowInfo();
-        }
-    }
-
-    public class Squad
-    {
-        private List<Soldier> _soldier;
-        private char _char;
-
-        public Squad()
-        {
-            _char = 'Б';
-            _soldier = new List<Soldier>()
+            _soldiersSquadTwo = new List<Soldier>()
             {
                 new Soldier("Иван"),
                 new Soldier("Борис"),
@@ -62,23 +57,12 @@ namespace LinQ_7
             };
         }
 
-        public void Concat(List<Soldier> soldiers)
+        public void Play()
         {
-            _soldier.AddRange(soldiers);
-        }
+            _soldiersSquadTwo = _soldiersSquadTwo.Concat(_soldiersSquadOne.Where(soldier => soldier.Name.First() == _filterChar)).ToList();
+            _soldiersSquadOne = _soldiersSquadOne.Where(soldier => soldier.Name.First() != _filterChar).ToList();
 
-        public List<Soldier> GetSoldiers()
-        {
-            List<Soldier> filtredSoldiers = _soldier.Where(_soldier => _soldier.Name.First() == _char).ToList();
-
-            _soldier.RemoveAll(_soldier => _soldier.Name.First() == _char);
-
-            return filtredSoldiers;
-        }
-
-        public void ShowInfo()
-        {
-            foreach(Soldier soldier in _soldier)
+            foreach (Soldier soldier in _soldiersSquadTwo)
             {
                 Console.WriteLine(soldier.Name);
             }
